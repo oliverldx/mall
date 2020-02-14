@@ -81,6 +81,10 @@ public class HomeServiceImpl implements HomeService {
         example.setOrderByClause("sort desc");
         return productCategoryMapper.selectByExample(example);
     }
+    @Override
+    public List<PmsProductCategory> getProductAllCateList() {
+        return homeDao.getProductAllCateList();
+    }
 
     @Override
     public List<CmsSubject> getSubjectList(Long cateId, Integer pageSize, Integer pageNum) {

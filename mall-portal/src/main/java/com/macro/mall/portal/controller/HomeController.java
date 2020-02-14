@@ -57,6 +57,13 @@ public class HomeController {
         List<PmsProductCategory> productCategoryList = homeService.getProductCateList(parentId);
         return CommonResult.success(productCategoryList);
     }
+    @ApiOperation("获取首页全部商品分类")
+    @RequestMapping(value = "/productAllCateList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<PmsProductCategory>> getProductAllCateList() {
+        List<PmsProductCategory> productCategoryList = homeService.getProductAllCateList();
+        return CommonResult.success(productCategoryList);
+    }
 
     @ApiOperation("根据分类获取专题")
     @RequestMapping(value = "/subjectList", method = RequestMethod.GET)

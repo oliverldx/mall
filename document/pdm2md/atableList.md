@@ -69,6 +69,11 @@
 ##### [ums_admin_permission_relation,后台用户和权限关系表(除角色中定义的权限以外的加减权限)](#ums_admin_permission_relation)
 ##### [sms_flash_promotion_session,限时购场次表](#sms_flash_promotion_session)
 ##### [sms_flash_promotion_product_relation,商品限时购与商品关系表](#sms_flash_promotion_product_relation)
+##### [ums_menu,后台菜单表](#ums_menu)
+##### [ums_resource,后台资源表](#ums_resource)
+##### [ums_role_menu_relation,后台角色菜单关系表](#ums_role_menu_relation)
+##### [ums_role_resource_relation,后台角色资源关系表](#ums_role_resource_relation)
+##### [ums_resource_category,资源分类表](#ums_resource_category)
 
 ##### pms_product
 ##### 商品信息
@@ -1076,3 +1081,53 @@
 |flash_promotion_count|flash_promotion_count|int|||限时购数量||
 |flash_promotion_limit|flash_promotion_limit|int|||每人限购数量||
 |sort|sort|int|||排序||
+
+##### ums_menu
+##### 后台菜单表
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint||||Y|
+|parent_id|parent_id|bigint|||父级ID||
+|create_time|create_time|datetime|||创建时间||
+|title|title|varchar|100||菜单名称||
+|level|level|int|4||菜单级数||
+|sort|sort|int|4||菜单排序||
+|name|name|varchar|100||前端名称||
+|icon|icon|varchar|200||前端图标||
+|hidden|hidden|int|1||前端隐藏||
+
+##### ums_resource
+##### 后台资源表
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint||||Y|
+|category_id|category_id|bigint|||资源分类ID||
+|create_time|create_time|datetime|||创建时间||
+|name|name|varchar|200||资源名称||
+|url|url|varchar|200||资源URL||
+|description|description|varchar|500||描述||
+
+##### ums_role_menu_relation
+##### 后台角色菜单关系表
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint||||Y|
+|role_id|role_id|bigint|||角色ID||
+|menu_id|menu_id|bigint|||菜单ID||
+
+##### ums_role_resource_relation
+##### 后台角色资源关系表
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint||||Y|
+|role_id|role_id|bigint|||角色ID||
+|resource_id|resource_id|bigint|||资源ID||
+
+##### ums_resource_category
+##### 资源分类表
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint||||Y|
+|create_time|create_time|datetime|||创建时间||
+|name|name|varchar|200||分类名称||
+|sort|sort|int|4||排序||

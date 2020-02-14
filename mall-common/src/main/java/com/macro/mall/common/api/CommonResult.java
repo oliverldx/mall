@@ -1,12 +1,19 @@
 package com.macro.mall.common.api;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 通用返回对象
  * Created by macro on 2019/4/19.
  */
+@ApiModel(value = "统一返回类")
 public class CommonResult<T> {
+    @ApiModelProperty(value = "code")
     private long code;
+    @ApiModelProperty(value = "描述")
     private String message;
+    @ApiModelProperty(value = "对象")
     private T data;
 
     protected CommonResult() {
