@@ -66,6 +66,12 @@ public class HomeServiceImpl implements HomeService {
         return productMapper.selectByExample(example);
     }
 
+
+    @Override
+    public List<PmsProduct> hotProductList(Integer pageSize, Integer pageNum) {
+        return homeDao.getHotProductList(pageSize*pageNum,pageSize);
+    }
+
     @Override
     public List<PmsProductCategory> getProductCateList(Long parentId) {
         PmsProductCategoryExample example = new PmsProductCategoryExample();

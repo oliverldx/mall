@@ -24,6 +24,14 @@ public interface HomeService {
     List<PmsProduct> recommendProductList(Integer pageSize, Integer pageNum);
 
     /**
+     * 首页热销
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    List<PmsProduct> hotProductList(Integer pageSize, Integer pageNum);
+
+    /**
      * 获取商品分类
      * @param parentId 0:获取一级分类；其他：获取指定二级分类
      */
