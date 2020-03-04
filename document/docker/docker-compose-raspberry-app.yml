@@ -8,7 +8,7 @@ services:
     external_links:
       - mysql:db #可以用db这个域名访问mysql服务
     environment:
-      spring.main.allow-bean-definition-overriding: true
+      - spring.main.allow-bean-definition-overriding=true
   mall-search:
     image: mall/mall-search:1.0-SNAPSHOT
     container_name: mall-search
@@ -18,7 +18,7 @@ services:
       - elasticsearch:es #可以用es这个域名访问elasticsearch服务
       - mysql:db #可以用db这个域名访问mysql服务
     environment:
-      spring.main.allow-bean-definition-overriding: true
+      - spring.main.allow-bean-definition-overriding=true
   mall-portal:
     image: mall/mall-portal:1.0-SNAPSHOT
     container_name: mall-portal
@@ -30,4 +30,4 @@ services:
       - mysql:db #可以用db这个域名访问mysql服务
       - rabbitmq:rabbit #可以用rabbit这个域名访问rabbitmq服务
     environment:
-      spring.main.allow-bean-definition-overriding: true
+      - spring.main.allow-bean-definition-overriding=true
