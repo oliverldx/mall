@@ -55,6 +55,8 @@ services:
       - "25672:25672"
       - "15671:15671"
       - "15672:15672"
+    volumes:
+      - /mydata/rabbitmq/data:/var/lib/rabbitmq
   elasticsearch:
     image: ind3x/rpi-elasticsearch
     container_name: elasticsearch
