@@ -75,6 +75,8 @@
     </select>
 
     <select id="getProductAllCateList" resultMap="com.macro.mall.mapper.PmsProductCategoryMapper.BaseResultMap">
-        select t1.id,t1.parent_id,t1.name,t1.icon from pms_product_category t1 where level < 2 order by sort desc
+        <![CDATA[
+            select t1.id,t1.parent_id,t1.name,t1.icon from pms_product_category t1 where level < 2 order by sort desc
+        ]]>
     </select>
 </mapper>
