@@ -18,8 +18,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: mysql 
-      MYSQL_PASSWORD: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: Name1988
     ports:
       - "3306:3306"
     volumes:
