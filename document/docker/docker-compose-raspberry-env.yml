@@ -9,7 +9,7 @@ services:
       - "90:90"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     volumes:
       - /mydata/nginx/logs:/var/log/nginx
       - /mydata/nginx/nginx:/etc/nginx
@@ -27,7 +27,7 @@ services:
       - "3306:3306"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     volumes:
       - /mydata/mysql/log:/var/log/mysql
       - /mydata/mysql/data:/var/lib/mysql
@@ -42,7 +42,7 @@ services:
       - "6379:6379"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     volumes:
       - /mydata/redis/data:/data
   mongo:
@@ -53,7 +53,7 @@ services:
       - "27017:27017"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     volumes:
       - /mydata/mongo/db:/data/db
   rabbitmq:
@@ -69,7 +69,7 @@ services:
       - "15672:15672"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     volumes:
       - /mydata/rabbitmq/data:/var/lib/rabbitmq
   elasticsearch:
@@ -81,7 +81,7 @@ services:
       - "9300:9300"
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     environment:
       discovery.type: single-node
       cluster.name: elasticsearch
@@ -89,5 +89,5 @@ services:
       - /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins
       - /mydata/elasticsearch/data:/usr/share/elasticsearch/data
   networks:
-    mall-raspberry:
+    mall_raspberry:
       external: true

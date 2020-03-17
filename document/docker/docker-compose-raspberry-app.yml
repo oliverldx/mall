@@ -7,7 +7,7 @@ services:
       - 8080:8080
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     external_links:
       - mysql:db #可以用db这个域名访问mysql服务
     environment:
@@ -19,7 +19,7 @@ services:
       - 8081:8081
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     external_links:
       - elasticsearch:es #可以用es这个域名访问elasticsearch服务
       - mysql:db #可以用db这个域名访问mysql服务
@@ -32,7 +32,7 @@ services:
       - 8085:8085
     networks:
       - default
-      - mall-raspberry
+      - mall_raspberry
     external_links:
       - redis:redis #可以用redis这个域名访问redis服务
       - mongo:mongo #可以用mongo这个域名访问mongo服务
@@ -41,5 +41,5 @@ services:
     environment:
       - spring.main.allow-bean-definition-overriding=true
   networks:
-    mall-raspberry:
+    mall_raspberry:
       external: true
