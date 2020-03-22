@@ -72,6 +72,8 @@ services:
       - mall_raspberry
     volumes:
       - /mydata/rabbitmq/data:/var/lib/rabbitmq
+      - /mydata/rabbitmq/config:/etc/rabbitmq
+      - /mydata/rabbitmq/log:/var/log/rabbitmq
   elasticsearch:
     image: ind3x/rpi-elasticsearch
     container_name: elasticsearch
