@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   nginx:
     image: oliver/rpi-gninx:v1
@@ -88,6 +88,6 @@ services:
     volumes:
       - /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins
       - /mydata/elasticsearch/data:/usr/share/elasticsearch/data
-  networks:
-    mall_raspberry:
-      external: true
+networks:
+  mall_raspberry:
+    external: true

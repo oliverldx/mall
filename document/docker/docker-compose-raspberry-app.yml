@@ -40,6 +40,6 @@ services:
       - rabbitmq:rabbit #可以用rabbit这个域名访问rabbitmq服务
     environment:
       - spring.main.allow-bean-definition-overriding=true
-  networks:
-    mall_raspberry:
-      external: true
+networks:
+  mall_raspberry:
+    external: true
