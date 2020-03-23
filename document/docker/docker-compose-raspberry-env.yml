@@ -71,9 +71,12 @@ services:
       - default
       - mall_raspberry
     volumes:
-      - /mydata/rabbitmq/data:/var/lib/rabbitmq
       - /mydata/rabbitmq/config:/etc/rabbitmq
       - /mydata/rabbitmq/log:/var/log/rabbitmq
+      - /mydata/rabbitmq/data:/var/lib/rabbitmq
+      - /mydata/rabbitmq/data/mnesia:/var/lib/rabbitmq/mnesia
+      - /mydata/rabbitmq/data/config:/var/lib/rabbitmq/config
+      - /mydata/rabbitmq/data/schema:/var/lib/rabbitmq/schema
   elasticsearch:
     image: ind3x/rpi-elasticsearch
     container_name: elasticsearch
