@@ -21,7 +21,6 @@ spring:
       host: mongo
       port: 27017
       database: mall-port
-      connect-timeout: 10000
 
   redis:
     host: redis # Redis服务器地址

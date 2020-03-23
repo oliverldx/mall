@@ -21,7 +21,6 @@ spring:
       host: localhost
       port: 27017
       database: mall-port
-      connect-timeout: 10000
 
   redis:
     host: localhost # Redis服务器地址
