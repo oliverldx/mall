@@ -15,6 +15,7 @@ services:
       - /mydata/nginx/nginx:/etc/nginx
       - /mydata/nginx/html:/usr/share/nginx/html
       - /mydata/nginx/mall-app-web:/usr/share/nginx/mall-app-web
+      - /mydata/nginx/mall-admin-web:/usr/share/nginx/mall-admin-web
   mysql:
     image: hypriot/rpi-mysql
     container_name: mysql
