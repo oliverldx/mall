@@ -5,6 +5,8 @@ import com.macro.mall.model.UmsMember;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 /**
  * 会员管理Service
  * Created by macro on 2018/8/3.
@@ -55,8 +57,9 @@ public interface UmsMemberService {
 
     /**
      * 登录后获取token
+     * @return
      */
-    String login(String username, String password);
+    Map<String, String> login(String username, String password);
 
     /**
      * 刷新token

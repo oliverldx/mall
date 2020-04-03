@@ -4,6 +4,7 @@ import com.macro.mall.model.CmsSubject;
 import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductCategory;
 import com.macro.mall.portal.domain.HomeContentResult;
+import com.macro.mall.portal.vo.ProductDetailInfo;
 
 import java.util.List;
 
@@ -48,4 +49,11 @@ public interface HomeService {
      * @return
      */
     public List<PmsProductCategory> getProductAllCateList();
+
+    /**
+     * 获取商品详细信息
+     * @param productId
+     * @return
+     */
+    public ProductDetailInfo getProductDetailInfo(Long productId);
 }

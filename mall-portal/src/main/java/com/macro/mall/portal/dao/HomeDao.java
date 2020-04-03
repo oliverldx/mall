@@ -5,6 +5,8 @@ import com.macro.mall.model.PmsBrand;
 import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductCategory;
 import com.macro.mall.portal.domain.FlashPromotionProduct;
+import com.macro.mall.portal.pojo.ProductAttribute;
+import com.macro.mall.portal.vo.ProductDetailInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -44,4 +46,7 @@ public interface HomeDao {
      * @return
      */
     List<PmsProductCategory> getProductAllCateList();
+
+    List<ProductAttribute> getProductAttributes(@Param("productId") Long productId);
+
 }

@@ -1,11 +1,13 @@
 package com.macro.mall.portal.controller;
 
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.CmsSubject;
 import com.macro.mall.model.PmsProduct;
 import com.macro.mall.model.PmsProductCategory;
 import com.macro.mall.portal.domain.HomeContentResult;
 import com.macro.mall.portal.service.HomeService;
+import com.macro.mall.portal.vo.ProductDetailInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +38,10 @@ public class HomeController {
     @ApiOperation("分页获取推荐商品")
     @RequestMapping(value = "/recommendProductList", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<PmsProduct>> recommendProductList(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-                                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    public CommonResult<CommonPage<PmsProduct>> recommendProductList(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+                                                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<PmsProduct> productList = homeService.recommendProductList(pageSize, pageNum);
-        return CommonResult.success(productList);
+        return CommonResult.success(CommonPage.restPage(productList));
     }
     @ApiOperation("分页获取热销商品")
     @RequestMapping(value = "/hotProductList", method = RequestMethod.GET)
@@ -73,5 +75,13 @@ public class HomeController {
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<CmsSubject> subjectList = homeService.getSubjectList(cateId,pageSize,pageNum);
         return CommonResult.success(subjectList);
+    }
+
+    @ApiOperation("根据分类获取专题")
+    @RequestMapping(value = "/productDetailInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<ProductDetailInfo> getProductDetailInfo(@RequestParam(required = true) Long productId) {
+        ProductDetailInfo productDetailInfo = homeService.getProductDetailInfo(productId);
+        return CommonResult.success(productDetailInfo);
     }
 }

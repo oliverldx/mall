@@ -7,6 +7,8 @@ import com.macro.mall.portal.dao.HomeDao;
 import com.macro.mall.portal.domain.FlashPromotionProduct;
 import com.macro.mall.portal.domain.HomeContentResult;
 import com.macro.mall.portal.domain.HomeFlashPromotion;
+import com.macro.mall.portal.pojo.ProductAttribute;
+import com.macro.mall.portal.vo.ProductDetailInfo;
 import com.macro.mall.portal.service.HomeService;
 import com.macro.mall.portal.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class HomeServiceImpl implements HomeService {
     private PmsProductMapper productMapper;
     @Autowired
     private PmsProductCategoryMapper productCategoryMapper;
+    @Autowired
+    private PmsSkuStockMapper pmsSkuStockMapper;
     @Autowired
     private CmsSubjectMapper subjectMapper;
 
@@ -170,5 +174,17 @@ public class HomeServiceImpl implements HomeService {
             return promotionSessionList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public ProductDetailInfo getProductDetailInfo(Long productId) {
+        List<ProductAttribute> productAttributes = homeDao.getProductAttributes(productId);
+        PmsSkuStockExample example = new PmsSkuStockExample();
+        example.createCriteria().andProductIdEqualTo(productId);
+        List<PmsSkuStock> pmsSkuStocks = pmsSkuStockMapper.selectByExample(example);
+        ProductDetailInfo productDetailInfo = new ProductDetailInfo();
+        productDetailInfo.setPmsSkuStock((pmsSkuStocks!=null && !pmsSkuStocks.isEmpty()) ? pmsSkuStocks.get(0):null);
+        productDetailInfo.setProductAttributes(productAttributes);
+        return productDetailInfo;
     }
 }

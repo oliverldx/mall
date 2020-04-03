@@ -1,4 +1,5 @@
 package com.macro.mall.portal.service.impl;
+import	java.util.HashMap;
 
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
@@ -30,6 +31,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -160,8 +162,9 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public String login(String username, String password) {
+    public Map<String, String> login(String username, String password) {
         String token = null;
+        Map<String, String> res = new HashMap<String, String> ();
         //密码需要客户端加密后传递
         try {
             UserDetails userDetails = loadUserByUsername(username);
@@ -171,10 +174,13 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
+            res.put("token",token);
+            MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+            res.put("memberId",memberDetails.getUmsMember().getId().toString());
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
-        return token;
+        return res;
     }
 
     @Override

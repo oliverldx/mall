@@ -46,12 +46,13 @@ public class UmsMemberController {
     @ResponseBody
     public CommonResult login(@RequestParam String username,
                               @RequestParam String password) {
-        String token = memberService.login(username, password);
+        Map<String, String> token = memberService.login(username, password);
         if (token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }
         Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
+        tokenMap.put("token", token.get("token"));
+        tokenMap.put("memberId", token.get("memberId"));
         tokenMap.put("tokenHead", tokenHead);
         return CommonResult.success(tokenMap);
     }

@@ -79,4 +79,10 @@
             select t1.id,t1.parent_id,t1.name,t1.icon from pms_product_category t1 where level < 2 order by sort desc
         ]]>
     </select>
+
+    <select id="getProductAttributes" resultType="com.macro.mall.portal.pojo.ProductAttribute">
+        <![CDATA[
+            select ppa.name as 'key', ppav.value from pms_product_attribute_value ppav left join pms_product_attribute ppa on ppav.product_attribute_id=ppa.id where ppav.product_id = #{productId}
+        ]]>
+    </select>
 </mapper>
