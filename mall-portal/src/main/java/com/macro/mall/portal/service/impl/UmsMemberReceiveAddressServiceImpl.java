@@ -4,6 +4,7 @@ import com.macro.mall.mapper.UmsMemberReceiveAddressMapper;
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberReceiveAddress;
 import com.macro.mall.model.UmsMemberReceiveAddressExample;
+import com.macro.mall.portal.dao.PortalMemberDao;
 import com.macro.mall.portal.service.UmsMemberReceiveAddressService;
 import com.macro.mall.portal.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,16 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
     private UmsMemberService memberService;
     @Autowired
     private UmsMemberReceiveAddressMapper addressMapper;
+    @Autowired
+    private PortalMemberDao portalMemberDao;
+
     @Override
     public int add(UmsMemberReceiveAddress address) {
         UmsMember currentMember = memberService.getCurrentMember();
         address.setMemberId(currentMember.getId());
+        if(address.getDefaultStatus() == 1) {
+            portalMemberDao.resetMemberAddressDefaultStatus(address.getMemberId());
+        }
         return addressMapper.insert(address);
     }
 
@@ -43,6 +50,9 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
         UmsMember currentMember = memberService.getCurrentMember();
         UmsMemberReceiveAddressExample example = new UmsMemberReceiveAddressExample();
         example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(id);
+        if(address.getDefaultStatus() == 1) {
+            portalMemberDao.resetMemberAddressDefaultStatus(currentMember.getId());
+        }
         return addressMapper.updateByExampleSelective(address,example);
     }
 
@@ -64,5 +74,16 @@ public class UmsMemberReceiveAddressServiceImpl implements UmsMemberReceiveAddre
             return addressList.get(0);
         }
         return null;
+    }
+
+    @Override
+    public boolean setDefaultAddress(Long id) {
+        UmsMember currentMember = memberService.getCurrentMember();
+        portalMemberDao.resetMemberAddressDefaultStatus(currentMember.getId());
+        UmsMemberReceiveAddressExample example = new UmsMemberReceiveAddressExample();
+        example.createCriteria().andMemberIdEqualTo(currentMember.getId()).andIdEqualTo(id);
+        UmsMemberReceiveAddress address = new UmsMemberReceiveAddress();
+        address.setDefaultStatus(1);
+        return addressMapper.updateByExampleSelective(address,example) > 0;
     }
 }

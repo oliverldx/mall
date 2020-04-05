@@ -60,10 +60,14 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
 
     @Override
     public ConfirmOrderResult generateConfirmOrder() {
-        ConfirmOrderResult result = new ConfirmOrderResult();
         //获取购物车信息
         UmsMember currentMember = memberService.getCurrentMember();
         List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(currentMember.getId());
+        return generateConfirmOrderByCartPromotionItems(currentMember, cartPromotionItemList);
+    }
+
+    private ConfirmOrderResult generateConfirmOrderByCartPromotionItems(UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
+        ConfirmOrderResult result = new ConfirmOrderResult();
         result.setCartPromotionItemList(cartPromotionItemList);
         //获取用户收货地址列表
         List<UmsMemberReceiveAddress> memberReceiveAddressList = memberReceiveAddressService.list();
@@ -83,11 +87,27 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
+    public CommonResult generateOrderBySeleted(OrderParam orderParam) {
+        List<String> cartItemIds = orderParam.getCartItemIds();
+        if(cartItemIds == null && cartItemIds.isEmpty()) {
+            return CommonResult.failed("请选择要购买的商品");
+        }
+        //获取购物车及优惠信息
+        UmsMember currentMember = memberService.getCurrentMember();
+        List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotionByCartItemIds(cartItemIds);
+        return generateOrderByCartPromotionItem(orderParam, currentMember, cartPromotionItemList);
+    }
+
+    @Override
     public CommonResult generateOrder(OrderParam orderParam) {
-        List<OmsOrderItem> orderItemList = new ArrayList<>();
         //获取购物车及优惠信息
         UmsMember currentMember = memberService.getCurrentMember();
         List<CartPromotionItem> cartPromotionItemList = cartItemService.listPromotion(currentMember.getId());
+        return generateOrderByCartPromotionItem(orderParam, currentMember, cartPromotionItemList);
+    }
+
+    private CommonResult generateOrderByCartPromotionItem(OrderParam orderParam, UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
+        List<OmsOrderItem> orderItemList = new ArrayList<>();
         for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
             //生成下单商品信息
             OmsOrderItem orderItem = new OmsOrderItem();

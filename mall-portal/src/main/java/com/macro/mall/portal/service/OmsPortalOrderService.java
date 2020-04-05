@@ -23,6 +23,11 @@ public interface OmsPortalOrderService {
      */
     @Transactional
     CommonResult generateOrder(OrderParam orderParam);
+    /**
+     * 根据选择的购物车商品提交信息生成订单
+     */
+    @Transactional
+    CommonResult generateOrderBySeleted(OrderParam orderParam);
 
     /**
      * 支付成功后的回调

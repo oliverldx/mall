@@ -4,6 +4,7 @@ import com.macro.mall.mapper.OmsCartItemMapper;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.model.OmsCartItemExample;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.dao.PortalOrderItemDao;
 import com.macro.mall.portal.dao.PortalProductDao;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
@@ -33,6 +34,8 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     private OmsPromotionService promotionService;
     @Autowired
     private UmsMemberService memberService;
+    @Autowired
+    private PortalOrderItemDao portalOrderItemDao;
 
     @Override
     public int add(OmsCartItem cartItem) {
@@ -86,6 +89,16 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
     @Override
     public List<CartPromotionItem> listPromotion(Long memberId) {
         List<OmsCartItem> cartItemList = list(memberId);
+        List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(cartItemList)) {
+            cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);
+        }
+        return cartPromotionItemList;
+    }
+
+    @Override
+    public List<CartPromotionItem> listPromotionByCartItemIds(List<String> cartItemIds) {
+        List<OmsCartItem> cartItemList = portalOrderItemDao.getOmsCartItemsByIds(cartItemIds);
         List<CartPromotionItem> cartPromotionItemList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(cartItemList)){
             cartPromotionItemList = promotionService.calcCartPromotion(cartItemList);

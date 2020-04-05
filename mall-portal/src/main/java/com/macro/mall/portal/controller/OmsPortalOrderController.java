@@ -34,6 +34,13 @@ public class OmsPortalOrderController {
     public Object generateOrder(@RequestBody OrderParam orderParam){
         return portalOrderService.generateOrder(orderParam);
     }
+    @ApiOperation("根据用户选中的购物车信息生成订单")
+    @RequestMapping(value = "/generateOrderBySelected",method = RequestMethod.POST)
+    @ResponseBody
+    public Object generateOrderBySelected(@RequestBody OrderParam orderParam){
+        return portalOrderService.generateOrderBySeleted(orderParam);
+    }
+
     @ApiOperation("支付成功的回调")
     @RequestMapping(value = "/paySuccess",method = RequestMethod.POST)
     @ResponseBody

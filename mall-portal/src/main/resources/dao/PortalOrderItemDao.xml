@@ -21,4 +21,13 @@
             #{item.realAmount,jdbcType=DECIMAL})
         </foreach>
     </insert>
+
+    <select id="getOmsCartItemsByIds" resultMap="com.macro.mall.mapper.OmsCartItemMapper.BaseResultMap">
+        select * from oms_cart_item where  id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
 </mapper>

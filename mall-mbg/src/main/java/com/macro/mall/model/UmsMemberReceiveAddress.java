@@ -31,6 +31,18 @@ public class UmsMemberReceiveAddress implements Serializable {
     @ApiModelProperty(value = "详细地址(街道)")
     private String detailAddress;
 
+    @ApiModelProperty(value = "省份代码")
+    private String provinceCode;
+
+    @ApiModelProperty(value = "区代码")
+    private String regionCode;
+
+    @ApiModelProperty(value = "城市代码")
+    private String cityCode;
+
+    @ApiModelProperty(value = "扩展属性")
+    private String ext1;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -113,6 +125,38 @@ public class UmsMemberReceiveAddress implements Serializable {
         this.detailAddress = detailAddress;
     }
 
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
+    }
+
+    public String getRegionCode() {
+        return regionCode;
+    }
+
+    public void setRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public String getExt1() {
+        return ext1;
+    }
+
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -129,6 +173,10 @@ public class UmsMemberReceiveAddress implements Serializable {
         sb.append(", city=").append(city);
         sb.append(", region=").append(region);
         sb.append(", detailAddress=").append(detailAddress);
+        sb.append(", provinceCode=").append(provinceCode);
+        sb.append(", regionCode=").append(regionCode);
+        sb.append(", cityCode=").append(cityCode);
+        sb.append(", ext1=").append(ext1);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

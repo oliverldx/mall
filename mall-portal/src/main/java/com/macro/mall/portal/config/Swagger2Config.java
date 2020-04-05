@@ -40,7 +40,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title("mall前台系统")
                 .description("mall前台模块")
-                .contact("macro")
+                .contact("176514610@qq.com")
                 .version("1.0")
                 .build();
     }

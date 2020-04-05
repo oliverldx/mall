@@ -27,6 +27,10 @@ public interface OmsCartItemService {
      * 获取包含促销活动信息的购物车列表
      */
     List<CartPromotionItem> listPromotion(Long memberId);
+    /**
+     * 根据购物车ids获取包含促销活动信息的购物车列表
+     */
+    List<CartPromotionItem> listPromotionByCartItemIds(List<String> cartItemIds);
 
     /**
      * 修改某个购物车商品的数量
