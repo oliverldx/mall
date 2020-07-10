@@ -3,6 +3,7 @@ package com.macro.mall.portal.service;
 import com.macro.mall.model.OmsCartItem;
 import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
+import com.macro.mall.portal.vo.SyncCartInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -57,4 +58,11 @@ public interface OmsCartItemService {
      * 清空购物车
      */
     int clear(Long memberId);
+
+    /**
+     * 同步购物车信息
+     * @param syncCartInfo
+     * @return
+     */
+    boolean sync(SyncCartInfo syncCartInfo);
 }

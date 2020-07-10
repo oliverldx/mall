@@ -6,6 +6,7 @@ import com.macro.mall.portal.domain.CartProduct;
 import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.UmsMemberService;
+import com.macro.mall.portal.vo.SyncCartInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +106,16 @@ public class OmsCartItemController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+    @ApiOperation("同步购物车")
+    @RequestMapping(value = "/sync", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult sync(@RequestBody SyncCartInfo syncCartInfo) {
+        System.out.println(syncCartInfo);
+        if(cartItemService.sync(syncCartInfo)) {
+            return CommonResult.success(1);
+        }else {
+            return CommonResult.failed();
+        }
     }
 }

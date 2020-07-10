@@ -11,6 +11,10 @@ import com.macro.mall.portal.domain.CartPromotionItem;
 import com.macro.mall.portal.service.OmsCartItemService;
 import com.macro.mall.portal.service.OmsPromotionService;
 import com.macro.mall.portal.service.UmsMemberService;
+import com.macro.mall.portal.vo.SyncCartInfo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -19,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 购物车管理Service实现类
@@ -150,5 +155,38 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
         OmsCartItemExample example = new OmsCartItemExample();
         example.createCriteria().andMemberIdEqualTo(memberId);
         return cartItemMapper.updateByExampleSelective(record,example);
+    }
+
+    @Override
+    public boolean sync(SyncCartInfo syncCartInfo) {
+        if(syncCartInfo == null) {
+            return false;
+        }
+        if(syncCartInfo.getToAddEle()!=null && !syncCartInfo.getToAddEle().isEmpty()) {
+            for(OmsCartItem omsCartItem : syncCartInfo.getToAddEle()) {
+                this.add(omsCartItem);
+            }
+        }
+        if (syncCartInfo.getToDelEle() != null && !syncCartInfo.getToDelEle().isEmpty()) {
+            for(String id: syncCartInfo.getToDelEle()) {
+                cartItemMapper.deleteByPrimaryKey(Long.valueOf(id));
+            }
+        }
+        if(syncCartInfo.getToUpdatePro()!=null && !syncCartInfo.getToUpdatePro().isEmpty()) {
+            for (SyncCartInfo.UpdateProperty updateProperty : syncCartInfo.getToUpdatePro()) {
+                if(!StringUtils.isEmpty(updateProperty.getId())) {
+                    OmsCartItem record = new OmsCartItem();
+                    record.setDeleteStatus(1);
+                    OmsCartItemExample example = new OmsCartItemExample();
+                    BeanWrapper bw = new BeanWrapperImpl(example);
+                    bw.setPropertyValue(updateProperty.getKeyName(),updateProperty.getUpdateVal());
+                    OmsCartItemExample wrappedInstance = (OmsCartItemExample)bw.getWrappedInstance();
+                    example.createCriteria().andIdEqualTo(Long.valueOf(updateProperty.getId()));
+//                    cartItemMapper.updateByExampleSelective(record,example);
+                }
+
+            }
+        }
+        return true;
     }
 }

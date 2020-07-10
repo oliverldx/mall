@@ -60,6 +60,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     public UmsMember getByUsername(String username) {
         UmsMemberExample example = new UmsMemberExample();
         example.createCriteria().andUsernameEqualTo(username);
+        example.or().andPhoneEqualTo(username);
         List<UmsMember> memberList = memberMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(memberList)) {
             return memberList.get(0);

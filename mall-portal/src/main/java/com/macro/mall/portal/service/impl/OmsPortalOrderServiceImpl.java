@@ -99,6 +99,17 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
+    public CommonResult generateOrderBySeletedCartItem(OrderParamWithCartItem orderParam) {
+        List<OmsCartItem> cartItems = orderParam.getCartItems();
+        if(cartItems == null && cartItems.isEmpty()) {
+            return CommonResult.failed("请选择要购买的商品");
+        }
+        //获取购物车及优惠信息
+        UmsMember currentMember = memberService.getCurrentMember();
+        return generateOrderByOrderParamWithCartItem(orderParam, currentMember);
+    }
+
+    @Override
     public CommonResult generateOrder(OrderParam orderParam) {
         //获取购物车及优惠信息
         UmsMember currentMember = memberService.getCurrentMember();
@@ -106,28 +117,134 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return generateOrderByCartPromotionItem(orderParam, currentMember, cartPromotionItemList);
     }
 
-    private CommonResult generateOrderByCartPromotionItem(OrderParam orderParam, UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
-        List<OmsOrderItem> orderItemList = new ArrayList<>();
-        for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
-            //生成下单商品信息
-            OmsOrderItem orderItem = new OmsOrderItem();
-            orderItem.setProductId(cartPromotionItem.getProductId());
-            orderItem.setProductName(cartPromotionItem.getProductName());
-            orderItem.setProductPic(cartPromotionItem.getProductPic());
-            orderItem.setProductAttr(cartPromotionItem.getProductAttr());
-            orderItem.setProductBrand(cartPromotionItem.getProductBrand());
-            orderItem.setProductSn(cartPromotionItem.getProductSn());
-            orderItem.setProductPrice(cartPromotionItem.getPrice());
-            orderItem.setProductQuantity(cartPromotionItem.getQuantity());
-            orderItem.setProductSkuId(cartPromotionItem.getProductSkuId());
-            orderItem.setProductSkuCode(cartPromotionItem.getProductSkuCode());
-            orderItem.setProductCategoryId(cartPromotionItem.getProductCategoryId());
-            orderItem.setPromotionAmount(cartPromotionItem.getReduceAmount());
-            orderItem.setPromotionName(cartPromotionItem.getPromotionMessage());
-            orderItem.setGiftIntegration(cartPromotionItem.getIntegration());
-            orderItem.setGiftGrowth(cartPromotionItem.getGrowth());
-            orderItemList.add(orderItem);
+
+
+
+    private CommonResult generateOrderByOrderParamWithCartItem(OrderParamWithCartItem orderParam, UmsMember currentMember) {
+        List<OmsOrderItem> orderItemList = getOmsOrderItemsByOrderParamWithCartItem(orderParam);
+        //判断购物车中商品是否都有库存
+        if (!hasStock(orderParam)) {
+            return CommonResult.failed("库存不足，无法下单");
         }
+        //判断使用使用了优惠券
+        if (orderParam.getCouponId() == null) {
+            //不用优惠券
+            for (OmsOrderItem orderItem : orderItemList) {
+                orderItem.setCouponAmount(new BigDecimal(0));
+            }
+        } else {
+            //使用优惠券
+            SmsCouponHistoryDetail couponHistoryDetail = getUseCoupon(orderParam, orderParam.getCouponId());
+            if (couponHistoryDetail == null) {
+                return CommonResult.failed("该优惠券不可用");
+            }
+            //对下单商品的优惠券进行处理
+            handleCouponAmount(orderItemList, couponHistoryDetail);
+        }
+        //判断是否使用积分
+        if (orderParam.getUseIntegration() == null) {
+            //不使用积分
+            for (OmsOrderItem orderItem : orderItemList) {
+                orderItem.setIntegrationAmount(new BigDecimal(0));
+            }
+        } else {
+            //使用积分
+            BigDecimal totalAmount = calcTotalAmount(orderItemList);
+            BigDecimal integrationAmount = getUseIntegrationAmount(orderParam.getUseIntegration(), totalAmount, currentMember, orderParam.getCouponId() != null);
+            if (integrationAmount.compareTo(new BigDecimal(0)) == 0) {
+                return CommonResult.failed("积分不可用");
+            } else {
+                //可用情况下分摊到可用商品中
+                for (OmsOrderItem orderItem : orderItemList) {
+                    BigDecimal perAmount = orderItem.getProductPrice().divide(totalAmount, 3, RoundingMode.HALF_EVEN).multiply(integrationAmount);
+                    orderItem.setIntegrationAmount(perAmount);
+                }
+            }
+        }
+        //计算order_item的实付金额
+        handleRealAmount(orderItemList);
+        //进行库存锁定
+        lockStock(orderParam);
+        //根据商品合计、运费、活动优惠、优惠券、积分计算应付金额
+        OmsOrder order = new OmsOrder();
+        order.setDiscountAmount(new BigDecimal(0));
+        order.setTotalAmount(calcTotalAmount(orderItemList));
+        order.setFreightAmount(new BigDecimal(0));
+        order.setPromotionAmount(calcPromotionAmount(orderItemList));
+        order.setPromotionInfo(getOrderPromotionInfo(orderItemList));
+        if (orderParam.getCouponId() == null) {
+            order.setCouponAmount(new BigDecimal(0));
+        } else {
+            order.setCouponId(orderParam.getCouponId());
+            order.setCouponAmount(calcCouponAmount(orderItemList));
+        }
+        if (orderParam.getUseIntegration() == null) {
+            order.setIntegration(0);
+            order.setIntegrationAmount(new BigDecimal(0));
+        } else {
+            order.setIntegration(orderParam.getUseIntegration());
+            order.setIntegrationAmount(calcIntegrationAmount(orderItemList));
+        }
+        order.setPayAmount(calcPayAmount(order));
+        //转化为订单信息并插入数据库
+        order.setMemberId(currentMember.getId());
+        order.setCreateTime(new Date());
+        order.setMemberUsername(currentMember.getUsername());
+        //支付方式：0->未支付；1->支付宝；2->微信
+        order.setPayType(orderParam.getPayType());
+        //订单来源：0->PC订单；1->app订单
+        order.setSourceType(1);
+        //订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        order.setStatus(0);
+        //订单类型：0->正常订单；1->秒杀订单
+        order.setOrderType(0);
+        //收货人信息：姓名、电话、邮编、地址
+        UmsMemberReceiveAddress address = memberReceiveAddressService.getItem(orderParam.getMemberReceiveAddressId());
+        order.setReceiverName(address.getName());
+        order.setReceiverPhone(address.getPhoneNumber());
+        order.setReceiverPostCode(address.getPostCode());
+        order.setReceiverProvince(address.getProvince());
+        order.setReceiverCity(address.getCity());
+        order.setReceiverRegion(address.getRegion());
+        order.setReceiverDetailAddress(address.getDetailAddress());
+        //0->未确认；1->已确认
+        order.setConfirmStatus(0);
+        order.setDeleteStatus(0);
+        //计算赠送积分
+        order.setIntegration(calcGifIntegration(orderItemList));
+        //计算赠送成长值
+        order.setGrowth(calcGiftGrowth(orderItemList));
+        //生成订单号
+        order.setOrderSn(generateOrderSn(order));
+        // TODO: 2018/9/3 bill_*,delivery_*
+        //插入order表和order_item表
+        orderMapper.insert(order);
+        for (OmsOrderItem orderItem : orderItemList) {
+            orderItem.setOrderId(order.getId());
+            orderItem.setOrderSn(order.getOrderSn());
+        }
+        orderItemDao.insertList(orderItemList);
+        //如使用优惠券更新优惠券使用状态
+        if (orderParam.getCouponId() != null) {
+            updateCouponStatus(orderParam.getCouponId(), currentMember.getId(), 1);
+        }
+        //如使用积分需要扣除积分
+        if (orderParam.getUseIntegration() != null) {
+            order.setUseIntegration(orderParam.getUseIntegration());
+            memberService.updateIntegration(currentMember.getId(), currentMember.getIntegration() - orderParam.getUseIntegration());
+        }
+        //删除购物车中的下单商品
+//        deleteCartItemList(cartPromotionItemList, currentMember);
+        //发送延迟消息取消订单
+        sendDelayMessageCancelOrder(order.getId());
+        Map<String, Object> result = new HashMap<>();
+        result.put("order", order);
+        result.put("orderItemList", orderItemList);
+        return CommonResult.success(result, "下单成功");
+    }
+
+    private CommonResult generateOrderByCartPromotionItem(OrderParam orderParam, UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
+        List<OmsOrderItem> orderItemList = getOmsOrderItemsByCartPromotionItem(cartPromotionItemList);
         //判断购物车中商品是否都有库存
         if (!hasStock(cartPromotionItemList)) {
             return CommonResult.failed("库存不足，无法下单");
@@ -247,6 +364,56 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         result.put("order", order);
         result.put("orderItemList", orderItemList);
         return CommonResult.success(result, "下单成功");
+    }
+
+    private List<OmsOrderItem> getOmsOrderItemsByOrderParamWithCartItem(OrderParamWithCartItem orderParamWithCartItem) {
+        List<OmsCartItem> cartItems = orderParamWithCartItem.getCartItems();List<OmsOrderItem> orderItemList = new ArrayList<>();
+        for(OmsCartItem cartItem : cartItems) {
+            //生成下单商品信息
+            OmsOrderItem orderItem = new OmsOrderItem();
+            orderItem.setProductId(cartItem.getProductId());
+            orderItem.setProductName(cartItem.getProductName());
+            orderItem.setProductPic(cartItem.getProductPic());
+            orderItem.setProductAttr(cartItem.getProductAttr());
+            orderItem.setProductBrand(cartItem.getProductBrand());
+            orderItem.setProductSn(cartItem.getProductSn());
+            orderItem.setProductPrice(cartItem.getPrice());
+            orderItem.setProductQuantity(cartItem.getQuantity());
+            orderItem.setProductSkuId(cartItem.getProductSkuId());
+            orderItem.setProductSkuCode(cartItem.getProductSkuCode());
+            orderItem.setProductCategoryId(cartItem.getProductCategoryId());
+//            TODO: gen the getReduceAmount getIntegration getGrowth
+//            orderItem.setPromotionAmount(cartItem.getReduceAmount());
+//            orderItem.setPromotionName(cartItem.getPromotionMessage());
+//            orderItem.setGiftIntegration(cartItem.getIntegration());
+//            orderItem.setGiftGrowth(cartItem.getGrowth());
+            orderItemList.add(orderItem);
+        }
+        return orderItemList;
+    }
+    private List<OmsOrderItem> getOmsOrderItemsByCartPromotionItem(List<CartPromotionItem> cartPromotionItemList) {
+        List<OmsOrderItem> orderItemList = new ArrayList<>();
+        for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
+            //生成下单商品信息
+            OmsOrderItem orderItem = new OmsOrderItem();
+            orderItem.setProductId(cartPromotionItem.getProductId());
+            orderItem.setProductName(cartPromotionItem.getProductName());
+            orderItem.setProductPic(cartPromotionItem.getProductPic());
+            orderItem.setProductAttr(cartPromotionItem.getProductAttr());
+            orderItem.setProductBrand(cartPromotionItem.getProductBrand());
+            orderItem.setProductSn(cartPromotionItem.getProductSn());
+            orderItem.setProductPrice(cartPromotionItem.getPrice());
+            orderItem.setProductQuantity(cartPromotionItem.getQuantity());
+            orderItem.setProductSkuId(cartPromotionItem.getProductSkuId());
+            orderItem.setProductSkuCode(cartPromotionItem.getProductSkuCode());
+            orderItem.setProductCategoryId(cartPromotionItem.getProductCategoryId());
+            orderItem.setPromotionAmount(cartPromotionItem.getReduceAmount());
+            orderItem.setPromotionName(cartPromotionItem.getPromotionMessage());
+            orderItem.setGiftIntegration(cartPromotionItem.getIntegration());
+            orderItem.setGiftGrowth(cartPromotionItem.getGrowth());
+            orderItemList.add(orderItem);
+        }
+        return orderItemList;
     }
 
     @Override
@@ -397,7 +564,9 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
      * @param useStatus 0->未使用；1->已使用
      */
     private void updateCouponStatus(Long couponId, Long memberId, Integer useStatus) {
-        if (couponId == null) return;
+        if (couponId == null) {
+            return;
+        }
         //查询第一张优惠券
         SmsCouponHistoryExample example = new SmsCouponHistoryExample();
         example.createCriteria().andMemberIdEqualTo(memberId)
@@ -614,6 +783,17 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     /**
+     * 获取该用户可以使用的优惠券
+     *
+     * @param orderParamWithCartItem 购物车优惠列表
+     * @param couponId              使用优惠券id
+     */
+    private SmsCouponHistoryDetail getUseCoupon(OrderParamWithCartItem orderParamWithCartItem, Long couponId) {
+//        TODO: add the  getUseCoupon
+        return null;
+    }
+
+    /**
      * 计算总金额
      */
     private BigDecimal calcTotalAmount(List<OmsOrderItem> orderItemList) {
@@ -634,6 +814,17 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             skuStockMapper.updateByPrimaryKeySelective(skuStock);
         }
     }
+    /**
+     * 锁定下单商品的所有库存
+     */
+    private void lockStock(OrderParamWithCartItem orderParamWithCartItem) {
+        List<OmsCartItem> cartItems = orderParamWithCartItem.getCartItems();
+        for (OmsCartItem omsCartItem : cartItems) {
+            PmsSkuStock skuStock = skuStockMapper.selectByPrimaryKey(omsCartItem.getProductSkuId());
+            skuStock.setLockStock(skuStock.getLockStock() + omsCartItem.getQuantity());
+            skuStockMapper.updateByPrimaryKeySelective(skuStock);
+        }
+    }
 
     /**
      * 判断下单商品是否都有库存
@@ -644,6 +835,11 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean hasStock(OrderParamWithCartItem orderParamWithCartItem) {
+//        TODO find out if the stock exist
         return true;
     }
 

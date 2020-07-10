@@ -3,6 +3,7 @@ package com.macro.mall.portal.controller;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.OrderParamWithCartItem;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,12 @@ public class OmsPortalOrderController {
     @ResponseBody
     public Object generateOrderBySelected(@RequestBody OrderParam orderParam){
         return portalOrderService.generateOrderBySeleted(orderParam);
+    }
+    @ApiOperation("根据用户选中的购物车信息生成订单")
+    @RequestMapping(value = "/generateOrderBySeletedCartItem",method = RequestMethod.POST)
+    @ResponseBody
+    public Object generateOrderBySelectedCartItem(@RequestBody OrderParamWithCartItem orderParam){
+        return portalOrderService.generateOrderBySeletedCartItem(orderParam);
     }
 
     @ApiOperation("支付成功的回调")

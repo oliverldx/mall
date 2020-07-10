@@ -4,6 +4,7 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OrderParam;
+import com.macro.mall.portal.domain.OrderParamWithCartItem;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public interface OmsPortalOrderService {
      */
     @Transactional
     CommonResult generateOrderBySeleted(OrderParam orderParam);
+    /**
+     * 根据选择的购物车商品提交信息生成订单
+     */
+    @Transactional
+    CommonResult generateOrderBySeletedCartItem(OrderParamWithCartItem orderParam);
 
     /**
      * 支付成功后的回调
