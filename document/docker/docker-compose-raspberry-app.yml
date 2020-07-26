@@ -40,6 +40,20 @@ services:
       - rabbitmq:rabbit #可以用rabbit这个域名访问rabbitmq服务
     environment:
       - spring.main.allow-bean-definition-overriding=true
+  xxpay-mgr:
+    image: xxpay/xxpay-mgr:1.0.0
+    container_name: xxpay-mgr
+    ports:
+      - 8092:8092
+    external_links:
+      - mysql:db #可以用db这个域名访问mysql服务
+  xxpay-springboot:
+    image: xxpay/xxpay4spring-boot:1.0.0
+    container_name: xxpay-springboot
+    ports:
+      - 3020:3020
+    external_links:
+      - mysql:db #可以用db这个域名访问mysql服务
 networks:
   mall_raspberry:
     external: true

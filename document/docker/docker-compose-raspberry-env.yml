@@ -95,6 +95,12 @@ services:
     volumes:
       - /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins
       - /mydata/elasticsearch/data:/usr/share/elasticsearch/data
+  activemq:
+    image: jbtrystram/activemq:latest
+    container_name: activemq
+    ports:
+      - 61617:61616
+      - 8162:8161
 networks:
   mall_raspberry:
     external: true
