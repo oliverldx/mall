@@ -36,6 +36,11 @@ public interface OmsPortalOrderService {
     CommonResult generateOrderBySeletedCartItem(OrderParamWithCartItem orderParam);
 
     /**
+     * 根据订单id获取支付信息
+     */
+    @Transactional
+    CommonResult getOrderPaymentInfo(Long orderId);
+    /**
      * 支付成功后的回调
      */
     @Transactional

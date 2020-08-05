@@ -69,4 +69,12 @@ public class OmsPortalOrderController {
         portalOrderService.sendDelayMessageCancelOrder(orderId);
         return CommonResult.success(null);
     }
+
+
+    @ApiOperation("根据订单id获取支付信息")
+    @RequestMapping(value = "/getOrderPaymentInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult getOrderPaymentInfo(Long orderId){
+        return portalOrderService.getOrderPaymentInfo(orderId);
+    }
 }

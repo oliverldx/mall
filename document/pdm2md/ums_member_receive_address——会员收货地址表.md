@@ -13,3 +13,7 @@
 |city|city|varchar|100||城市||
 |region|region|varchar|100||区||
 |detail_address|detail_address|varchar|128||详细地址(街道)||
+|province_code|province_code|varchar|10||省份代码||
+|region_code|region_code|varchar|10||区代码||
+|city_code|city_code|varchar|10||城市代码||
+|ext1|ext1|varchar|100||扩展属性||

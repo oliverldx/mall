@@ -74,6 +74,7 @@
 ##### [ums_role_menu_relation,后台角色菜单关系表](#ums_role_menu_relation)
 ##### [ums_role_resource_relation,后台角色资源关系表](#ums_role_resource_relation)
 ##### [ums_resource_category,资源分类表](#ums_resource_category)
+##### [oms_order_payment,订单支付信息](#oms_order_payment)
 
 ##### pms_product
 ##### 商品信息
@@ -735,6 +736,10 @@
 |city|city|varchar|100||城市||
 |region|region|varchar|100||区||
 |detail_address|detail_address|varchar|128||详细地址(街道)||
+|province_code|province_code|varchar|10||省份代码||
+|region_code|region_code|varchar|10||区代码||
+|city_code|city_code|varchar|10||城市代码||
+|ext1|ext1|varchar|100||扩展属性||
 
 ##### ums_member_login_log
 ##### 会员登录记录
@@ -1131,3 +1136,14 @@
 |create_time|create_time|datetime|||创建时间||
 |name|name|varchar|200||分类名称||
 |sort|sort|int|4||排序||
+
+##### oms_order_payment
+##### 订单支付信息
+|字段名|字段码|字段类型|长度|默认值|字段描述|是否主键|
+|----|----|----|----|----|----|----|
+|id|id|bigint|||||
+|order_id|order_id|bigint|||订单id||
+|order_sn|order_sn|varchar|64||订单编号||
+|payment_id|payment_id|bigint|||支付单id||
+|payment_sn|payment_sn|varchar|64||支付单编号||
+|payment_money|payment_money|decimal|10||支付金额||

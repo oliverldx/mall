@@ -49,6 +49,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private RedisService redisService;
     @Value("${redis.key.prefix.orderId}")
     private String REDIS_KEY_PREFIX_ORDER_ID;
+    @Value("${redis.key.prefix.orderPaymentId}")
+    private String REDIS_KEY_PREFIX_ORDER_PAYMENT_ID;
     @Autowired
     private PortalOrderDao portalOrderDao;
     @Autowired
@@ -57,6 +59,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private OmsOrderItemMapper orderItemMapper;
     @Autowired
     private CancelOrderSender cancelOrderSender;
+    @Autowired
+    private OmsOrderPaymentMapper orderPaymentMapper;
 
     @Override
     public ConfirmOrderResult generateConfirmOrder() {
@@ -216,7 +220,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         order.setGrowth(calcGiftGrowth(orderItemList));
         //生成订单号
         order.setOrderSn(generateOrderSn(order));
-        // TODO: 2018/9/3 bill_*,delivery_*
+
         //插入order表和order_item表
         orderMapper.insert(order);
         for (OmsOrderItem orderItem : orderItemList) {
@@ -233,6 +237,13 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             order.setUseIntegration(orderParam.getUseIntegration());
             memberService.updateIntegration(currentMember.getId(), currentMember.getIntegration() - orderParam.getUseIntegration());
         }
+        // TODO: 2018/9/3 bill_*,delivery_*
+        OmsOrderPayment orderPayment = new OmsOrderPayment();
+        orderPayment.setOrderId(order.getId());
+        orderPayment.setOrderSn(order.getOrderSn());
+        orderPayment.setPaymentMoney(order.getPayAmount());
+        orderPayment.setPaymentSn(generatePaymentSn(orderPayment));
+        orderPaymentMapper.insert(orderPayment);
         //删除购物车中的下单商品
 //        deleteCartItemList(cartPromotionItemList, currentMember);
         //发送延迟消息取消订单
@@ -431,6 +442,18 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
+    public CommonResult getOrderPaymentInfo(Long orderId) {
+        OmsOrderPaymentExample orderPaymentExample = new OmsOrderPaymentExample();
+        orderPaymentExample.createCriteria().andOrderIdEqualTo(orderId);
+        List<OmsOrderPayment> omsOrderPayments = orderPaymentMapper.selectByExample(orderPaymentExample);
+        if(omsOrderPayments == null || omsOrderPayments.isEmpty()) {
+            return CommonResult.failed("找不到该订单对应的支付信息");
+        }else {
+            return CommonResult.success(omsOrderPayments.get(0),"支付成功");
+        }
+    }
+
+    @Override
     public CommonResult cancelTimeOutOrder() {
         OmsOrderSetting orderSetting = orderSettingMapper.selectByPrimaryKey(1L);
         //查询超时、未支付的订单及订单详情
@@ -514,6 +537,25 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         sb.append(date);
         sb.append(String.format("%02d", order.getSourceType()));
         sb.append(String.format("%02d", order.getPayType()));
+        String incrementStr = increment.toString();
+        if (incrementStr.length() <= 6) {
+            sb.append(String.format("%06d", increment));
+        } else {
+            sb.append(incrementStr);
+        }
+        return sb.toString();
+    }
+    /**
+     * 生成18位订单编号:8位日期+2位平台号码+2位支付方式+6位以上自增id
+     */
+    private String generatePaymentSn(OmsOrderPayment orderPayment) {
+        StringBuilder sb = new StringBuilder();
+        String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
+        String key = REDIS_KEY_PREFIX_ORDER_PAYMENT_ID + date;
+        Long increment = redisService.increment(key, 1);
+        sb.append(date);
+//        sb.append(String.format("%02d", order.getSourceType()));
+//        sb.append(String.format("%02d", order.getPayType()));
         String incrementStr = increment.toString();
         if (incrementStr.length() <= 6) {
             sb.append(String.format("%06d", increment));
