@@ -124,7 +124,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
 
 
 
-    private CommonResult generateOrderByOrderParamWithCartItem(OrderParamWithCartItem orderParam, UmsMember currentMember) {
+    public CommonResult generateOrderByOrderParamWithCartItem(OrderParamWithCartItem orderParam, UmsMember currentMember) {
         List<OmsOrderItem> orderItemList = getOmsOrderItemsByOrderParamWithCartItem(orderParam);
         //判断购物车中商品是否都有库存
         if (!hasStock(orderParam)) {
@@ -254,7 +254,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return CommonResult.success(result, "下单成功");
     }
 
-    private CommonResult generateOrderByCartPromotionItem(OrderParam orderParam, UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
+    public CommonResult generateOrderByCartPromotionItem(OrderParam orderParam, UmsMember currentMember, List<CartPromotionItem> cartPromotionItemList) {
         List<OmsOrderItem> orderItemList = getOmsOrderItemsByCartPromotionItem(cartPromotionItemList);
         //判断购物车中商品是否都有库存
         if (!hasStock(cartPromotionItemList)) {
@@ -377,7 +377,7 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         return CommonResult.success(result, "下单成功");
     }
 
-    private List<OmsOrderItem> getOmsOrderItemsByOrderParamWithCartItem(OrderParamWithCartItem orderParamWithCartItem) {
+    public List<OmsOrderItem> getOmsOrderItemsByOrderParamWithCartItem(OrderParamWithCartItem orderParamWithCartItem) {
         List<OmsCartItem> cartItems = orderParamWithCartItem.getCartItems();List<OmsOrderItem> orderItemList = new ArrayList<>();
         for(OmsCartItem cartItem : cartItems) {
             //生成下单商品信息
@@ -394,15 +394,17 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
             orderItem.setProductSkuCode(cartItem.getProductSkuCode());
             orderItem.setProductCategoryId(cartItem.getProductCategoryId());
 //            TODO: gen the getReduceAmount getIntegration getGrowth
-//            orderItem.setPromotionAmount(cartItem.getReduceAmount());
+            orderItem.setPromotionAmount(BigDecimal.ZERO);
+            orderItem.setCouponAmount(BigDecimal.ZERO);
+            orderItem.setIntegrationAmount(BigDecimal.ZERO);
 //            orderItem.setPromotionName(cartItem.getPromotionMessage());
-//            orderItem.setGiftIntegration(cartItem.getIntegration());
-//            orderItem.setGiftGrowth(cartItem.getGrowth());
+            orderItem.setGiftIntegration(1);
+            orderItem.setGiftGrowth(1);
             orderItemList.add(orderItem);
         }
         return orderItemList;
     }
-    private List<OmsOrderItem> getOmsOrderItemsByCartPromotionItem(List<CartPromotionItem> cartPromotionItemList) {
+    public List<OmsOrderItem> getOmsOrderItemsByCartPromotionItem(List<CartPromotionItem> cartPromotionItemList) {
         List<OmsOrderItem> orderItemList = new ArrayList<>();
         for (CartPromotionItem cartPromotionItem : cartPromotionItemList) {
             //生成下单商品信息
