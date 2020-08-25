@@ -54,6 +54,13 @@ services:
       - 3020:3020
     external_links:
       - mysql:db #可以用db这个域名访问mysql服务
+  xxpay-shop:
+    image: xxpay/xxpay-shop:1.0.0
+    container_name: xxpay-shop
+    ports:
+      - 8091:8091
+    external_links:
+      - mysql:db #可以用db这个域名访问mysql服务
 networks:
   mall_raspberry:
     external: true
