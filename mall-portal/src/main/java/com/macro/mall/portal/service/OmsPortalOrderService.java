@@ -5,6 +5,7 @@ import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.OrderParamWithCartItem;
+import com.macro.mall.portal.vo.AliPayNotifyVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -45,6 +46,12 @@ public interface OmsPortalOrderService {
      */
     @Transactional
     CommonResult paySuccess(Long orderId);
+
+    /**
+     * 支付成功后的回调
+     */
+    @Transactional
+    CommonResult aliPaySuccess(AliPayNotifyVO aliPayNotifyVO);
 
     /**
      * 自动取消超时订单

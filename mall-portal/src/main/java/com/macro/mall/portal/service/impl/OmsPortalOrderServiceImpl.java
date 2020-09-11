@@ -9,6 +9,8 @@ import com.macro.mall.portal.dao.PortalOrderItemDao;
 import com.macro.mall.portal.dao.SmsCouponHistoryDao;
 import com.macro.mall.portal.domain.*;
 import com.macro.mall.portal.service.*;
+import com.macro.mall.portal.vo.AliPayNotifyVO;
+import com.macro.mall.portal.vo.converter.OmsOrderPaymentConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,8 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     private CancelOrderSender cancelOrderSender;
     @Autowired
     private OmsOrderPaymentMapper orderPaymentMapper;
+    @Autowired
+    private OmsOrderPaymentConverter orderPaymentConverter;
 
     @Override
     public ConfirmOrderResult generateConfirmOrder() {
@@ -441,6 +445,14 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
         OmsOrderDetail orderDetail = portalOrderDao.getDetail(orderId);
         int count = portalOrderDao.updateSkuStock(orderDetail.getOrderItemList());
         return CommonResult.success(count,"支付成功");
+    }
+
+    @Override
+    public CommonResult aliPaySuccess(AliPayNotifyVO aliPayNotifyVO) {
+        this.paySuccess(Long.valueOf(aliPayNotifyVO.getPayOrderId()));
+        OmsOrderPayment omsOrderPayment = orderPaymentConverter.aliPayNotifyVO2OmsOrderPayment(aliPayNotifyVO);
+        int count = portalOrderDao.updateOrderPayment(omsOrderPayment);
+        return CommonResult.success(count,"回调成功成功");
     }
 
     @Override

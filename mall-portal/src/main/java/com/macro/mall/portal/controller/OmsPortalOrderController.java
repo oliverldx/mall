@@ -5,6 +5,8 @@ import com.macro.mall.portal.domain.ConfirmOrderResult;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.OrderParamWithCartItem;
 import com.macro.mall.portal.service.OmsPortalOrderService;
+import com.macro.mall.portal.vo.AliPayNotifyVO;
+import com.macro.mall.portal.vo.converter.OmsOrderPaymentConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 public class OmsPortalOrderController {
     @Autowired
     private OmsPortalOrderService portalOrderService;
+
+
+
     @ApiOperation("根据购物车信息生成确认单信息")
     @RequestMapping(value = "/generateConfirmOrder",method = RequestMethod.POST)
     @ResponseBody
@@ -70,11 +75,17 @@ public class OmsPortalOrderController {
         return CommonResult.success(null);
     }
 
-
     @ApiOperation("根据订单id获取支付信息")
     @RequestMapping(value = "/getOrderPaymentInfo",method = RequestMethod.POST)
     @ResponseBody
     public CommonResult getOrderPaymentInfo(Long orderId){
         return portalOrderService.getOrderPaymentInfo(orderId);
+    }
+
+    @ApiOperation("阿里支付通知回调")
+    @RequestMapping(value = "/aliPayNotify")
+    @ResponseBody
+    public CommonResult aliPayNotify(AliPayNotifyVO aliPayNotifyVO){
+        return portalOrderService.aliPaySuccess(aliPayNotifyVO);
     }
 }

@@ -3,24 +3,50 @@ package com.macro.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class OmsOrderPayment implements Serializable {
     private Long id;
 
-    @ApiModelProperty(value = "订单id")
+    @ApiModelProperty(value = "??id")
     private Long orderId;
 
-    @ApiModelProperty(value = "订单编号")
+    @ApiModelProperty(value = "????")
     private String orderSn;
 
-    @ApiModelProperty(value = "支付单id")
+    @ApiModelProperty(value = "???id")
     private Long paymentId;
 
-    @ApiModelProperty(value = "支付单编号")
+    @ApiModelProperty(value = "?????")
     private String paymentSn;
 
-    @ApiModelProperty(value = "支付金额")
+    @ApiModelProperty(value = "????")
     private BigDecimal paymentMoney;
+
+    @ApiModelProperty(value = "渠道ID")
+    private String channelId;
+
+    @ApiModelProperty(value = "货币类型")
+    private String currency;
+
+    @ApiModelProperty(value = "支付状态")
+    private String status;
+
+    @ApiModelProperty(value = "客户端IP")
+    private String clientIp;
+
+    @ApiModelProperty(value = "设备")
+    private String device;
+
+    @ApiModelProperty(value = "渠道订单号")
+    private String channelOrderNo;
+
+    private String param1;
+
+    private String param2;
+
+    @ApiModelProperty(value = "支付成功时间")
+    private Date paySuccTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -72,6 +98,78 @@ public class OmsOrderPayment implements Serializable {
         this.paymentMoney = paymentMoney;
     }
 
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getDevice() {
+        return device;
+    }
+
+    public void setDevice(String device) {
+        this.device = device;
+    }
+
+    public String getChannelOrderNo() {
+        return channelOrderNo;
+    }
+
+    public void setChannelOrderNo(String channelOrderNo) {
+        this.channelOrderNo = channelOrderNo;
+    }
+
+    public String getParam1() {
+        return param1;
+    }
+
+    public void setParam1(String param1) {
+        this.param1 = param1;
+    }
+
+    public String getParam2() {
+        return param2;
+    }
+
+    public void setParam2(String param2) {
+        this.param2 = param2;
+    }
+
+    public Date getPaySuccTime() {
+        return paySuccTime;
+    }
+
+    public void setPaySuccTime(Date paySuccTime) {
+        this.paySuccTime = paySuccTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,6 +182,15 @@ public class OmsOrderPayment implements Serializable {
         sb.append(", paymentId=").append(paymentId);
         sb.append(", paymentSn=").append(paymentSn);
         sb.append(", paymentMoney=").append(paymentMoney);
+        sb.append(", channelId=").append(channelId);
+        sb.append(", currency=").append(currency);
+        sb.append(", status=").append(status);
+        sb.append(", clientIp=").append(clientIp);
+        sb.append(", device=").append(device);
+        sb.append(", channelOrderNo=").append(channelOrderNo);
+        sb.append(", param1=").append(param1);
+        sb.append(", param2=").append(param2);
+        sb.append(", paySuccTime=").append(paySuccTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -88,4 +88,56 @@
             #{item.productSkuId}
         </foreach>
     </update>
+    <update id="updateOrderPayment">
+        UPDATE oms_order_payment
+        <set>
+            <if test="orderPayment.id != null">
+                id = #{orderPayment.id,jdbcType=BIGINT},
+            </if>
+            <if test="orderPayment.orderId != null">
+                order_id = #{orderPayment.orderId,jdbcType=BIGINT},
+            </if>
+            <if test="orderPayment.orderSn != null">
+                order_sn = #{orderPayment.orderSn,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.paymentId != null">
+                payment_id = #{orderPayment.paymentId,jdbcType=BIGINT},
+            </if>
+            <if test="orderPayment.paymentSn != null">
+                payment_sn = #{orderPayment.paymentSn,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.paymentMoney != null">
+                payment_money = #{orderPayment.paymentMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPayment.channelId != null">
+                channel_id = #{orderPayment.channelId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.currency != null">
+                currency = #{orderPayment.currency,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.status != null">
+                status = #{orderPayment.status,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.clientIp != null">
+                client_ip = #{orderPayment.clientIp,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.device != null">
+                device = #{orderPayment.device,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.channelOrderNo != null">
+                channel_order_no = #{orderPayment.channelOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.param1 != null">
+                param1 = #{orderPayment.param1,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.param2 != null">
+                param2 = #{orderPayment.param2,jdbcType=VARCHAR},
+            </if>
+            <if test="orderPayment.paySuccTime != null">
+                pay_succ_time = #{orderPayment.paySuccTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE
+            order_id =  #{orderPayment.orderId}
+    </update>
 </mapper>
