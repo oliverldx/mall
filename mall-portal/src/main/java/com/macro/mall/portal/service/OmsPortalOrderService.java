@@ -46,6 +46,11 @@ public interface OmsPortalOrderService {
      */
     @Transactional
     CommonResult paySuccess(Long orderId);
+    /**
+     * 支付成功后的回调
+     */
+    @Transactional
+    CommonResult paySuccessByOrderSn(String orderSn);
 
     /**
      * 支付成功后的回调

@@ -448,12 +448,26 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
+    public CommonResult paySuccessByOrderSn(String orderSn) {
+        //修改订单支付状态
+        OmsOrder order = new OmsOrder();
+        order.setOrderSn(orderSn);
+        order.setStatus(1);
+        order.setPaymentTime(new Date());
+        portalOrderDao.updateOrderByOrderSnSelective(order);
+        //恢复所有下单商品的锁定库存，扣减真实库存
+        OmsOrderDetail orderDetail = portalOrderDao.getDetailByOrderSn(orderSn);
+        int count = portalOrderDao.updateSkuStock(orderDetail.getOrderItemList());
+        return CommonResult.success(count,"支付成功");
+    }
+
+    @Override
     public CommonResult aliPaySuccess(AliPayNotifyVO aliPayNotifyVO) {
-        this.paySuccess(Long.valueOf(aliPayNotifyVO.getPayOrderId()));
+        this.paySuccess(Long.valueOf(aliPayNotifyVO.getMchOrderNo()));
         OmsOrderPayment omsOrderPayment = orderPaymentConverter.aliPayNotifyVO2OmsOrderPayment(aliPayNotifyVO);
         int count = portalOrderDao.updateOrderPayment(omsOrderPayment);
         return CommonResult.success(count,"回调成功成功");
-    }
+    };
 
     @Override
     public CommonResult getOrderPaymentInfo(Long orderId) {

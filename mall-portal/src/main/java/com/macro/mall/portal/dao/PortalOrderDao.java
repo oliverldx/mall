@@ -1,5 +1,6 @@
 package com.macro.mall.portal.dao;
 
+import com.macro.mall.model.OmsOrder;
 import com.macro.mall.model.OmsOrderItem;
 import com.macro.mall.model.OmsOrderPayment;
 import com.macro.mall.portal.domain.OmsOrderDetail;
@@ -16,6 +17,11 @@ public interface PortalOrderDao {
      * 获取订单及下单商品详情
      */
     OmsOrderDetail getDetail(@Param("orderId") Long orderId);
+
+    /**
+     * 获取订单及下单商品详情
+     */
+    OmsOrderDetail getDetailByOrderSn(@Param("orderSn") String orderSn);
 
     /**
      * 修改 pms_sku_stock表的锁定库存及真实库存
@@ -44,5 +50,20 @@ public interface PortalOrderDao {
      * @return
      */
     int updateOrderPayment(@Param("orderPayment")OmsOrderPayment orderPayment);
+    /**
+     * 更新支付订单信息
+     * @param orderPayment
+     * @return
+     */
+    int updateOrderPaymentByOrderSn(@Param("orderPayment")OmsOrderPayment orderPayment);
+
+    /**
+     * 更新支付订单信息
+     * @param order
+     * @return
+     */
+    int updateOrderByOrderSnSelective(@Param("order") OmsOrder order);
+
+
 
 }

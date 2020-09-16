@@ -9,3 +9,7 @@ CREATE TABLE `oms_order_payment` (
     `payment_money`        decimal(10,2) comment '支付金额',
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='订单支付信息';
+
+ALTER TABLE `mall`.`oms_order_payment`
+CHANGE COLUMN `payment_id` `payment_id` VARCHAR(64) NULL DEFAULT NULL,
+ADD COLUMN `mch_id` VARCHAR(64) NULL AFTER `pay_succ_time`;

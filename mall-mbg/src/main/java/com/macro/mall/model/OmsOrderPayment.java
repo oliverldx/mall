@@ -14,8 +14,7 @@ public class OmsOrderPayment implements Serializable {
     @ApiModelProperty(value = "????")
     private String orderSn;
 
-    @ApiModelProperty(value = "???id")
-    private Long paymentId;
+    private String paymentId;
 
     @ApiModelProperty(value = "?????")
     private String paymentSn;
@@ -48,6 +47,8 @@ public class OmsOrderPayment implements Serializable {
     @ApiModelProperty(value = "支付成功时间")
     private Date paySuccTime;
 
+    private String mchId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -74,11 +75,11 @@ public class OmsOrderPayment implements Serializable {
         this.orderSn = orderSn;
     }
 
-    public Long getPaymentId() {
+    public String getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(Long paymentId) {
+    public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
 
@@ -170,6 +171,14 @@ public class OmsOrderPayment implements Serializable {
         this.paySuccTime = paySuccTime;
     }
 
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -191,6 +200,7 @@ public class OmsOrderPayment implements Serializable {
         sb.append(", param1=").append(param1);
         sb.append(", param2=").append(param2);
         sb.append(", paySuccTime=").append(paySuccTime);
+        sb.append(", mchId=").append(mchId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

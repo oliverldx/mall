@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="order_id" jdbcType="BIGINT" property="orderId" />
     <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
-    <result column="payment_id" jdbcType="BIGINT" property="paymentId" />
+    <result column="payment_id" jdbcType="VARCHAR" property="paymentId" />
     <result column="payment_sn" jdbcType="VARCHAR" property="paymentSn" />
     <result column="payment_money" jdbcType="DECIMAL" property="paymentMoney" />
     <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
@@ -17,6 +17,7 @@
     <result column="param1" jdbcType="VARCHAR" property="param1" />
     <result column="param2" jdbcType="VARCHAR" property="param2" />
     <result column="pay_succ_time" jdbcType="TIMESTAMP" property="paySuccTime" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, order_id, order_sn, payment_id, payment_sn, payment_money, channel_id, currency, 
-    status, client_ip, device, channel_order_no, param1, param2, pay_succ_time
+    status, client_ip, device, channel_order_no, param1, param2, pay_succ_time, mch_id
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.OmsOrderPaymentExample" resultMap="BaseResultMap">
     select
@@ -118,12 +119,14 @@
       payment_sn, payment_money, channel_id, 
       currency, status, client_ip, 
       device, channel_order_no, param1, 
-      param2, pay_succ_time)
-    values (#{orderId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{paymentId,jdbcType=BIGINT}, 
+      param2, pay_succ_time, mch_id
+      )
+    values (#{orderId,jdbcType=BIGINT}, #{orderSn,jdbcType=VARCHAR}, #{paymentId,jdbcType=VARCHAR}, 
       #{paymentSn,jdbcType=VARCHAR}, #{paymentMoney,jdbcType=DECIMAL}, #{channelId,jdbcType=VARCHAR}, 
       #{currency,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
       #{device,jdbcType=VARCHAR}, #{channelOrderNo,jdbcType=VARCHAR}, #{param1,jdbcType=VARCHAR}, 
-      #{param2,jdbcType=VARCHAR}, #{paySuccTime,jdbcType=TIMESTAMP})
+      #{param2,jdbcType=VARCHAR}, #{paySuccTime,jdbcType=TIMESTAMP}, #{mchId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.OmsOrderPayment">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -173,6 +176,9 @@
       <if test="paySuccTime != null">
         pay_succ_time,
       </if>
+      <if test="mchId != null">
+        mch_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -182,7 +188,7 @@
         #{orderSn,jdbcType=VARCHAR},
       </if>
       <if test="paymentId != null">
-        #{paymentId,jdbcType=BIGINT},
+        #{paymentId,jdbcType=VARCHAR},
       </if>
       <if test="paymentSn != null">
         #{paymentSn,jdbcType=VARCHAR},
@@ -217,6 +223,9 @@
       <if test="paySuccTime != null">
         #{paySuccTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.macro.mall.model.OmsOrderPaymentExample" resultType="java.lang.Long">
@@ -238,7 +247,7 @@
         order_sn = #{record.orderSn,jdbcType=VARCHAR},
       </if>
       <if test="record.paymentId != null">
-        payment_id = #{record.paymentId,jdbcType=BIGINT},
+        payment_id = #{record.paymentId,jdbcType=VARCHAR},
       </if>
       <if test="record.paymentSn != null">
         payment_sn = #{record.paymentSn,jdbcType=VARCHAR},
@@ -273,6 +282,9 @@
       <if test="record.paySuccTime != null">
         pay_succ_time = #{record.paySuccTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.mchId != null">
+        mch_id = #{record.mchId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -283,7 +295,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       order_id = #{record.orderId,jdbcType=BIGINT},
       order_sn = #{record.orderSn,jdbcType=VARCHAR},
-      payment_id = #{record.paymentId,jdbcType=BIGINT},
+      payment_id = #{record.paymentId,jdbcType=VARCHAR},
       payment_sn = #{record.paymentSn,jdbcType=VARCHAR},
       payment_money = #{record.paymentMoney,jdbcType=DECIMAL},
       channel_id = #{record.channelId,jdbcType=VARCHAR},
@@ -294,7 +306,8 @@
       channel_order_no = #{record.channelOrderNo,jdbcType=VARCHAR},
       param1 = #{record.param1,jdbcType=VARCHAR},
       param2 = #{record.param2,jdbcType=VARCHAR},
-      pay_succ_time = #{record.paySuccTime,jdbcType=TIMESTAMP}
+      pay_succ_time = #{record.paySuccTime,jdbcType=TIMESTAMP},
+      mch_id = #{record.mchId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -309,7 +322,7 @@
         order_sn = #{orderSn,jdbcType=VARCHAR},
       </if>
       <if test="paymentId != null">
-        payment_id = #{paymentId,jdbcType=BIGINT},
+        payment_id = #{paymentId,jdbcType=VARCHAR},
       </if>
       <if test="paymentSn != null">
         payment_sn = #{paymentSn,jdbcType=VARCHAR},
@@ -344,6 +357,9 @@
       <if test="paySuccTime != null">
         pay_succ_time = #{paySuccTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="mchId != null">
+        mch_id = #{mchId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -351,7 +367,7 @@
     update oms_order_payment
     set order_id = #{orderId,jdbcType=BIGINT},
       order_sn = #{orderSn,jdbcType=VARCHAR},
-      payment_id = #{paymentId,jdbcType=BIGINT},
+      payment_id = #{paymentId,jdbcType=VARCHAR},
       payment_sn = #{paymentSn,jdbcType=VARCHAR},
       payment_money = #{paymentMoney,jdbcType=DECIMAL},
       channel_id = #{channelId,jdbcType=VARCHAR},
@@ -362,7 +378,8 @@
       channel_order_no = #{channelOrderNo,jdbcType=VARCHAR},
       param1 = #{param1,jdbcType=VARCHAR},
       param2 = #{param2,jdbcType=VARCHAR},
-      pay_succ_time = #{paySuccTime,jdbcType=TIMESTAMP}
+      pay_succ_time = #{paySuccTime,jdbcType=TIMESTAMP},
+      mch_id = #{mchId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

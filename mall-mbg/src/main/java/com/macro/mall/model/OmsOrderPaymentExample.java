@@ -306,52 +306,62 @@ public class OmsOrderPaymentExample {
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdEqualTo(Long value) {
+        public Criteria andPaymentIdEqualTo(String value) {
             addCriterion("payment_id =", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdNotEqualTo(Long value) {
+        public Criteria andPaymentIdNotEqualTo(String value) {
             addCriterion("payment_id <>", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdGreaterThan(Long value) {
+        public Criteria andPaymentIdGreaterThan(String value) {
             addCriterion("payment_id >", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdGreaterThanOrEqualTo(Long value) {
+        public Criteria andPaymentIdGreaterThanOrEqualTo(String value) {
             addCriterion("payment_id >=", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdLessThan(Long value) {
+        public Criteria andPaymentIdLessThan(String value) {
             addCriterion("payment_id <", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdLessThanOrEqualTo(Long value) {
+        public Criteria andPaymentIdLessThanOrEqualTo(String value) {
             addCriterion("payment_id <=", value, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdIn(List<Long> values) {
+        public Criteria andPaymentIdLike(String value) {
+            addCriterion("payment_id like", value, "paymentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentIdNotLike(String value) {
+            addCriterion("payment_id not like", value, "paymentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaymentIdIn(List<String> values) {
             addCriterion("payment_id in", values, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdNotIn(List<Long> values) {
+        public Criteria andPaymentIdNotIn(List<String> values) {
             addCriterion("payment_id not in", values, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdBetween(Long value1, Long value2) {
+        public Criteria andPaymentIdBetween(String value1, String value2) {
             addCriterion("payment_id between", value1, value2, "paymentId");
             return (Criteria) this;
         }
 
-        public Criteria andPaymentIdNotBetween(Long value1, Long value2) {
+        public Criteria andPaymentIdNotBetween(String value1, String value2) {
             addCriterion("payment_id not between", value1, value2, "paymentId");
             return (Criteria) this;
         }
@@ -1103,6 +1113,76 @@ public class OmsOrderPaymentExample {
 
         public Criteria andPaySuccTimeNotBetween(Date value1, Date value2) {
             addCriterion("pay_succ_time not between", value1, value2, "paySuccTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdIsNull() {
+            addCriterion("mch_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdIsNotNull() {
+            addCriterion("mch_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdEqualTo(String value) {
+            addCriterion("mch_id =", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdNotEqualTo(String value) {
+            addCriterion("mch_id <>", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdGreaterThan(String value) {
+            addCriterion("mch_id >", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdGreaterThanOrEqualTo(String value) {
+            addCriterion("mch_id >=", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdLessThan(String value) {
+            addCriterion("mch_id <", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdLessThanOrEqualTo(String value) {
+            addCriterion("mch_id <=", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdLike(String value) {
+            addCriterion("mch_id like", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdNotLike(String value) {
+            addCriterion("mch_id not like", value, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdIn(List<String> values) {
+            addCriterion("mch_id in", values, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdNotIn(List<String> values) {
+            addCriterion("mch_id not in", values, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdBetween(String value1, String value2) {
+            addCriterion("mch_id between", value1, value2, "mchId");
+            return (Criteria) this;
+        }
+
+        public Criteria andMchIdNotBetween(String value1, String value2) {
+            addCriterion("mch_id not between", value1, value2, "mchId");
             return (Criteria) this;
         }
     }

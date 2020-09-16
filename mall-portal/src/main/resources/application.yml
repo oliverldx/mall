@@ -30,6 +30,7 @@ secure:
       - /sso/**
       - /home/**
       - /doc.html
+      - /order/aliPayNotify
 
 # 自定义redis key
 redis:
