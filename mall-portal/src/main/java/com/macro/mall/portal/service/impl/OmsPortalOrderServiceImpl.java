@@ -11,6 +11,7 @@ import com.macro.mall.portal.domain.*;
 import com.macro.mall.portal.service.*;
 import com.macro.mall.portal.vo.AliPayNotifyVO;
 import com.macro.mall.portal.vo.converter.OmsOrderPaymentConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -550,8 +551,11 @@ public class OmsPortalOrderServiceImpl implements OmsPortalOrderService {
     }
 
     @Override
-    public List<OmsOrder> getAllOrders() {
-        return null;
+    public List<OmsOrderList> getOrders(String status) {
+        UmsMember currentMember = memberService.getCurrentMember();
+        Long id = currentMember.getId();
+        List<OmsOrderList>  omsOrderLists = this.portalOrderDao.getOrderList(id.intValue(),Integer.valueOf(status));
+        return omsOrderLists;
     }
 
     /**

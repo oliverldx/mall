@@ -4,6 +4,7 @@ import com.macro.mall.model.OmsOrder;
 import com.macro.mall.model.OmsOrderItem;
 import com.macro.mall.model.OmsOrderPayment;
 import com.macro.mall.portal.domain.OmsOrderDetail;
+import com.macro.mall.portal.domain.OmsOrderList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -63,6 +64,13 @@ public interface PortalOrderDao {
      * @return
      */
     int updateOrderByOrderSnSelective(@Param("order") OmsOrder order);
+
+    /**
+     * 获取订单详情列表
+     * @param memberId
+     * @return
+     */
+    List<OmsOrderList> getOrderList(@Param("memberId") Integer memberId,@Param("status") Integer status);
 
 
 

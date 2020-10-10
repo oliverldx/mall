@@ -1,17 +1,22 @@
 package com.macro.mall.portal.controller;
 
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderList;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.OrderParamWithCartItem;
 import com.macro.mall.portal.service.OmsPortalOrderService;
 import com.macro.mall.portal.vo.AliPayNotifyVO;
-import com.macro.mall.portal.vo.converter.OmsOrderPaymentConverter;
+import com.mysql.cj.util.StringUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 订单管理Controller
@@ -87,5 +92,17 @@ public class OmsPortalOrderController {
     @ResponseBody
     public CommonResult aliPayNotify(AliPayNotifyVO aliPayNotifyVO){
         return portalOrderService.aliPaySuccess(aliPayNotifyVO);
+    }
+
+    @ApiOperation("获取订单信息")
+    @RequestMapping(value = "/getOrders",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<OmsOrderList>> getOrders(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,@RequestParam(value = "status") String status){
+        if(StringUtils.isNullOrEmpty(status)) {
+            status = "1";
+        }
+        List<OmsOrderList> orders = portalOrderService.getOrders(status);
+        return CommonResult.success(CommonPage.restPage(orders),"获取订单信息成功");
     }
 }

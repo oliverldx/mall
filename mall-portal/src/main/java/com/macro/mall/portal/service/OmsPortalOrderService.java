@@ -1,8 +1,8 @@
 package com.macro.mall.portal.service;
 
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.model.OmsOrder;
 import com.macro.mall.portal.domain.ConfirmOrderResult;
+import com.macro.mall.portal.domain.OmsOrderList;
 import com.macro.mall.portal.domain.OrderParam;
 import com.macro.mall.portal.domain.OrderParamWithCartItem;
 import com.macro.mall.portal.vo.AliPayNotifyVO;
@@ -78,6 +78,7 @@ public interface OmsPortalOrderService {
     /**
      * 获取全部订单
      * @return
+     * @param status
      */
-    List<OmsOrder> getAllOrders();
+    List<OmsOrderList> getOrders(String status);
 }

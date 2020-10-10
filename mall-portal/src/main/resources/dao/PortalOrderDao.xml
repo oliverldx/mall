@@ -7,6 +7,15 @@
                     resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
         </collection>
     </resultMap>
+    <resultMap id="orderListMap" type="com.macro.mall.portal.domain.OmsOrderList"
+               extends="com.macro.mall.mapper.OmsOrderMapper.BaseResultMap">
+        <collection property="orderItemList" columnPrefix="ot_"
+                    resultMap="com.macro.mall.mapper.OmsOrderItemMapper.BaseResultMap">
+        </collection>
+        <collection property="products" columnPrefix="pt_"
+                    resultMap="com.macro.mall.mapper.PmsProductMapper.BaseResultMap">
+        </collection>
+    </resultMap>
     <select id="getDetail" resultMap="orderDetailMap">
         SELECT
             o.id,
@@ -42,6 +51,49 @@
             LEFT JOIN oms_order_item ot ON o.id = ot.order_id
         WHERE
             o.order_sn = #{orderSn}
+    </select>
+
+    <select id="getOrderList" resultMap="orderListMap" >
+        SELECT
+            o.id,
+            o.order_sn,
+            o.pay_amount,
+            o.status,
+            o.receiver_name,
+            o.receiver_phone,
+            o.receiver_province,
+            o.receiver_city,
+            o.receiver_region,
+            o.receiver_detail_address,
+            o.create_time,
+            ot.id ot_id,
+            ot.product_id ot_product_id,
+            ot.product_name ot_product_name,
+            ot.product_sku_id ot_product_sku_id,
+            ot.product_sku_code ot_product_sku_code,
+            ot.product_quantity ot_product_quantity,
+            pt.pic pt_pic,
+            pt.sub_title pt_sub_title,
+            pt.original_price pt_original_price,
+            pt.price pt_price,
+            pt.product_category_name pt_product_category_name,
+            pt.id pt_id,
+            pt.album_pics pt_album_pics,
+            pt.stock pt_stock,
+            pt.unit pt_unit,
+            pt.product_sn pt_product_sn,
+            pt.product_category_id pt_product_category_id,
+            pt.name pt_name,
+            pt.brand_id pt_brand_id
+        FROM
+            oms_order o
+            LEFT JOIN oms_order_item ot ON o.id = ot.order_id
+            LEFT JOIN pms_product pt ON ot.product_id = pt.id
+        WHERE
+            o.member_id = #{memberId,jdbcType=BIGINT}
+            <if test="status != null and status > 0">
+                and o.status = #{status,jdbcType=BIGINT}
+            </if>
     </select>
 
     <select id="getTimeOutOrders" resultMap="orderDetailMap">
