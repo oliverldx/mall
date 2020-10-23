@@ -178,9 +178,9 @@ public class OmsCartItemServiceImpl implements OmsCartItemService {
                     OmsCartItem record = new OmsCartItem();
                     record.setDeleteStatus(1);
                     OmsCartItemExample example = new OmsCartItemExample();
-                    BeanWrapper bw = new BeanWrapperImpl(example);
+                    BeanWrapper bw = new BeanWrapperImpl(record);
                     bw.setPropertyValue(updateProperty.getKeyName(),updateProperty.getUpdateVal());
-                    OmsCartItemExample wrappedInstance = (OmsCartItemExample)bw.getWrappedInstance();
+                    OmsCartItem wrappedInstance = (OmsCartItem)bw.getWrappedInstance();
                     example.createCriteria().andIdEqualTo(Long.valueOf(updateProperty.getId()));
 //                    cartItemMapper.updateByExampleSelective(record,example);
                 }
