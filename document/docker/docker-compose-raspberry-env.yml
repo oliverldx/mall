@@ -105,7 +105,7 @@ services:
     image: arthastennulserver:latest
     container_name: arthastennulserver
     ports:
-      - 8080:7070
+      - 7070:8080
       - 7777:7777
 networks:
   mall_raspberry:
