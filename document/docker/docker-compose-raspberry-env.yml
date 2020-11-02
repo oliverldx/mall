@@ -101,6 +101,12 @@ services:
     ports:
       - 61617:61616
       - 8162:8161
+  arthastennulserver:
+    image: arthastennulserver:latest
+    container_name: arthastennulserver
+    ports:
+      - 8080:7070
+      - 7777:7777
 networks:
   mall_raspberry:
     external: true
