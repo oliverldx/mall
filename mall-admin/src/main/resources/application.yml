@@ -63,3 +63,7 @@ logging:
     com.macro.mall: debug
 #  file: demo_log.log #配置日志生成路径
 #  path: /var/logs #配置日志文件名称
+
+arthas:
+  agent-id: mall-admin-${spring.profiles.active}
+  tunnel-server: ws://192.168.1.249:7777/ws
