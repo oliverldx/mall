@@ -1,6 +1,4 @@
 package com.macro.mall.portal.service.impl;
-import	java.util.HashMap;
-
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
@@ -11,6 +9,7 @@ import com.macro.mall.model.UmsMemberLevelExample;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
+import com.macro.mall.portal.vo.WxUserInfoVO;
 import com.macro.mall.security.util.JwtTokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,10 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 会员管理Service实现类
@@ -187,6 +183,42 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Override
     public String refreshToken(String token) {
         return jwtTokenUtil.refreshHeadToken(token);
+    }
+
+    @Override
+    public UmsMember getMemberByOpenId(String openId) {
+        //查询是否已有该用户
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andOpenIdEqualTo(openId);
+        List<UmsMember> umsMembers = memberMapper.selectByExample(example);
+        return (umsMembers!=null && !umsMembers.isEmpty())?umsMembers.get(0):null;
+    }
+
+    @Override
+    public UmsMember getMemberByMobilePhoneNumber(String mobilePhoneNumber) {
+        //查询是否已有该用户
+        UmsMemberExample example = new UmsMemberExample();
+        example.createCriteria().andPhoneEqualTo(mobilePhoneNumber);
+        List<UmsMember> umsMembers = memberMapper.selectByExample(example);
+        return (umsMembers!=null && !umsMembers.isEmpty())?umsMembers.get(0):null;
+    }
+
+    @Override
+    public CommonResult updateMemberInfo(WxUserInfoVO wxUserInfoVO) {
+        String openId = wxUserInfoVO.getOpenId();
+        UmsMember member = this.getMemberByOpenId(openId);
+        if(member == null) {
+            return CommonResult.failed("获取用户数据失败");
+        }
+        member.setNickname(wxUserInfoVO.getNickName());
+        member.setIcon(wxUserInfoVO.getHeadUrl());
+        member.setGender(Integer.valueOf(wxUserInfoVO.getGender()));
+        member.setCity(wxUserInfoVO.getCity());
+        member.setProvince(wxUserInfoVO.getProvince());
+        member.setCountry(wxUserInfoVO.getCountry());
+        member.setOpenId(wxUserInfoVO.getOpenId());
+        memberMapper.updateByPrimaryKeySelective(member);
+        return CommonResult.success("更新用户数据成功");
     }
 
     //对输入的验证码进行校验

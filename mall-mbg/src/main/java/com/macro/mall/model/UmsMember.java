@@ -60,6 +60,18 @@ public class UmsMember implements Serializable {
     @ApiModelProperty(value = "历史积分数量")
     private Integer historyIntegration;
 
+    @ApiModelProperty(value = "所属省份")
+    private String province;
+
+    @ApiModelProperty(value = "所属国家")
+    private String country;
+
+    @ApiModelProperty(value = "微信openid")
+    private String openId;
+
+    @ApiModelProperty(value = "微信unionid")
+    private String unionId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -214,6 +226,38 @@ public class UmsMember implements Serializable {
         this.historyIntegration = historyIntegration;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getUnionId() {
+        return unionId;
+    }
+
+    public void setUnionId(String unionId) {
+        this.unionId = unionId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -239,6 +283,10 @@ public class UmsMember implements Serializable {
         sb.append(", growth=").append(growth);
         sb.append(", luckeyCount=").append(luckeyCount);
         sb.append(", historyIntegration=").append(historyIntegration);
+        sb.append(", province=").append(province);
+        sb.append(", country=").append(country);
+        sb.append(", openId=").append(openId);
+        sb.append(", unionId=").append(unionId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

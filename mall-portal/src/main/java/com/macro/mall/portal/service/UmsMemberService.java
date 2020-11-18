@@ -2,6 +2,7 @@ package com.macro.mall.portal.service;
 
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.model.UmsMember;
+import com.macro.mall.portal.vo.WxUserInfoVO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,4 +66,10 @@ public interface UmsMemberService {
      * 刷新token
      */
     String refreshToken(String token);
+
+    UmsMember getMemberByOpenId(String openId);
+
+    UmsMember getMemberByMobilePhoneNumber(String mobilePhoneNumber);
+
+    CommonResult updateMemberInfo(WxUserInfoVO wxUserInfoVO);
 }
