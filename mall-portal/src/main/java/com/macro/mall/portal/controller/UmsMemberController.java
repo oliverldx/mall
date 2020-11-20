@@ -47,7 +47,7 @@ public class UmsMemberController {
     @ResponseBody
     public CommonResult login(@RequestParam String username,
                               @RequestParam String password,
-                              @RequestParam WxUserInfoVO wxUserInfoVO) {
+                              WxUserInfoVO wxUserInfoVO) {
         Map<String, String> token = null;
         if (wxUserInfoVO!= null && StringUtils.isNoneBlank(wxUserInfoVO.getNickName(), wxUserInfoVO.getHeadUrl(), wxUserInfoVO.getCity(),wxUserInfoVO.getOpenId())) {
             token = memberService.login(username, password,wxUserInfoVO);
