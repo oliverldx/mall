@@ -89,10 +89,10 @@ public class UmsMemberController {
 
 
     @ApiOperation("更新会员信息")
-    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.POST)
+    @RequestMapping(value = "/loginAndUpdateUserInfo", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult updateUserInfo(@RequestBody WxUserInfoVO wxUserInfoVO) {
-        return memberService.updateMemberInfo(wxUserInfoVO);
+    public CommonResult loginAndUpdateUserInfo(@RequestBody WxUserInfoVO wxUserInfoVO) {
+        return memberService.loginAndUpdateUserInfo(wxUserInfoVO);
     }
 
 }

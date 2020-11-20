@@ -1,4 +1,5 @@
 package com.macro.mall.portal.service.impl;
+
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.UmsMemberLevelMapper;
 import com.macro.mall.mapper.UmsMemberMapper;
@@ -6,11 +7,13 @@ import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
 import com.macro.mall.model.UmsMemberLevel;
 import com.macro.mall.model.UmsMemberLevelExample;
+import com.macro.mall.portal.constant.PortalResultCode;
 import com.macro.mall.portal.domain.MemberDetails;
 import com.macro.mall.portal.service.RedisService;
 import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.vo.WxUserInfoVO;
 import com.macro.mall.security.util.JwtTokenUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -51,6 +53,8 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     private String REDIS_KEY_PREFIX_AUTH_CODE;
     @Value("${redis.key.expire.authCode}")
     private Long AUTH_CODE_EXPIRE_SECONDS;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -159,6 +163,17 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
+    public UserDetails loadUser(String type, String value) {
+        if("openid".equals(type)) {
+            UmsMember member = getMemberByOpenId(value);
+            if(member!=null){
+                return new MemberDetails(member);
+            }
+        }
+        throw new UsernameNotFoundException("找不到用户对应的微信信息");
+    }
+
+    @Override
     public Map<String, String> login(String username, String password) {
         String token = null;
         Map<String, String> res = new HashMap<String, String> ();
@@ -168,16 +183,35 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             if(!passwordEncoder.matches(password,userDetails.getPassword())){
                 throw new BadCredentialsException("密码不正确");
             }
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            token = jwtTokenUtil.generateToken(userDetails);
-            res.put("token",token);
-            MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-            res.put("memberId",memberDetails.getUmsMember().getId().toString());
+            authenticate(res, userDetails);
         } catch (AuthenticationException e) {
             LOGGER.warn("登录异常:{}", e.getMessage());
         }
         return res;
+    }
+
+    @Override
+    public Map<String, String> loginByUniqueType(String type, String value) {
+        String token = null;
+        Map<String, String> res = new HashMap<String, String> ();
+        //密码需要客户端加密后传递
+        try {
+            UserDetails userDetails = loadUser(type, value);
+            authenticate(res, userDetails);
+        } catch (AuthenticationException e) {
+            LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+        return res;
+    }
+
+    private void authenticate(Map<String, String> res, UserDetails userDetails) {
+        String token;
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        token = jwtTokenUtil.generateToken(userDetails);
+        res.put("token", token);
+        MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
+        res.put("memberId", memberDetails.getUmsMember().getId().toString());
     }
 
     @Override
@@ -208,7 +242,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         String openId = wxUserInfoVO.getOpenId();
         UmsMember member = this.getMemberByOpenId(openId);
         if(member == null) {
-            return CommonResult.failed("获取用户数据失败");
+            return CommonResult.failed(PortalResultCode.MEMBER_MISS);
         }
         member.setNickname(wxUserInfoVO.getNickName());
         member.setIcon(wxUserInfoVO.getHeadUrl());
@@ -219,6 +253,30 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         member.setOpenId(wxUserInfoVO.getOpenId());
         memberMapper.updateByPrimaryKeySelective(member);
         return CommonResult.success("更新用户数据成功");
+    }
+
+    @Override
+    public CommonResult loginAndUpdateUserInfo(WxUserInfoVO wxUserInfoVO) {
+        String openId = wxUserInfoVO.getOpenId();
+        UmsMember member = this.getMemberByOpenId(openId);
+        if(member == null) {
+            return CommonResult.failed(PortalResultCode.MEMBER_MISS);
+        }
+        if(StringUtils.isAllBlank(member.getNickname(),member.getIcon(),member.getCity())) {
+            member.setNickname(wxUserInfoVO.getNickName());
+            member.setIcon(wxUserInfoVO.getHeadUrl());
+            member.setGender(Integer.valueOf(wxUserInfoVO.getGender()));
+            member.setCity(wxUserInfoVO.getCity());
+            member.setProvince(wxUserInfoVO.getProvince());
+            member.setCountry(wxUserInfoVO.getCountry());
+            member.setOpenId(wxUserInfoVO.getOpenId());
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
+        MemberDetails memberDetails = new MemberDetails(member);
+        Map<String, String> res = new HashMap<String, String> ();
+        authenticate(res,memberDetails);
+        res.put("tokenHead", tokenHead);
+        return CommonResult.success(res);
     }
 
     //对输入的验证码进行校验

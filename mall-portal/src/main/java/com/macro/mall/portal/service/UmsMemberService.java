@@ -57,10 +57,24 @@ public interface UmsMemberService {
     UserDetails loadUserByUsername(String username);
 
     /**
+     * 获取用户信息
+     * @param type 标识用户唯一的数据类型
+     * @param value 标识用户唯一的数据值
+     * @return
+     */
+    UserDetails loadUser(String type,String value);
+
+    /**
      * 登录后获取token
      * @return
      */
     Map<String, String> login(String username, String password);
+
+    /**
+     * 登录后获取token
+     * @return
+     */
+    Map<String, String> loginByUniqueType(String type, String value);
 
     /**
      * 刷新token
@@ -72,4 +86,6 @@ public interface UmsMemberService {
     UmsMember getMemberByMobilePhoneNumber(String mobilePhoneNumber);
 
     CommonResult updateMemberInfo(WxUserInfoVO wxUserInfoVO);
+
+    CommonResult loginAndUpdateUserInfo(WxUserInfoVO wxUserInfoVO);
 }
