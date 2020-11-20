@@ -74,6 +74,12 @@ public interface UmsMemberService {
      * 登录后获取token
      * @return
      */
+    Map<String, String> login(String username, String password, WxUserInfoVO wxUserInfoVO);
+
+    /**
+     * 登录后获取token
+     * @return
+     */
     Map<String, String> loginByUniqueType(String type, String value);
 
     /**

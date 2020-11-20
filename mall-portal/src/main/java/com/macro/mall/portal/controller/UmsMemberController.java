@@ -5,6 +5,7 @@ import com.macro.mall.portal.service.UmsMemberService;
 import com.macro.mall.portal.vo.WxUserInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -45,8 +46,14 @@ public class UmsMemberController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult login(@RequestParam String username,
-                              @RequestParam String password) {
-        Map<String, String> token = memberService.login(username, password);
+                              @RequestParam String password,
+                              @RequestParam WxUserInfoVO wxUserInfoVO) {
+        Map<String, String> token = null;
+        if (wxUserInfoVO!= null && StringUtils.isNoneBlank(wxUserInfoVO.getNickName(), wxUserInfoVO.getHeadUrl(), wxUserInfoVO.getCity(),wxUserInfoVO.getOpenId())) {
+            token = memberService.login(username, password,wxUserInfoVO);
+        }else {
+            token = memberService.login(username, password);
+        }
         if (token == null || token.isEmpty()) {
             return CommonResult.validateFailed("用户名或密码错误");
         }

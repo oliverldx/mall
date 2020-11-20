@@ -202,6 +202,41 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
+    public Map<String, String> login(String username, String password, WxUserInfoVO wxUserInfoVO) {
+        String token = null;
+        Map<String, String> res = new HashMap<String, String> ();
+        //密码需要客户端加密后传递
+        try {
+            UmsMember member = getByUsername(username);
+            if(member==null){
+                throw new UsernameNotFoundException("用户名或密码错误");
+            }
+            updateMember(wxUserInfoVO, member);
+            UserDetails userDetails = new MemberDetails(member);;
+            if(!passwordEncoder.matches(password,userDetails.getPassword())){
+                throw new BadCredentialsException("密码不正确");
+            }
+            authenticate(res, userDetails);
+        } catch (AuthenticationException e) {
+            LOGGER.warn("登录异常:{}", e.getMessage());
+        }
+        return res;
+    }
+
+    private void updateMember(WxUserInfoVO wxUserInfoVO, UmsMember member) {
+        if (StringUtils.isAllBlank(member.getNickname(), member.getIcon(), member.getCity())) {
+            member.setNickname(wxUserInfoVO.getNickName());
+            member.setIcon(wxUserInfoVO.getHeadUrl());
+            member.setGender(Integer.valueOf(wxUserInfoVO.getGender()));
+            member.setCity(wxUserInfoVO.getCity());
+            member.setProvince(wxUserInfoVO.getProvince());
+            member.setCountry(wxUserInfoVO.getCountry());
+            member.setOpenId(wxUserInfoVO.getOpenId());
+            memberMapper.updateByPrimaryKeySelective(member);
+        }
+    }
+
+    @Override
     public Map<String, String> loginByUniqueType(String type, String value) {
         String token = null;
         Map<String, String> res = new HashMap<String, String> ();
@@ -273,16 +308,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         if(member == null) {
             return CommonResult.failed(PortalResultCode.MEMBER_MISS);
         }
-        if(StringUtils.isAllBlank(member.getNickname(),member.getIcon(),member.getCity())) {
-            member.setNickname(wxUserInfoVO.getNickName());
-            member.setIcon(wxUserInfoVO.getHeadUrl());
-            member.setGender(Integer.valueOf(wxUserInfoVO.getGender()));
-            member.setCity(wxUserInfoVO.getCity());
-            member.setProvince(wxUserInfoVO.getProvince());
-            member.setCountry(wxUserInfoVO.getCountry());
-            member.setOpenId(wxUserInfoVO.getOpenId());
-            memberMapper.updateByPrimaryKeySelective(member);
-        }
+        updateMember(wxUserInfoVO, member);
         MemberDetails memberDetails = new MemberDetails(member);
         Map<String, String> res = new HashMap<String, String> ();
         authenticate(res,memberDetails);
