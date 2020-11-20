@@ -35,8 +35,10 @@ public class UmsMemberController {
     public CommonResult register(@RequestParam String username,
                                  @RequestParam String password,
                                  @RequestParam String telephone,
-                                 @RequestParam String authCode) {
-        return memberService.register(username, password, telephone, authCode);
+                                 @RequestParam String authCode,
+                                 @RequestParam String type,
+                                 @RequestParam String value) {
+        return memberService.register(username, password, telephone, authCode, type, value);
     }
 
     @ApiOperation("会员登录")

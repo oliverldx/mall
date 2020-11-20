@@ -74,7 +74,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     }
 
     @Override
-    public CommonResult register(String username, String password, String telephone, String authCode) {
+    public CommonResult register(String username, String password, String telephone, String authCode, String type, String value) {
         //验证验证码
         if(!verifyAuthCode(authCode,telephone)){
             return CommonResult.failed("验证码错误");
@@ -94,6 +94,17 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         umsMember.setPassword(passwordEncoder.encode(password));
         umsMember.setCreateTime(new Date());
         umsMember.setStatus(1);
+
+        //如果openid没有绑定则进行添加操作
+        if(StringUtils.isNoneBlank(type,value)) {
+            if("openid".equals(type)) {
+                UmsMember memberByOpenId = getMemberByOpenId(value);
+                if(memberByOpenId == null) {
+                    umsMember.setOpenId(value);
+                }
+            }
+        }
+
         //获取默认会员等级并设置
         UmsMemberLevelExample levelExample = new UmsMemberLevelExample();
         levelExample.createCriteria().andDefaultStatusEqualTo(1);
