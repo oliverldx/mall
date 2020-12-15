@@ -61,6 +61,13 @@ services:
       - 8091:8091
     external_links:
       - mysql:db #可以用db这个域名访问mysql服务
+  wx-api:
+    image: wxapi/wx-api:0.7.1
+    container_name: wx-api
+    ports:
+      - 8088:8088
+    external_links:
+      - mysql:db #可以用db这个域名访问mysql服务
 networks:
   mall_raspberry:
     external: true
