@@ -12,6 +12,8 @@ public class Reference {
     private String code;
     private String parentTableId;
     private String childTableId;
+    private String parentColId;
+    private String childColId;
     private String patentKey;
 
 }

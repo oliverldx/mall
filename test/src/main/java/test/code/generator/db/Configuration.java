@@ -1,6 +1,7 @@
 package test.code.generator.db;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import test.code.generator.Constant;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @since 2018/9/7
  */
 @Data
+@Builder
 public class Configuration implements Serializable {
     /**
      * 代码作者
@@ -73,6 +75,7 @@ public class Configuration implements Serializable {
      * 数据库配置
      */
     @Data
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Db {
@@ -94,6 +97,7 @@ public class Configuration implements Serializable {
      * 代码路径配置
      */
     @Data
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Path {
@@ -121,38 +125,50 @@ public class Configuration implements Serializable {
          * Mapper映射文件路径
          */
         private String mapper = "";
+        /**
+         * generated文件路径
+         */
+        @Builder.Default
+        private String generated = "D:\\git\\mall\\test\\generated";
     }
 
     /**
      * 类名配置
      */
     @Data
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Name {
         /**
          * Controller类的类名，默认为 $sController
          */
+        @Builder.Default
         private String controller = Constant.PLACEHOLDER + "Controller";
         /**
          * Service类或ServiceImpl类的类名，默认为$sService或$sServiceImpl
          */
+        @Builder.Default
         private String service = Constant.PLACEHOLDER + "Service";
         /**
          * Service接口类的类名，默认为$sService
          */
+        @Builder.Default
         private String interf = Constant.PLACEHOLDER + "Service";
         /**
          * Dao类的类名，默认为$sDao
          */
+        @Builder.Default
         private String dao = Constant.PLACEHOLDER + "Dao";
         /**
          * Entity类的类名，默认为$s
          */
+        @Builder.Default
         private String entity = Constant.PLACEHOLDER;
         /**
          * Mapper映射文件的文件名，默认$sMapper
          */
+        @Builder.Default
         private String mapper = Constant.PLACEHOLDER + "Mapper";
     }
 

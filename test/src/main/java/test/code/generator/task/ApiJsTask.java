@@ -17,14 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class IndexVueTask extends AbstractTask {
+public class ApiJsTask extends AbstractTask {
 
     public static void main(String[] args) throws IOException {
         try {
             Pdm2MdUtil pp = new Pdm2MdUtil();
             String pdfFile = "D:\\git\\mall\\document\\pdm\\training_school.pdm";
             Model model = pp.getModel(pdfFile);
-            new IndexVueTask().run(model);
+            new ApiJsTask().run(model);
         } catch (TemplateException e) {
             e.printStackTrace();
         }
@@ -53,9 +53,8 @@ public class IndexVueTask extends AbstractTask {
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
-            String templateString = FileUtil.getTemplateString(FileTypeEnum.INDEX_VUE.getValue(), controllerData);
-            FileUtil.generateFile(FileTypeEnum.INDEX_VUE.getValue(),table.getTableName(),templateString);
-            new ApiJsTask().run(model);
+            String templateString = FileUtil.getTemplateString(FileTypeEnum.API_JS.getValue(), controllerData);
+            FileUtil.generateFile(FileTypeEnum.API_JS.getValue(),table.getTableName(),templateString);
         }
     }
 

@@ -46,7 +46,7 @@ public class ConfigUtil {
      */
     public static void setConfiguration(Configuration configuration) {
         ConfigUtil.configuration = configuration;
-        checkConfiguration();
+//        checkConfiguration();
     }
 
     /**
@@ -56,8 +56,12 @@ public class ConfigUtil {
         try {
             URL url = ConfigUtil.class.getClassLoader().getResource("generator.yaml");
             if (null == url || url.getPath().contains("jar")) {
-                System.err.println("Can not find file named 'generator.yaml' under resources path, please make sure that you have defined that file.");
-                System.exit(0);
+                ConfigUtil.configuration = Configuration.builder()
+                        .path(Configuration.Path.builder().build())
+                        .db(Configuration.Db.builder().build())
+                        .build();
+//                System.err.println("Can not find file named 'generator.yaml' under resources path, please make sure that you have defined that file.");
+//                System.exit(0);
             } else {
                 String configStr = test.code.generator.utils.StringUtil.line2Camel(IOUtils.toString((InputStream) url.getContent()));
                 InputStream inputStream = IOUtils.toInputStream(configStr, StandardCharsets.UTF_8.name());

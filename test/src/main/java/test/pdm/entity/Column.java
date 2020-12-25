@@ -14,10 +14,13 @@ public class Column {
     private String label;
     private Integer labelIndex;
     private Integer length;
-    private Boolean pkFlag;
-    private Boolean fkFlag;
+    private boolean pkFlag;
+    private boolean fkFlag;
     private String fkColumnName;
+    private String fkColumnId;
     private Table fkTable;
+    private String fkAlias;
+    private String description;
 
 
 }

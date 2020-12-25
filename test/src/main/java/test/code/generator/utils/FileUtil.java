@@ -1,7 +1,12 @@
 package test.code.generator.utils;
 
+import com.google.common.base.CaseFormat;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
+import test.code.generator.FileTypeEnum;
+import test.code.generator.ProjectFilePathEnum;
 
 import java.io.*;
 
@@ -65,24 +70,47 @@ public class FileUtil {
      * @throws IOException
      */
     private static Template getTemplate(int type) throws IOException {
-        switch (type) {
-            case FreemarkerConfigUtil.TYPE_ENTITY:
-                return FreemarkerConfigUtil.getInstance().getTemplate("entity.ftl");
-            case FreemarkerConfigUtil.TYPE_DAO:
-                return FreemarkerConfigUtil.getInstance().getTemplate("dao.ftl");
-            case FreemarkerConfigUtil.TYPE_SERVICE:
-                return FreemarkerConfigUtil.getInstance().getTemplate("service.ftl");
-            case FreemarkerConfigUtil.TYPE_CONTROLLER:
-                return FreemarkerConfigUtil.getInstance().getTemplate("controller.ftl");
-            case FreemarkerConfigUtil.TYPE_MAPPER:
-                return FreemarkerConfigUtil.getInstance().getTemplate("mapper.ftl");
-            case FreemarkerConfigUtil.TYPE_INTERFACE:
-                return FreemarkerConfigUtil.getInstance().getTemplate("interface.ftl");
-            case FreemarkerConfigUtil.TYPE_INDEX_VUE:
-                return FreemarkerConfigUtil.getInstance().getTemplate("index_vue.ftl");
-            default:
-                return null;
+        return FreemarkerConfigUtil.getInstance().getTemplate(FileTypeEnum.getNameByType(type) +".ftl");
+    }
+
+    public static String getFilePath(int type,String tableName) {
+        FileTypeEnum fileTypeEnum = FileTypeEnum.getFileTypeEnum(type);
+        String fileName = "";
+        String tableNameConvert = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
+        String subName = StringUtils.substringAfter(tableName, "_");
+        String subNameConvert = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
+        switch (fileTypeEnum) {
+            case ENTITY:
+                fileName = tableNameConvert + ".java";
+                break;
+            case SERVICE_IMPL:
+                fileName = tableNameConvert + "ServiceImpl.java";
+                break;
+            case CONTROLLER:
+                fileName = tableNameConvert + "Controller.java";
+                break;
+            case QUERY_PARAM:
+                fileName = tableNameConvert + "Param.java";
+                break;
+            case DAO:
+                fileName = tableNameConvert + "Dao.java";
+                break;
+            case INDEX_VUE:
+                fileName = "index.vue";
+                break;
+            case DAO_XML:
+                fileName = tableNameConvert + ".xml";
+                break;
+            case API_JS:
+                fileName = subNameConvert + ".js";
+                break;
+            default :
+                fileName = tableNameConvert + ".java";
+                break;
         }
+
+        String filePath = ConfigUtil.getConfiguration().getPath().getGenerated() + File.separator + tableName + File.separator + fileName;
+        return filePath;
     }
 
     /**
@@ -92,7 +120,7 @@ public class FileUtil {
      */
     private static String getBasicProjectPath() {
         StringBuilder sb = new StringBuilder();
-        String path = FileUtil.class.getClassLoader().getResource("").getPath().replace("/", File.separator);
+        String path = FileUtil.class.getResource("/").getPath().replace("/", File.separator);
         if (path.contains("target")) {
             sb.append(path, 0, path.indexOf("target"));
         } else if (path.contains("build")) {
@@ -102,12 +130,45 @@ public class FileUtil {
         return sb.toString();
     }
 
+    public static String getMoveFilePath(int projectType, int fileType) {
+        String projectBasePath = ProjectFilePathEnum.getPathByType(projectType);
+        FileTypeEnum fileTypeEnum = FileTypeEnum.getFileTypeEnum(fileType);
+        String fileTypePath = "";
+        String tableNameConvert = "";
+        String subNameConvert = "";
+        switch (fileTypeEnum) {
+            case CONTROLLER:
+                fileTypePath = "src/main/java/com/macro/mall/controller";
+                break;
+            case QUERY_PARAM:
+                fileTypePath = "src/main/java/com/macro/mall/dto";
+                break;
+            case DAO:
+                fileTypePath = "src/main/java/com/macro/mall/dao";
+                break;
+            case INDEX_VUE:
+                fileTypePath = "src/views";
+                break;
+            case DAO_XML:
+                fileTypePath = "src/main/resources/dao";
+                break;
+            case API_JS:
+                fileTypePath = "src/api";
+                break;
+            default :
+                fileTypePath = "";
+                break;
+        }
+        String filePath = projectBasePath + File.separator + fileTypePath;
+        return filePath;
+    }
+
     /**
      * 获取源码路径
      *
      * @return 源码路径
      */
-    public static String getSourcePath() {
+    public static String getSourcePath(String projectName) {
         StringBuilder sb = new StringBuilder();
         sb.append(getBasicProjectPath()).append("java").append(File.separator);
         return sb.toString();
@@ -118,15 +179,26 @@ public class FileUtil {
      *
      * @return 资源路径
      */
-    public static String getResourcePath() {
+    public static String getResourcePath(String projectName) {
         StringBuilder sb = new StringBuilder();
         sb.append(getBasicProjectPath()).append("resources").append(File.separator);
         return sb.toString();
     }
 
+    public static String generateFile(int type,String tableName, String templateString) {
+        try {
+            String filePath = getFilePath(type, tableName);
+            FileUtils.writeStringToFile(new File(filePath),templateString);
+            return filePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
-        System.out.println(getResourcePath());
-        System.out.println(getSourcePath());
+        System.out.println(getResourcePath(""));
+        System.out.println(getSourcePath(""));
     }
 
 }

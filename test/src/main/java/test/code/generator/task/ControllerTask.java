@@ -1,12 +1,13 @@
 package test.code.generator.task;
 
+import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateException;
-import test.pdm.entity.Column;
-import test.code.generator.Constant;
-import test.code.generator.utils.ConfigUtil;
+import org.apache.commons.lang3.StringUtils;
+import test.code.generator.FileTypeEnum;
 import test.code.generator.utils.FileUtil;
-import test.code.generator.utils.FreemarkerConfigUtil;
-import test.code.generator.utils.StringUtil;
+import test.pdm.entity.Model;
+import test.pdm.entity.Table;
+import test.pdm.utils.Pdm2MdUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,54 +15,41 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author GreedyStar
- * @since 2018/4/20
  */
-public class ControllerTask {
+public class ControllerTask extends AbstractTask {
 
     public static void main(String[] args) throws IOException {
-        Map<String, Object> controllerData = new HashMap<>();
         try {
-            controllerData.put("tableName","TrsCourse");
-            controllerData.put("chineseName","课程");
-            controllerData.put("subName","course");
-            String templateString = FileUtil.getTemplateString(FreemarkerConfigUtil.TYPE_CONTROLLER, controllerData);
-            System.out.println("****************************************************************** controller template begin*************************");
-            System.out.println(templateString);
-            System.out.println("****************************************************************** controller template end*************************");
+            Pdm2MdUtil pp = new Pdm2MdUtil();
+            String pdfFile = "D:\\git\\mall\\document\\pdm\\training_school.pdm";
+            Model model = pp.getModel(pdfFile);
+            new ControllerTask().run(model);
         } catch (TemplateException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    public void run(Model model) throws IOException, TemplateException {
+        List<Table> tableList = getTables(model);
+        for (Table table : tableList) {
+            Map<String, Object> controllerData = new HashMap<>();
+            controllerData.put("tableName", CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getTableName()));
+            controllerData.put("chineseName",table.getComment());
+            String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            controllerData.put("subName", subName);
+            controllerData.put("urlPathAdd", "/" + subName + "/add");
+            controllerData.put("urlPathUpdate", "/" + subName + "/update");
+            controllerData.put("urlPathDel", "/" + subName + "/delete");
+            controllerData.put("urlPathList", "/" + subName + "/list");
 
-    public void run() throws IOException, TemplateException {
-        // 构造Controller填充数据
-        Map<String, Object> controllerData = new HashMap<>();
-        controllerData.put("Configuration", ConfigUtil.getConfiguration());
-        String filePath = FileUtil.getSourcePath() + StringUtil.package2Path(ConfigUtil.getConfiguration().getPackageName()) +
-                StringUtil.package2Path(ConfigUtil.getConfiguration().getPath().getController());
-        String fileName = ConfigUtil.getConfiguration().getName().getController().replace(Constant.PLACEHOLDER, "TODO") + ".java";
-        // 生成Controller文件
-        FileUtil.generateToJava(FreemarkerConfigUtil.TYPE_CONTROLLER, controllerData, filePath, fileName);
-    }
-
-    /**
-     * 获取主键列对应的属性类型
-     *
-     * @param columnInfos
-     * @return
-     */
-    private String getPrimaryKeyType(List<Column> columnInfos) {
-        if (!ConfigUtil.getConfiguration().isJpaEnable()) {
-            return "Serializable";
-        }
-        for (Column info : columnInfos) {
-            if (info.getPkFlag()) {
-                return info.getType();
+            String templateString = FileUtil.getTemplateString(FileTypeEnum.CONTROLLER.getValue(), controllerData);
+            FileUtil.generateFile(FileTypeEnum.CONTROLLER.getValue(),table.getTableName(),templateString);
+            Map<String, Table> parentTables = table.getParentTables();
+            if(parentTables == null || parentTables.isEmpty()) {
+                continue;
             }
+            new DaoTask().runTable(table);
         }
-        return "Serializable";
     }
-
 }

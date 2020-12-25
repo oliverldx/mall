@@ -1,20 +1,21 @@
 package test.pdm.utils;
 
+import cn.hutool.core.collection.CollectionUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.util.StringUtils;
 import test.pdm.entity.*;
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Pdm2MdUtil {
@@ -30,7 +31,7 @@ public class Pdm2MdUtil {
     private final String tableString = "|";
     private String brString;
 
-    public List parsePDM_VO(String filePath) {
+    public Map<String,Table> parsePDM_VO(String filePath) {
         File f = new File(filePath);
         SAXReader sr = new SAXReader();
         Document doc = null;
@@ -39,9 +40,10 @@ public class Pdm2MdUtil {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        List<Table> voS = getTables(doc);
+        Map<String,Table> voS = getTables(doc);
         return voS;
     }
+
     public Model getModel(String filePath) {
         Model model = new Model();
         File f = new File(filePath);
@@ -52,27 +54,41 @@ public class Pdm2MdUtil {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        List<Table> voS = getTables(doc);
-        List<Reference> references = getReferences(doc);
+        Map<String, Table> voS = getTables(doc);
+        Map<String,Reference> references = getReferences(doc);
         model.setTables(voS);
         model.setReferences(references);
+        proccessFkRef(model);
         return model;
     }
 
     private void proccessFkRef(Model model) {
-        List<Table> tables = model.getTables();
-        List<Reference> references = model.getReferences();
-        references.forEach(r -> {
+        Map<String,Table> tables = model.getTables();
+        Map<String,Reference> references = model.getReferences();
+        Set<String> referenceKeys = references.keySet();
+        for(String k1 : referenceKeys) {
+            Reference r = references.get(k1);
+            Table parentTable = tables.get(r.getParentTableId());
+            Table childTable = tables.get(r.getChildTableId());
+            if(parentTable == null || childTable == null) {
+                continue;
+            }
+            Column columnP = parentTable.getCols().get(r.getParentColId());
+            Column columnC = childTable.getCols().get(r.getChildColId());
+            columnC.setFkFlag(true);
+            columnC.setFkColumnId(columnP.getId());
+            columnC.setFkColumnName(columnP.getName());
+            columnC.setFkTable(parentTable);
 
-        });
-
+            childTable.addParentTables(parentTable);
+        }
     }
 
 
 
 
-    private List<Reference> getReferences(Document doc) {
-        List<Reference> references = new ArrayList<>();
+    private Map<String,Reference> getReferences(Document doc) {
+        Map<String,Reference> references = new LinkedHashMap<>();
         Reference ref = null;
         Iterator itr = doc.selectNodes("//c:References//o:Reference").iterator();
         while (itr.hasNext()) {
@@ -84,46 +100,50 @@ public class Pdm2MdUtil {
             ref.setParentTableId(e_ref.element("ParentTable").element("Table").attributeValue("Ref"));
             ref.setChildTableId(e_ref.element("ChildTable").element("Table").attributeValue("Ref"));
             ref.setPatentKey(e_ref.element("ParentKey").element("Key").attributeValue("Ref"));
-            references.add(ref);
+            Element element = e_ref.element("Joins").element("ReferenceJoin");
+            ref.setParentColId(element.element("Object1").element("Column").attributeValue("Ref"));
+            ref.setChildColId(element.element("Object2").element("Column").attributeValue("Ref"));
+            references.put(ref.getId(),ref);
         }
         return references;
     }
 
-    private List<Table> getTables(Document doc) {
-        List<Table> voS = new ArrayList<Table>();
+    private Map<String,Table> getTables(Document doc) {
+
+        Map<String,Table> voS = new LinkedHashMap<>();
         Table vo = null;
         Iterator itr = doc.selectNodes("//c:Tables//o:Table").iterator();
         while (itr.hasNext()) {
             vo = new Table();
             Element e_table = (Element) itr.next();
+            vo.setId(e_table.attributeValue("Id"));
             vo.setTableName(e_table.elementTextTrim("Name"));
             vo.setTableCode(e_table.elementTextTrim("Code"));
             vo.setComment(e_table.elementTextTrim("Comment"));
-            List<Column> list = getColumns(vo, e_table);
-            List<Key> keys = getKeys(vo, e_table);
-            vo.setCols(list);
+            Map<String, Column> columns = getColumns(vo, e_table);
+            Map<String, Key> keys = getKeys(vo, e_table);
+            vo.setCols(columns);
             vo.setKeys(keys);
-            voS.add(vo);
+            voS.put(vo.getId(), vo);
         }
         return voS;
     }
 
-    private List<Key> getKeys(Table vo, Element e_table) {
-        List<Key> keys = new ArrayList<>();
+    private Map<String,Key> getKeys(Table vo, Element e_table) {
+        Map<String,Key> keys = new LinkedHashMap<>();
         Iterator itr1 = e_table.element("Keys").elements("Key").iterator();
         while (itr1.hasNext()) {
             Key key = new Key();
             Element e_key = (Element) itr1.next();
             key.setId(e_key.attributeValue("Id"));
             key.setColId(e_key.element("Key.Columns").element("Column").attributeValue("Ref"));
-            keys.add(key);
+            keys.put(key.getId(),key);
         }
         return keys;
     }
 
-    private List<Column> getColumns(Table vo, Element e_table) {
-        Column[] cols = new Column[] {};
-        List<Column> list = new ArrayList<Column>();
+    private Map<String,Column> getColumns(Table vo, Element e_table) {
+        Map<String,Column> list = new LinkedHashMap<>();
         Column col = null;
         Iterator itr1 = e_table.element("Columns").elements("Column").iterator();
         while (itr1.hasNext()) {
@@ -142,7 +162,10 @@ public class Pdm2MdUtil {
                 }
                 col.setCode(e_col.elementTextTrim("Code"));
                 col.setComment(e_col.elementTextTrim("Comment"));
-                col.setLabel(e_col.elementTextTrim("PhysicalOptions"));
+                String physicalOptions = e_col.elementTextTrim("PhysicalOptions");
+                col.setLabel(physicalOptions);
+                String description = getDescription(e_col.elementTextTrim("Description"));
+                col.setDescription(description);
                 col.setLabelIndex(NumberUtils.createInteger(e_col.elementTextTrim("Unit")));
                 col.setLength(e_col.elementTextTrim("Length") == null ? null : Integer.parseInt(e_col.elementTextTrim("Length")));
                 if(e_table.element("Keys")!=null){
@@ -155,9 +178,8 @@ public class Pdm2MdUtil {
                         col.setPkFlag(true);
                         vo.setPkField(col.getCode());
                     }
-
                 }
-                list.add(col);
+                list.put(col.getId(),col);
             } catch (Exception ex) {
                 // col.setType(e_col.elementTextTrim("DataType"));
                 System.out.println("+++++++++有错误++++" );
@@ -167,11 +189,24 @@ public class Pdm2MdUtil {
         return list;
     }
 
+    private String getDescription(String description) throws IOException, BadLocationException {
+        if(StringUtils.isBlank(description)) {
+            return null;
+        }
+        RTFEditorKit rtfParser = new RTFEditorKit();
+        javax.swing.text.Document defaultDocument = rtfParser.createDefaultDocument();
+        ByteArrayInputStream in = new ByteArrayInputStream(description.getBytes());
+        rtfParser.read(in, defaultDocument, 0);
+        String text = defaultDocument.getText(0, defaultDocument.getLength());
+        in.close();
+        return text;
+    }
+
     public static void main(String[] args) {
         Pdm2MdUtil pp = new Pdm2MdUtil();
-        List<Table> tabs = pp.parsePDM_VO("D:\\git\\mall\\document\\pdm\\mall.pdm");
-        pp.genIndexPage(tabs);
-        pp.genTablePages(tabs);
+        Map<String,Table> tabs = pp.parsePDM_VO("D:\\git\\mall\\document\\pdm\\mall.pdm");
+        pp.genIndexPage(CollectionUtil.newArrayList(tabs.values()));
+        pp.genTablePages(CollectionUtil.newArrayList(tabs.values()));
     }
 
 
@@ -194,14 +229,14 @@ public class Pdm2MdUtil {
     public void getMarkdownTableHeader(Table table, StringBuffer sb) {
 //        Arrays.stream(table.).
         sb.append(brString).append("##### " + table.getTableName()).append(brString).append("##### " + table.getComment()).append(brString).append(SQL_MARKDOWN_TABLE_HEADER).append(brString).append(SQL_MARKDOWN_TABLE_HEADER_ALIGN).append(brString);
-        table.getCols().stream().forEach(column -> {
+        table.getCols().values().stream().forEach(column -> {
             sb.append(tableString).append(column.getName()).append(tableString)
                     .append(Optional.ofNullable(column.getCode()).orElse("")).append(tableString)
                     .append(Optional.ofNullable(column.getType()).orElse("")).append(tableString)
                     .append(column.getLength() == null ? "":column.getLength()).append(tableString)
                     .append(Optional.ofNullable(column.getDefaultValue()).orElse("")).append(tableString)
                     .append(Optional.ofNullable(column.getComment()).orElse("")).append(tableString)
-                    .append(column.getPkFlag() == null?"":"Y").append(tableString).append(brString);
+                    .append(column.isPkFlag()?"Y":"").append(tableString).append(brString);
         });
     }
 
