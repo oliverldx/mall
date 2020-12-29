@@ -7,9 +7,12 @@ public enum FileTypeEnum {
     SERVICE_IMPL(2,"service"),
     CONTROLLER(3,"controller"),
     INDEX_VUE(6,"index_vue"),
+    ADD_VUE(10,"add_vue"),
+    UPDATE_VUE(11,"update_vue"),
     DAO_XML(7,"dao_xml"),
     QUERY_PARAM(8,"query_param"),
-    API_JS(9,"api_js");
+    API_JS(9,"api_js"),
+    COMPONENT_DETAIL_VUE(12,"component_detail");
 
     private int value;
     private String name;

@@ -17,4 +17,26 @@ export function del(params) {
         })
 }
 
+export function update(id,data) {
+    return request({
+        url:'${urlPathUpdate}'+id,
+        method:'post',
+        data:data
+    })
+}
+
+export function getById(id) {
+    return request({
+        url:'${urlPathGetById}'+id,
+        method:'get'
+    })
+}
+
+export function create(data) {
+    return request({
+        url:'${urlPathAdd}',
+        method:'post',
+        data:data
+    })
+}
 

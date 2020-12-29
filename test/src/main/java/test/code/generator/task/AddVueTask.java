@@ -18,14 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ApiJsTask extends AbstractTask {
+public class AddVueTask extends AbstractTask {
 
     public static void main(String[] args) throws IOException {
         try {
             Pdm2MdUtil pp = new Pdm2MdUtil();
             String pdfFile = "D:\\git\\mall\\document\\pdm\\training_school.pdm";
             Model model = pp.getModel(pdfFile);
-            new ApiJsTask().run(model);
+            new AddVueTask().run(model);
         } catch (TemplateException e) {
             e.printStackTrace();
         }
@@ -46,19 +46,14 @@ public class ApiJsTask extends AbstractTask {
             }).collect(Collectors.toList());
 
             Map<String, Object> controllerData = new HashMap<>();
-            controllerData.put("template",true);
-            controllerData.put("script",true);
-            controllerData.put("style",true);
-            controllerData.put("columns", columns);
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            String subNameDetailHyphen = subName + "Detail";
+            subNameDetailHyphen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN,subNameDetailHyphen);
             controllerData.put("subName", subName);
-            controllerData.put("urlPathAdd", "/" + subName + "/add");
-            controllerData.put("urlPathUpdate", "/" + subName + "/update/");
-            controllerData.put("urlPathGetById", "/" + subName + "/");
-            controllerData.put("urlPathDel", "/" + subName + "/delete");
-            controllerData.put("urlPathList", "/" + subName + "/list");
-            String templateString = FileUtil.getTemplateString(FileTypeEnum.API_JS.getValue(), controllerData);
-            FileUtil.generateFile(FileTypeEnum.API_JS.getValue(),table.getTableName(),templateString);
+            controllerData.put("subNameDetailHyphen", subNameDetailHyphen);
+            String templateString = FileUtil.getTemplateString(FileTypeEnum.ADD_VUE.getValue(), controllerData);
+            FileUtil.generateFile(FileTypeEnum.ADD_VUE.getValue(),table.getTableName(),templateString);
+            new ApiJsTask().run(model);
         }
     }
 

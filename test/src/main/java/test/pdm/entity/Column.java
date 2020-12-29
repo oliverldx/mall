@@ -22,5 +22,4 @@ public class Column {
     private String fkAlias;
     private String description;
 
-
 }

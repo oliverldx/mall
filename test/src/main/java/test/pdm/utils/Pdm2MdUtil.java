@@ -198,6 +198,7 @@ public class Pdm2MdUtil {
         ByteArrayInputStream in = new ByteArrayInputStream(description.getBytes());
         rtfParser.read(in, defaultDocument, 0);
         String text = defaultDocument.getText(0, defaultDocument.getLength());
+        text = new String(text.getBytes("ISO8859_1"),"GBK");
         in.close();
         return text;
     }

@@ -1,6 +1,8 @@
 package test.code.generator.task;
 
 import freemarker.template.TemplateException;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import test.code.generator.FileTypeEnum;
 import test.code.generator.ProjectFilePathEnum;
 import test.code.generator.utils.FileUtil;
@@ -8,8 +10,10 @@ import test.pdm.entity.Model;
 import test.pdm.entity.Table;
 import test.pdm.utils.Pdm2MdUtil;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class MoveFileTask extends AbstractTask {
 
@@ -36,9 +40,33 @@ public class MoveFileTask extends AbstractTask {
 
             filePath = FileUtil.getFilePath(FileTypeEnum.CONTROLLER.getValue(), table.getTableName());
             moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.CONTROLLER.getValue());
-            System.out.println(filePath);
-            System.out.println(moveFileFolder);
-            /*FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.INDEX_VUE.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.INDEX_VUE.getValue());
+            String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            String modelName = StringUtils.substringBefore(table.getTableName(), "_");
+            moveFileFolder += File.separator + modelName + File.separator + subName;
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.ADD_VUE.getValue(), table.getTableName());
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.UPDATE_VUE.getValue(), table.getTableName());
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.COMPONENT_DETAIL_VUE.getValue(), table.getTableName());
+            moveFileFolder += File.separator + "components";
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.API_JS.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.API_JS.getValue());
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            Map<String, Table> parentTables = table.getParentTables();
+            if(parentTables == null || parentTables.isEmpty()) {
+                continue;
+            }
 
             filePath = FileUtil.getFilePath(FileTypeEnum.DAO.getValue(), table.getTableName());
             moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.DAO.getValue());
@@ -51,14 +79,6 @@ public class MoveFileTask extends AbstractTask {
             filePath = FileUtil.getFilePath(FileTypeEnum.QUERY_PARAM.getValue(), table.getTableName());
             moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.QUERY_PARAM.getValue());
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
-
-            filePath = FileUtil.getFilePath(FileTypeEnum.INDEX_VUE.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.INDEX_VUE.getValue());
-            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
-
-            filePath = FileUtil.getFilePath(FileTypeEnum.API_JS.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.API_JS.getValue());
-            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));*/
 
 
         }

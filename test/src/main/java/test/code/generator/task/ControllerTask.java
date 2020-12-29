@@ -42,11 +42,16 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
-
+            Map<String, Table> parentTables = table.getParentTables();
+            boolean noGenDao = parentTables == null || parentTables.isEmpty();
+            if(!noGenDao) {
+                controllerData.put("genDao", "true");
+            }else {
+                controllerData.put("genDao", "");
+            }
             String templateString = FileUtil.getTemplateString(FileTypeEnum.CONTROLLER.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.CONTROLLER.getValue(),table.getTableName(),templateString);
-            Map<String, Table> parentTables = table.getParentTables();
-            if(parentTables == null || parentTables.isEmpty()) {
+            if(noGenDao) {
                 continue;
             }
             new DaoTask().runTable(table);

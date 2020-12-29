@@ -17,4 +17,26 @@ export function del(params) {
         })
 }
 
+export function update(id,data) {
+    return request({
+        url:'/school/update/'+id,
+        method:'post',
+        data:data
+    })
+}
+
+export function getById(id) {
+    return request({
+        url:'/school/'+id,
+        method:'get'
+    })
+}
+
+export function create(data) {
+    return request({
+        url:'/school/add',
+        method:'post',
+        data:data
+    })
+}
 

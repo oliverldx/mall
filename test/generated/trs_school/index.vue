@@ -32,6 +32,12 @@
         <el-card class="operate-container" shadow="never">
             <i class="el-icon-tickets"></i>
             <span>数据列表</span>
+            <el-button
+                    class="btn-add"
+                    @click="handleAdd()"
+                    size="mini">
+                添加
+            </el-button>
         </el-card>
         <div class="table-container">
             <el-table ref="orderTable"
@@ -88,7 +94,7 @@
 </template>
 
 <script>
-    import {fetchList,del} from '@/api/course'
+    import {fetchList,del} from '@/api/school'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -132,13 +138,11 @@
                 this.listQuery.pageNum = val;
                 this.getList();
             },
+            handleAdd() {
+                this.$router.push({path:'/trs/addSchool'});
+            },
             handleUpdate(index, row){
-                let r = {path:'TODO-view-url-path',query:{id:row.id}}
-                if(r.path.includes('TODO')) {
-                    alert('此功能处于TODO状态！');
-                }else {
-                    this.$router.push(r)
-                }
+                this.$router.push({path:'/trs/updateSchool',query:{id:row.id}});
             },
             handleDelete(index, row){
                 let ids=[];

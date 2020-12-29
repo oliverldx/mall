@@ -24,7 +24,7 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.1.249:3306/mall?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai"
+                        connectionURL="jdbc:mysql://192.168.1.249:3306/mall_trainschool?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai"
                         userId="root"
                         password="root">
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->

@@ -16,6 +16,9 @@ import java.io.*;
  */
 public class FileUtil {
 
+    public static final String SEPERATE_LINE = "\r\n";
+    public static final String TAB = "\t";
+
     /**
      * @param type     使用模板类型
      * @param data     填充数据
@@ -90,7 +93,7 @@ public class FileUtil {
                 fileName = tableNameConvert + "Controller.java";
                 break;
             case QUERY_PARAM:
-                fileName = tableNameConvert + "Param.java";
+                fileName = tableNameConvert + "QueryParam.java";
                 break;
             case DAO:
                 fileName = tableNameConvert + "Dao.java";
@@ -98,14 +101,23 @@ public class FileUtil {
             case INDEX_VUE:
                 fileName = "index.vue";
                 break;
+            case ADD_VUE:
+                fileName = "add.vue";
+                break;
+            case UPDATE_VUE:
+                fileName = "update.vue";
+                break;
             case DAO_XML:
                 fileName = tableNameConvert + ".xml";
                 break;
             case API_JS:
                 fileName = subNameConvert + ".js";
                 break;
+            case COMPONENT_DETAIL_VUE:
+                fileName = subNameConvert + "Detail.vue";
+                break;
             default :
-                fileName = tableNameConvert + ".java";
+                fileName = "null.java";
                 break;
         }
 
@@ -134,8 +146,6 @@ public class FileUtil {
         String projectBasePath = ProjectFilePathEnum.getPathByType(projectType);
         FileTypeEnum fileTypeEnum = FileTypeEnum.getFileTypeEnum(fileType);
         String fileTypePath = "";
-        String tableNameConvert = "";
-        String subNameConvert = "";
         switch (fileTypeEnum) {
             case CONTROLLER:
                 fileTypePath = "src/main/java/com/macro/mall/controller";
@@ -147,6 +157,8 @@ public class FileUtil {
                 fileTypePath = "src/main/java/com/macro/mall/dao";
                 break;
             case INDEX_VUE:
+            case ADD_VUE:
+            case UPDATE_VUE:
                 fileTypePath = "src/views";
                 break;
             case DAO_XML:
@@ -154,6 +166,9 @@ public class FileUtil {
                 break;
             case API_JS:
                 fileTypePath = "src/api";
+                break;
+            case COMPONENT_DETAIL_VUE:
+                fileTypePath = "src/views";
                 break;
             default :
                 fileTypePath = "";

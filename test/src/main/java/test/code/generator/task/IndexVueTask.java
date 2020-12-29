@@ -3,6 +3,7 @@ package test.code.generator.task;
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import test.code.generator.FileTypeEnum;
 import test.code.generator.utils.FileUtil;
 import test.pdm.entity.Column;
@@ -37,9 +38,11 @@ public class IndexVueTask extends AbstractTask {
             Map<String, Column> cols = table.getCols();
             // label 和 labelIndex 同时存在 并且根据 labelIndex 排序, 字段名从LOWER_UNDERSCORE转为LOWER_CAMEL
             List<Column> columns = cols.values().stream().filter(col -> StringUtils.isNotBlank(col.getLabel()) && col.getLabelIndex() != null).sorted(Comparator.comparing(Column::getLabelIndex)).map(c -> {
-                c.setName(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, c.getName()));
-                c.setCode(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, c.getCode()));
-                return c;
+                Column column = new Column();
+                BeanUtils.copyProperties(c,column);
+                column.setName(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, c.getName()));
+                column.setCode(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, c.getCode()));
+                return column;
             }).collect(Collectors.toList());
 
             Map<String, Object> controllerData = new HashMap<>();
@@ -48,14 +51,20 @@ public class IndexVueTask extends AbstractTask {
             controllerData.put("style",true);
             controllerData.put("columns", columns);
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            String modelName = StringUtils.substringBefore(table.getTableName(), "_");
             controllerData.put("subName", subName);
             controllerData.put("urlPathAdd", "/" + subName + "/add");
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
+            controllerData.put("urlPathAddVue", "/" + modelName + "/add" + StringUtils.capitalize(subName));
+            controllerData.put("urlPathUpdateVue", "/" + modelName + "/update" + StringUtils.capitalize(subName));
             String templateString = FileUtil.getTemplateString(FileTypeEnum.INDEX_VUE.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.INDEX_VUE.getValue(),table.getTableName(),templateString);
             new ApiJsTask().run(model);
+            new AddVueTask().run(model);
+            new UpdateVueTask().run(model);
+            new ComponentDetailVueTask().run(model);
         }
     }
 
