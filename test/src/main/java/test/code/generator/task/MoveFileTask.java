@@ -1,5 +1,6 @@
 package test.code.generator.task;
 
+import cn.hutool.core.collection.CollectionUtil;
 import freemarker.template.TemplateException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MoveFileTask extends AbstractTask {
 
@@ -29,6 +31,24 @@ public class MoveFileTask extends AbstractTask {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public List<Table> getTables(Model model) {
+        Map<String, Table> tabs = model.getTables();
+        List<String> convertTabs = CollectionUtil.newArrayList("trs_activity","trs_gift");
+        List<Table> tableList = tabs.values().stream().filter(t -> {
+            if(convertTabs.isEmpty()) {
+                return true;
+            }else {
+                return convertTabs.contains(t.getTableCode());
+            }
+        }).collect(Collectors.toList());
+        if(tableList.isEmpty()) {
+            System.out.println("找不到该表数据，请确认");
+            return null;
+        }
+        return tableList;
     }
 
     @Override

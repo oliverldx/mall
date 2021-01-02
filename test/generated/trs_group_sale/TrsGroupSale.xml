@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TrsGroupSaleDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TrsGroupSaleMapper.BaseResultMap">
+        SELECT trs_group_sale.id
+	 FROM trs_group_sale as trs_group_sale
+	 LEFT JOIN trs_activity as trs_activity ON trs_group_sale.id = trs_activity.id
+
+    </select>
+</mapper>

@@ -2,9 +2,8 @@ package com.macro.mall.mapper;
 
 import com.macro.mall.model.TrsCourse;
 import com.macro.mall.model.TrsCourseExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface TrsCourseMapper {
     long countByExample(TrsCourseExample example);

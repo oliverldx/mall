@@ -10,9 +10,9 @@
                         <el-form-item label="名称" >
                           <el-input v-model="course.name"></el-input>
                         </el-form-item>
-                        <el-form-item label="原价" >
-                          <el-input v-model="course.price"></el-input>
-                        </el-form-item>
+                    <el-form-item label="原价" >
+                        <el-input v-model="course.price"></el-input>
+                    </el-form-item>
                     <el-form-item label="介绍">
                         <el-input type="textarea" :autosize="true" v-model="course.description"></el-input>
                     </el-form-item>
@@ -44,7 +44,6 @@
 
     const defaultCourse = {
     name:'',
-    price:'',
     description:'',
     pic:'',
     status:0,

@@ -14,7 +14,7 @@ public class TrsCourse implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "原价")
-    private String price;
+    private Long price;
 
     @ApiModelProperty(value = "图片")
     private String pic;
@@ -57,11 +57,11 @@ public class TrsCourse implements Serializable {
         this.name = name;
     }
 
-    public String getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

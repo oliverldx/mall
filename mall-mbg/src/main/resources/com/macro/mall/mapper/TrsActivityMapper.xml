@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.TrsActivityMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.TrsActivity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="sales_num" jdbcType="INTEGER" property="salesNum" />
+    <result column="course_num" jdbcType="INTEGER" property="courseNum" />
+    <result column="qrcode" jdbcType="VARCHAR" property="qrcode" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="choose_all_course" jdbcType="INTEGER" property="chooseAllCourse" />
+    <result column="gift_num" jdbcType="INTEGER" property="giftNum" />
+    <result column="lucky_draw" jdbcType="INTEGER" property="luckyDraw" />
+    <result column="school_mark" jdbcType="INTEGER" property="schoolMark" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TrsActivity">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, price, sales_num, course_num, qrcode, end_date, start_date, create_date, 
+    modify_date, status, choose_all_course, gift_num, lucky_draw, school_mark
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.TrsActivityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from trs_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.macro.mall.model.TrsActivityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from trs_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from trs_activity
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from trs_activity
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.TrsActivityExample">
+    delete from trs_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.TrsActivity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into trs_activity (name, price, sales_num, 
+      course_num, qrcode, end_date, 
+      start_date, create_date, modify_date, 
+      status, choose_all_course, gift_num, 
+      lucky_draw, school_mark, description
+      )
+    values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{salesNum,jdbcType=INTEGER}, 
+      #{courseNum,jdbcType=INTEGER}, #{qrcode,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{startDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{chooseAllCourse,jdbcType=INTEGER}, #{giftNum,jdbcType=INTEGER}, 
+      #{luckyDraw,jdbcType=INTEGER}, #{schoolMark,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.TrsActivity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into trs_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="salesNum != null">
+        sales_num,
+      </if>
+      <if test="courseNum != null">
+        course_num,
+      </if>
+      <if test="qrcode != null">
+        qrcode,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="chooseAllCourse != null">
+        choose_all_course,
+      </if>
+      <if test="giftNum != null">
+        gift_num,
+      </if>
+      <if test="luckyDraw != null">
+        lucky_draw,
+      </if>
+      <if test="schoolMark != null">
+        school_mark,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="salesNum != null">
+        #{salesNum,jdbcType=INTEGER},
+      </if>
+      <if test="courseNum != null">
+        #{courseNum,jdbcType=INTEGER},
+      </if>
+      <if test="qrcode != null">
+        #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="chooseAllCourse != null">
+        #{chooseAllCourse,jdbcType=INTEGER},
+      </if>
+      <if test="giftNum != null">
+        #{giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="luckyDraw != null">
+        #{luckyDraw,jdbcType=INTEGER},
+      </if>
+      <if test="schoolMark != null">
+        #{schoolMark,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.TrsActivityExample" resultType="java.lang.Long">
+    select count(*) from trs_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update trs_activity
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.salesNum != null">
+        sales_num = #{record.salesNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.courseNum != null">
+        course_num = #{record.courseNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.qrcode != null">
+        qrcode = #{record.qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.chooseAllCourse != null">
+        choose_all_course = #{record.chooseAllCourse,jdbcType=INTEGER},
+      </if>
+      <if test="record.giftNum != null">
+        gift_num = #{record.giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.luckyDraw != null">
+        lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolMark != null">
+        school_mark = #{record.schoolMark,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update trs_activity
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      sales_num = #{record.salesNum,jdbcType=INTEGER},
+      course_num = #{record.courseNum,jdbcType=INTEGER},
+      qrcode = #{record.qrcode,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      choose_all_course = #{record.chooseAllCourse,jdbcType=INTEGER},
+      gift_num = #{record.giftNum,jdbcType=INTEGER},
+      lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
+      school_mark = #{record.schoolMark,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update trs_activity
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      sales_num = #{record.salesNum,jdbcType=INTEGER},
+      course_num = #{record.courseNum,jdbcType=INTEGER},
+      qrcode = #{record.qrcode,jdbcType=VARCHAR},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      choose_all_course = #{record.chooseAllCourse,jdbcType=INTEGER},
+      gift_num = #{record.giftNum,jdbcType=INTEGER},
+      lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
+      school_mark = #{record.schoolMark,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TrsActivity">
+    update trs_activity
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="salesNum != null">
+        sales_num = #{salesNum,jdbcType=INTEGER},
+      </if>
+      <if test="courseNum != null">
+        course_num = #{courseNum,jdbcType=INTEGER},
+      </if>
+      <if test="qrcode != null">
+        qrcode = #{qrcode,jdbcType=VARCHAR},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="chooseAllCourse != null">
+        choose_all_course = #{chooseAllCourse,jdbcType=INTEGER},
+      </if>
+      <if test="giftNum != null">
+        gift_num = #{giftNum,jdbcType=INTEGER},
+      </if>
+      <if test="luckyDraw != null">
+        lucky_draw = #{luckyDraw,jdbcType=INTEGER},
+      </if>
+      <if test="schoolMark != null">
+        school_mark = #{schoolMark,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.TrsActivity">
+    update trs_activity
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      sales_num = #{salesNum,jdbcType=INTEGER},
+      course_num = #{courseNum,jdbcType=INTEGER},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      choose_all_course = #{chooseAllCourse,jdbcType=INTEGER},
+      gift_num = #{giftNum,jdbcType=INTEGER},
+      lucky_draw = #{luckyDraw,jdbcType=INTEGER},
+      school_mark = #{schoolMark,jdbcType=INTEGER},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TrsActivity">
+    update trs_activity
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      sales_num = #{salesNum,jdbcType=INTEGER},
+      course_num = #{courseNum,jdbcType=INTEGER},
+      qrcode = #{qrcode,jdbcType=VARCHAR},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      choose_all_course = #{chooseAllCourse,jdbcType=INTEGER},
+      gift_num = #{giftNum,jdbcType=INTEGER},
+      lucky_draw = #{luckyDraw,jdbcType=INTEGER},
+      school_mark = #{schoolMark,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

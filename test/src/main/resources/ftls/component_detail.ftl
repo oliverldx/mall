@@ -36,7 +36,7 @@
                     </el-form-item>
                     <#break>
                     <#case "int">
-                      <#if column.length == 1>
+                      <#if column.length?? && column.length == 1 && column.description??>
                       <el-form-item label="${column.comment}">
                       <el-radio-group v-model="${subName}.${column.name}">
                         <#assign json=column.description?eval />

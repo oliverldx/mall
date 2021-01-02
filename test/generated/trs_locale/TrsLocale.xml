@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TrsLocaleDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TrsLocaleMapper.BaseResultMap">
+        SELECT trs_locale.id
+	 FROM trs_locale as trs_locale
+	 LEFT JOIN trs_activity as trs_activity ON trs_locale.id = trs_activity.id
+
+    </select>
+</mapper>

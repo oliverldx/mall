@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.TrsGroupDistributionMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.TrsGroupDistribution">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="trs_activity_id" jdbcType="BIGINT" property="trsActivityId" />
+    <result column="level_one_bonus" jdbcType="DECIMAL" property="levelOneBonus" />
+    <result column="level_two_bonus" jdbcType="DECIMAL" property="levelTwoBonus" />
+    <result column="group_distribution" jdbcType="INTEGER" property="groupDistribution" />
+    <result column="teacher_lone_bonus" jdbcType="DECIMAL" property="teacherLoneBonus" />
+    <result column="teacher_ltwo_bonus" jdbcType="DECIMAL" property="teacherLtwoBonus" />
+    <result column="bind_level_time" jdbcType="INTEGER" property="bindLevelTime" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="distribution_after_buy" jdbcType="INTEGER" property="distributionAfterBuy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, trs_activity_id, level_one_bonus, level_two_bonus, group_distribution, teacher_lone_bonus, 
+    teacher_ltwo_bonus, bind_level_time, create_date, modify_date, distribution_after_buy
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.model.TrsGroupDistributionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from trs_group_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trs_group_distribution
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from trs_group_distribution
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.TrsGroupDistributionExample">
+    delete from trs_group_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.TrsGroupDistribution">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into trs_group_distribution (trs_activity_id, level_one_bonus, level_two_bonus, 
+      group_distribution, teacher_lone_bonus, teacher_ltwo_bonus, 
+      bind_level_time, create_date, modify_date, 
+      distribution_after_buy)
+    values (#{trsActivityId,jdbcType=BIGINT}, #{levelOneBonus,jdbcType=DECIMAL}, #{levelTwoBonus,jdbcType=DECIMAL}, 
+      #{groupDistribution,jdbcType=INTEGER}, #{teacherLoneBonus,jdbcType=DECIMAL}, #{teacherLtwoBonus,jdbcType=DECIMAL}, 
+      #{bindLevelTime,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{distributionAfterBuy,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.TrsGroupDistribution">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into trs_group_distribution
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="trsActivityId != null">
+        trs_activity_id,
+      </if>
+      <if test="levelOneBonus != null">
+        level_one_bonus,
+      </if>
+      <if test="levelTwoBonus != null">
+        level_two_bonus,
+      </if>
+      <if test="groupDistribution != null">
+        group_distribution,
+      </if>
+      <if test="teacherLoneBonus != null">
+        teacher_lone_bonus,
+      </if>
+      <if test="teacherLtwoBonus != null">
+        teacher_ltwo_bonus,
+      </if>
+      <if test="bindLevelTime != null">
+        bind_level_time,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="distributionAfterBuy != null">
+        distribution_after_buy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="trsActivityId != null">
+        #{trsActivityId,jdbcType=BIGINT},
+      </if>
+      <if test="levelOneBonus != null">
+        #{levelOneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="levelTwoBonus != null">
+        #{levelTwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="groupDistribution != null">
+        #{groupDistribution,jdbcType=INTEGER},
+      </if>
+      <if test="teacherLoneBonus != null">
+        #{teacherLoneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="teacherLtwoBonus != null">
+        #{teacherLtwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="bindLevelTime != null">
+        #{bindLevelTime,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distributionAfterBuy != null">
+        #{distributionAfterBuy,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.TrsGroupDistributionExample" resultType="java.lang.Long">
+    select count(*) from trs_group_distribution
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update trs_group_distribution
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.trsActivityId != null">
+        trs_activity_id = #{record.trsActivityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.levelOneBonus != null">
+        level_one_bonus = #{record.levelOneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.levelTwoBonus != null">
+        level_two_bonus = #{record.levelTwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.groupDistribution != null">
+        group_distribution = #{record.groupDistribution,jdbcType=INTEGER},
+      </if>
+      <if test="record.teacherLoneBonus != null">
+        teacher_lone_bonus = #{record.teacherLoneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.teacherLtwoBonus != null">
+        teacher_ltwo_bonus = #{record.teacherLtwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="record.bindLevelTime != null">
+        bind_level_time = #{record.bindLevelTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.distributionAfterBuy != null">
+        distribution_after_buy = #{record.distributionAfterBuy,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update trs_group_distribution
+    set id = #{record.id,jdbcType=BIGINT},
+      trs_activity_id = #{record.trsActivityId,jdbcType=BIGINT},
+      level_one_bonus = #{record.levelOneBonus,jdbcType=DECIMAL},
+      level_two_bonus = #{record.levelTwoBonus,jdbcType=DECIMAL},
+      group_distribution = #{record.groupDistribution,jdbcType=INTEGER},
+      teacher_lone_bonus = #{record.teacherLoneBonus,jdbcType=DECIMAL},
+      teacher_ltwo_bonus = #{record.teacherLtwoBonus,jdbcType=DECIMAL},
+      bind_level_time = #{record.bindLevelTime,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      distribution_after_buy = #{record.distributionAfterBuy,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TrsGroupDistribution">
+    update trs_group_distribution
+    <set>
+      <if test="trsActivityId != null">
+        trs_activity_id = #{trsActivityId,jdbcType=BIGINT},
+      </if>
+      <if test="levelOneBonus != null">
+        level_one_bonus = #{levelOneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="levelTwoBonus != null">
+        level_two_bonus = #{levelTwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="groupDistribution != null">
+        group_distribution = #{groupDistribution,jdbcType=INTEGER},
+      </if>
+      <if test="teacherLoneBonus != null">
+        teacher_lone_bonus = #{teacherLoneBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="teacherLtwoBonus != null">
+        teacher_ltwo_bonus = #{teacherLtwoBonus,jdbcType=DECIMAL},
+      </if>
+      <if test="bindLevelTime != null">
+        bind_level_time = #{bindLevelTime,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="distributionAfterBuy != null">
+        distribution_after_buy = #{distributionAfterBuy,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TrsGroupDistribution">
+    update trs_group_distribution
+    set trs_activity_id = #{trsActivityId,jdbcType=BIGINT},
+      level_one_bonus = #{levelOneBonus,jdbcType=DECIMAL},
+      level_two_bonus = #{levelTwoBonus,jdbcType=DECIMAL},
+      group_distribution = #{groupDistribution,jdbcType=INTEGER},
+      teacher_lone_bonus = #{teacherLoneBonus,jdbcType=DECIMAL},
+      teacher_ltwo_bonus = #{teacherLtwoBonus,jdbcType=DECIMAL},
+      bind_level_time = #{bindLevelTime,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      distribution_after_buy = #{distributionAfterBuy,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

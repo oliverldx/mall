@@ -1,3 +1,6 @@
+function
+![](.requirement_images/44756b13.png)
+
 #首页
 ![](.requirement_images/98e97ea5.png)
 #培训课程
@@ -17,6 +20,7 @@
 
 #活动相关
 ##活动管理-列表
+![](.requirement_images/60484d41.png)
 ![](.requirement_images/60aa1b27.png)
 ##活动管理-新增
 ![](.requirement_images/cab12060.png)
@@ -37,6 +41,30 @@
 ~~##活动管理-赠品~~
 ##活动管理-现场
 ![](.requirement_images/2e884d6d.png)
+
+#用户管理
+##用户管理-列表
+![](.requirement_images/e59f0cf6.png)
+
+#订单管理
+##订单管理-列表
+![](.requirement_images/efb137a9.png)
+
+#赠品订单
+##赠品订单-列表
+![](.requirement_images/d486ef7f.png)
+
+#提现管理
+##提现管理-列表
+![](.requirement_images/042da41d.png)
+
+#奖金排行
+#奖金排行-列表
+![](.requirement_images/6c584981.png)
+
+#现场奖励
+##现场奖励-列表
+![](.requirement_images/512decdc.png)
 
 
 

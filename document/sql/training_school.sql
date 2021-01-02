@@ -8,7 +8,7 @@ create table trs_course
    id                   bigint not null auto_increment,
    trs_school_id        bigint comment '培训机构',
    name                 varchar(100) comment '名称',
-   price                varchar(255) comment '原价',
+   price                decimal comment '原价',
    description          text comment '介绍',
    pic                  varchar(255) comment '图片',
    create_date          datetime comment '创建时间',
@@ -45,7 +45,6 @@ create table trs_school
 alter table trs_school comment '培训机构';
 
 
-
 drop table if exists trs_school_activity;
 
 /*==============================================================*/
@@ -55,6 +54,7 @@ create table trs_school_activity
 (
     id                   bigint not null auto_increment,
     school_id            bigint,
+    trs_activity_id      bigint,
     course_num           int comment '可选课程数量',
     sort                 int comment '排序',
     create_date          datetime comment '创建时间',
@@ -74,10 +74,8 @@ drop table if exists trs_activity;
 create table trs_activity
 (
     id                   bigint not null auto_increment,
-    crs_act_id           bigint,
-    sch_act_id           bigint,
     name                 varchar(100) comment '活动名称',
-    price                varchar(255) comment '活动价格',
+    price                decimal comment '活动价格',
     sales_num            int comment '销售数量',
     course_num           int comment '课程数量',
     description          text comment '介绍',
@@ -96,6 +94,7 @@ create table trs_activity
 
 alter table trs_activity comment '活动';
 
+
 drop table if exists trs_course_activity;
 
 /*==============================================================*/
@@ -105,6 +104,7 @@ create table trs_course_activity
 (
     id                   bigint not null auto_increment,
     course_id            bigint,
+    trs_activity_id      bigint,
     course_num           int comment '库存',
     apply_num            int comment '报名数',
     sort                 int comment '排序',
@@ -114,3 +114,134 @@ create table trs_course_activity
 );
 
 alter table trs_course_activity comment '课程活动';
+
+drop table if exists trs_pages;
+
+/*==============================================================*/
+/* Table: trs_pages                                             */
+/*==============================================================*/
+create table trs_pages
+(
+    id                   bigint not null auto_increment,
+    trs_activity_id      bigint,
+    name                 varchar(255) comment '分享页商品标题',
+    sub_name             varchar(255) comment '分享标题',
+    sort                 int(1) comment '排序',
+    swipe_pic            text comment '分享页顶部轮播图片',
+    create_date          datetime comment '创建时间',
+    modify_date          datetime comment '修改时间',
+    show_sch_num         int comment '首页学校显示数量',
+    top_pic              text comment '主页面顶部图片',
+    share_pic            text comment '分享图片',
+    description          text comment '分享描述',
+    show_crs_num         int comment '首页课程显示数量',
+    background_color     text comment '背景颜色',
+    income_ranking       int(1) default 0 comment '收入排行榜',
+    show_booking         int(1) default 0 comment '是否显示报名数',
+    audio                text comment '音频文件',
+    buttom_text          text comment '分享海报底部文字',
+    show_my_income       int(1) default 0 comment '分享页显示我的收入',
+    day_limit            int comment '倒计时天数',
+    primary key (id)
+);
+
+alter table trs_pages comment '页面';
+
+
+drop table if exists trs_group_distribution;
+
+/*==============================================================*/
+/* Table: trs_group_distribution                                */
+/*==============================================================*/
+create table trs_group_distribution
+(
+    id                   bigint not null auto_increment,
+    trs_activity_id      bigint,
+    level_one_bonus      decimal comment '一级返利',
+    level_two_bonus      decimal comment '二级返利',
+    group_distribution   int(1) default 0 comment '分销',
+    teacher_lone_bonus   decimal comment '教师一级返利',
+    teacher_ltwo_bonus   decimal comment '教师二级返利',
+    bind_level_time      int(1) default 0 comment '上下级绑定时间',
+    create_date          datetime comment '创建时间',
+    modify_date          datetime comment '修改时间',
+    distribution_after_buy int(1) default 0 comment '是否购买才可以分销',
+    primary key (id)
+);
+
+alter table trs_group_distribution comment '分销';
+
+
+drop table if exists trs_gift;
+
+/*==============================================================*/
+/* Table: trs_gift                                              */
+/*==============================================================*/
+create table trs_gift
+(
+    id                   bigint not null auto_increment,
+    trs_activity_id      bigint,
+    name                 varchar(255) comment '名称',
+    sponsor_name         varchar(255) comment '赞助商名称',
+    pic                  text comment '商品图片',
+    num                  int comment '数量',
+    price                decimal comment '价值',
+    sponsor_address      text comment '商家地址',
+    validate_time        datetime comment '有效期',
+    description          text comment '介绍',
+    create_date          datetime comment '创建时间',
+    modify_date          datetime comment '修改时间',
+    primary key (id)
+);
+
+alter table trs_gift comment '赠品';
+
+
+
+drop table if exists trs_locale;
+
+/*==============================================================*/
+/* Table: trs_locale                                            */
+/*==============================================================*/
+create table trs_locale
+(
+    id                   bigint not null auto_increment,
+    trs_activity_id      bigint,
+    name                 varchar(255) comment '活动名称',
+    text_3d              varchar(255) comment '3D图形文字',
+    link                 text comment '活动连接',
+    create_date          datetime comment '创建时间',
+    modify_date          datetime comment '修改时间',
+    enable               int(1) default 0 comment '是否开启',
+    auto_reg_teache      int(1) default 0 comment '开启二维码自动注册老师',
+    qrcode_parents       int(1) default 0 comment '开启家长组二维码',
+    primary key (id)
+);
+
+alter table trs_locale comment '现场';
+
+
+
+
+drop table if exists trs_group_sale;
+
+/*==============================================================*/
+/* Table: trs_group_sale                                        */
+/*==============================================================*/
+create table trs_group_sale
+(
+    id                   bigint not null auto_increment,
+    trs_activity_id      bigint,
+    group_num            int comment '库存',
+    group_hours          int comment '报名数',
+    group_sale           int(1) default 0 comment '是否开启拼团',
+    price                decimal comment '拼团价格',
+    bonus                decimal comment '拼团分销奖金',
+    teacher_bonus        decimal comment '教师拼团分销奖金',
+    group_commission     int(1) default 0 comment '成团及佣金',
+    create_date          datetime comment '创建时间',
+    modify_date          datetime comment '修改时间',
+    primary key (id)
+);
+
+alter table trs_group_sale comment '课程活动';
