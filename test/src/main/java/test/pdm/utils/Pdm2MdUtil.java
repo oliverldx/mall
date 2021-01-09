@@ -79,6 +79,10 @@ public class Pdm2MdUtil {
             columnC.setFkColumnId(columnP.getId());
             columnC.setFkColumnName(columnP.getName());
             columnC.setFkTable(parentTable);
+            if("1..1".equals(r.getCardinality())) {
+                childTable.setOne2oneColId(columnC.getId());
+                childTable.setOne2oneColName(columnC.getName());
+            }
 
             childTable.addParentTables(parentTable);
         }
@@ -97,6 +101,7 @@ public class Pdm2MdUtil {
             ref.setId(e_ref.attributeValue("Id"));
             ref.setName(e_ref.elementTextTrim("Name"));
             ref.setCode(e_ref.elementTextTrim("Code"));
+            ref.setCardinality(e_ref.elementTextTrim("Cardinality"));
             ref.setParentTableId(e_ref.element("ParentTable").element("Table").attributeValue("Ref"));
             ref.setChildTableId(e_ref.element("ChildTable").element("Table").attributeValue("Ref"));
             ref.setPatentKey(e_ref.element("ParentKey").element("Key").attributeValue("Ref"));

@@ -116,6 +116,21 @@ public class FileUtil {
             case COMPONENT_DETAIL_VUE:
                 fileName = subNameConvert + "Detail.vue";
                 break;
+            case ONE2ONE_CONTROLLER:
+                fileName = "one2one/" + tableNameConvert + "Controller.java";
+                break;
+            case ONE2ONE_DAO:
+                fileName = "one2one/" + tableNameConvert + "Dao.java";
+                break;
+            case ONE2ONE_DAO_XML:
+                fileName = "one2one/" + tableNameConvert + ".xml";
+                break;
+            case ONE2ONE_COMPONENT_DETAIL_VUE:
+                fileName = "one2one/" + subNameConvert + ".vue";
+                break;
+            case ONE2ONE_API_JS:
+                fileName = "one2one/" + subNameConvert + ".js";
+                break;
             default :
                 fileName = "null.java";
                 break;
@@ -170,6 +185,14 @@ public class FileUtil {
             case COMPONENT_DETAIL_VUE:
                 fileTypePath = "src/views";
                 break;
+            case ONE2ONE_CONTROLLER:
+                fileTypePath = "src/main/java/com/macro/mall/controller";
+                break;
+            case ONE2ONE_DAO:
+                fileTypePath = "src/main/java/com/macro/mall/dao";
+                break;
+            case ONE2ONE_DAO_XML:
+                fileTypePath = "src/main/resources/dao";
             default :
                 fileTypePath = "";
                 break;

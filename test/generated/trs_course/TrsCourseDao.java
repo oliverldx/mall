@@ -13,7 +13,7 @@ import java.util.List;
 public interface TrsCourseDao {
 
     /**
-    * 条件查询订单
+    * 条件查询课程
     */
     List<TrsCourse> getList(@Param("queryParam") TrsCourseQueryParam queryParam);
 

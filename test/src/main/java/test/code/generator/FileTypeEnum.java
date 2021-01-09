@@ -12,7 +12,13 @@ public enum FileTypeEnum {
     DAO_XML(7,"dao_xml"),
     QUERY_PARAM(8,"query_param"),
     API_JS(9,"api_js"),
-    COMPONENT_DETAIL_VUE(12,"component_detail");
+    COMPONENT_DETAIL_VUE(12,"component_detail"),
+    ONE2ONE_CONTROLLER(13,"one2one/controller"),
+    ONE2ONE_DAO(14,"one2one/dao"),
+    ONE2ONE_DAO_XML(15,"one2one/dao_xml"),
+    ONE2ONE_COMPONENT_DETAIL_VUE(16,"one2one/component_detail"),
+    ONE2ONE_API_JS(17,"one2one/api_js");
+
 
     private int value;
     private String name;

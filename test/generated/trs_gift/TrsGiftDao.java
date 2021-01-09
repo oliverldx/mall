@@ -13,7 +13,7 @@ import java.util.List;
 public interface TrsGiftDao {
 
     /**
-    * 条件查询订单
+    * 条件查询赠品
     */
     List<TrsGift> getList(@Param("queryParam") TrsGiftQueryParam queryParam);
 

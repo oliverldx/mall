@@ -3,11 +3,15 @@ package test.code.generator.utils;
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
 import test.pdm.entity.Column;
 import test.pdm.entity.Table;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 public class SqlUtil {
@@ -63,5 +67,13 @@ public class SqlUtil {
         sb.append(tableSb.toString());
 
         return sb.toString();
+    }
+
+    public static String genOne2OneSql(Table table) {
+        StringBuilder sb = new StringBuilder();
+        String sql = "SELECT *\n" +
+                "\t FROM "+table.getTableName()+" as "+table.getTableName()+" where "+table.getTableName()+"."+table.getOne2oneColName()+" = #{"+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_"))+"}";
+
+        return sql;
     }
 }

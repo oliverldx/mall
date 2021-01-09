@@ -1,11 +1,8 @@
 package com.macro.mall.dao;
 
 
-import com.macro.mall.dto.TrsPagesQueryParam;
 import com.macro.mall.model.TrsPages;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
 * 页面自定义查询Dao
@@ -13,8 +10,8 @@ import java.util.List;
 public interface TrsPagesDao {
 
     /**
-    * 条件查询页面
+    * 根据activityId获取页面
     */
-    List<TrsPages> getList(@Param("queryParam") TrsPagesQueryParam queryParam);
+    TrsPages getByActivityId(@Param("activityId") Long activityId);
 
 }

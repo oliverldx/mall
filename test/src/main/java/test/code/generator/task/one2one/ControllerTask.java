@@ -1,9 +1,10 @@
-package test.code.generator.task;
+package test.code.generator.task.one2one;
 
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateException;
 import org.apache.commons.lang3.StringUtils;
 import test.code.generator.FileTypeEnum;
+import test.code.generator.task.AbstractTask;
 import test.code.generator.utils.FileUtil;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
@@ -33,6 +34,9 @@ public class ControllerTask extends AbstractTask {
     public void run(Model model) throws IOException, TemplateException {
         List<Table> tableList = getTables(model);
         for (Table table : tableList) {
+            if(StringUtils.isAnyBlank(table.getOne2oneColId(),table.getOne2oneColName())) {
+                continue;
+            }
             Map<String, Object> controllerData = new HashMap<>();
             controllerData.put("tableName", CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getTableName()));
             controllerData.put("chineseName",table.getComment());
@@ -41,7 +45,7 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("urlPathAdd", "/" + subName + "/add");
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
-            controllerData.put("urlPathList", "/" + subName + "/list");
+            controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
             Map<String, Table> parentTables = table.getParentTables();
             boolean noGenDao = parentTables == null || parentTables.isEmpty();
             if(!noGenDao) {
@@ -49,16 +53,12 @@ public class ControllerTask extends AbstractTask {
             }else {
                 controllerData.put("genDao", "");
             }
-            String templateString = FileUtil.getTemplateString(FileTypeEnum.CONTROLLER.getValue(), controllerData);
-            FileUtil.generateFile(FileTypeEnum.CONTROLLER.getValue(),table.getTableName(),templateString);
+            String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2ONE_CONTROLLER.getValue(), controllerData);
+            FileUtil.generateFile(FileTypeEnum.ONE2ONE_CONTROLLER.getValue(),table.getTableName(),templateString);
             if(noGenDao) {
                 continue;
             }
-            new DaoTask().runTable(table);
-
-            if(StringUtils.isNoneBlank(table.getOne2oneColId(),table.getOne2oneColName())) {
-                new test.code.generator.task.one2one.ControllerTask().run(model);
-            }
+            new test.code.generator.task.one2one.DaoTask().runTable(table);
         }
     }
 }

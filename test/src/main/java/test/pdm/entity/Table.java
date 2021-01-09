@@ -16,6 +16,8 @@ public class Table {
     private String pkField;
 
     private Map<String,Table> parentTables;
+    private String one2oneColId;
+    private String one2oneColName;
 
 
 

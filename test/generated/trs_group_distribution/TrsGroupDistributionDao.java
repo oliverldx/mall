@@ -13,7 +13,7 @@ import java.util.List;
 public interface TrsGroupDistributionDao {
 
     /**
-    * 条件查询订单
+    * 条件查询分销
     */
     List<TrsGroupDistribution> getList(@Param("queryParam") TrsGroupDistributionQueryParam queryParam);
 

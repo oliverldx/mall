@@ -13,7 +13,7 @@ import java.util.List;
 public interface TrsLocaleDao {
 
     /**
-    * 条件查询订单
+    * 条件查询现场
     */
     List<TrsLocale> getList(@Param("queryParam") TrsLocaleQueryParam queryParam);
 

@@ -15,5 +15,6 @@ public class Reference {
     private String parentColId;
     private String childColId;
     private String patentKey;
+    private String cardinality;
 
 }
