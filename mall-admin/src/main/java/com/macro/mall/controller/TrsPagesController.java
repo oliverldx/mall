@@ -1,9 +1,11 @@
 package com.macro.mall.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.dao.TrsPagesDao;
 import com.macro.mall.mapper.TrsPagesMapper;
 import com.macro.mall.model.TrsPages;
+import com.macro.mall.dao.TrsPagesDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,29 +44,36 @@ public class TrsPagesController {
         return CommonResult.failed();
     }
 
-     @ApiOperation("修改页面")
-     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult update(@PathVariable Long id,@Validated @RequestBody TrsPages trsPages,
-        BindingResult result) {
+    @ApiOperation("修改页面")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable Long id,@Validated @RequestBody TrsPages trsPages,
+            BindingResult result) {
         trsPages.setModifyDate(new Date());
         int count = 0;
+        count = trsPagesMapper.updateByPrimaryKeySelective(trsPages);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
-     @ApiOperation("删除页面")
-     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult delete(@RequestParam("ids") List<Long> ids) {
+    @ApiOperation("删除页面")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsPagesMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
     @ApiOperation("根据id获取页面")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

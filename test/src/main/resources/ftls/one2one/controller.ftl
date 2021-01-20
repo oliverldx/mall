@@ -8,7 +8,6 @@ import com.macro.mall.model.${tableName};
 <#if genDao?default("")?trim?length gt 1>
 import com.macro.mall.dao.${tableName}Dao;
 </#if>
-import com.macro.mall.model.${tableName}Example;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,29 +48,36 @@ public class ${tableName}Controller {
         return CommonResult.failed();
     }
 
-     @ApiOperation("修改${chineseName}")
-     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult update(@PathVariable Long id,@Validated @RequestBody ${tableName} ${tableName?uncap_first},
-        BindingResult result) {
+    @ApiOperation("修改${chineseName}")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable Long id,@Validated @RequestBody ${tableName} ${tableName?uncap_first},
+            BindingResult result) {
         ${tableName?uncap_first}.setModifyDate(new Date());
         int count = 0;
+        count = ${tableName?uncap_first}Mapper.updateByPrimaryKeySelective(${tableName?uncap_first});
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
-     @ApiOperation("删除${chineseName}")
-     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult delete(@RequestParam("ids") List<Long> ids) {
+    @ApiOperation("删除${chineseName}")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = ${tableName?uncap_first}Mapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
     @ApiOperation("根据id获取${chineseName}")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

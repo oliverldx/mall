@@ -55,6 +55,7 @@ public class ApiJsTask extends AbstractTask {
             controllerData.put("style",true);
             controllerData.put("columns", columns);
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
             controllerData.put("subName", subName);
             controllerData.put("urlPathAdd", "/" + subName + "/add");
             controllerData.put("urlPathUpdate", "/" + subName + "/update/");

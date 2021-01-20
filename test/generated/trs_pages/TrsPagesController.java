@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsPagesMapper;
 import com.macro.mall.model.TrsPages;
 import com.macro.mall.dto.TrsPagesQueryParam;
 import com.macro.mall.dao.TrsPagesDao;
-import com.macro.mall.model.TrsPagesExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,7 @@ public class TrsPagesController {
         BindingResult result) {
         trsPages.setModifyDate(new Date());
         int count = 0;
+        count = trsPagesMapper.updateByPrimaryKeySelective(trsPages);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsPagesController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsPagesMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

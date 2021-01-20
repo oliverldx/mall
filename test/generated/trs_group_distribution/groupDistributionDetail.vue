@@ -1,65 +1,82 @@
 <template>
-    <el-card class="form-container" shadow="never">
-        <el-form :model="group_distribution"
+    <el-card shadow="never">
+        <el-form :model="groupDistribution"
                  :rules="rules"
-                 ref="group_distributionFrom"
+                 ref="groupDistributionFrom"
                  label-width="150px">
                     <el-form-item label="一级返利" >
-                        <el-input v-model="group_distribution.levelOneBonus"></el-input>
+                        <el-input v-model="groupDistribution.levelOneBonus"></el-input>
                     </el-form-item>
                     <el-form-item label="二级返利" >
-                        <el-input v-model="group_distribution.levelTwoBonus"></el-input>
+                        <el-input v-model="groupDistribution.levelTwoBonus"></el-input>
                     </el-form-item>
-                      <el-form-item label="分销">
-                      <el-radio-group v-model="group_distribution.groupDistribution">
-                        <el-radio :label="0">不开启</el-radio>
-                        <el-radio :label="1">开启</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                <el-form-item label="分销">
+                    <el-radio-group v-model="groupDistribution.groupDistribution">
+                            <el-radio :label="0">不开启</el-radio>
+                            <el-radio :label="1">开启</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                     <el-form-item label="教师一级返利" >
-                        <el-input v-model="group_distribution.teacherLoneBonus"></el-input>
+                        <el-input v-model="groupDistribution.teacherLoneBonus"></el-input>
                     </el-form-item>
                     <el-form-item label="教师二级返利" >
-                        <el-input v-model="group_distribution.teacherLtwoBonus"></el-input>
+                        <el-input v-model="groupDistribution.teacherLtwoBonus"></el-input>
                     </el-form-item>
-                      <el-form-item label="上下级绑定时间">
-                      <el-radio-group v-model="group_distribution.bindLevelTime">
-                        <el-radio :label="0">初次进入</el-radio>
-                        <el-radio :label="1">下单时</el-radio>
-                        <el-radio :label="2">全民模式，不固定上级</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="group_distribution.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="group_distribution.modifyDate"></el-input>
-                    </el-form-item>
-                      <el-form-item label="是否购买才可以分销">
-                      <el-radio-group v-model="group_distribution.distributionAfterBuy">
-                        <el-radio :label="0">不需要购买</el-radio>
-                        <el-radio :label="1">需要购买</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                <el-form-item label="上下级绑定时间">
+                    <el-radio-group v-model="groupDistribution.bindLevelTime">
+                            <el-radio :label="0">初次进入</el-radio>
+                            <el-radio :label="1">下单时</el-radio>
+                            <el-radio :label="2">全民模式，不固定上级</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="groupDistribution.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="groupDistribution.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
+                <el-form-item label="是否购买才可以分销">
+                    <el-radio-group v-model="groupDistribution.distributionAfterBuy">
+                            <el-radio :label="0">不需要购买</el-radio>
+                            <el-radio :label="1">需要购买</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('group_distributionFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('group_distributionFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('groupDistributionFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('groupDistributionFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/group_distribution';
+    import {fetchList, create, update, getById} from '@/api/groupDistribution';
 
-    const defaultGroup_distribution = {
+    const defaultGroupDistribution = {
+    id:'',
+    trsActivityId:'',
     groupDistribution:0,
     bindLevelTime:0,
+    createDate:'',
+    modifyDate:'',
     distributionAfterBuy:0,
     };
     export default {
-        name: "Group_distributionDetail",
-        components: {},
+        name: "GroupDistributionDetail",
+        components: {
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -68,18 +85,28 @@
         },
         data() {
             return {
-            group_distribution: Object.assign({}, defaultGroup_distribution),
+            groupDistribution: Object.assign({}, defaultGroupDistribution),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.group_distribution = response.data;
+                    this.groupDistribution = response.data;
+                    if(this.groupDistribution == null) {
+                        this.isReallyEdit = false;
+                        this.groupDistribution = Object.assign({}, defaultGroupDistribution);
+                    }
                 });
             } else {
-                this.group_distribution = Object.assign({}, defaultGroup_distribution);
+                this.groupDistribution = Object.assign({}, defaultGroupDistribution);
             }
         },
         methods: {
@@ -92,7 +119,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.group_distribution).then(response => {
+                                update(this.$route.query.id, this.groupDistribution).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -101,7 +128,7 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.group_distribution).then(response => {
+                                create(this.groupDistribution).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -125,7 +152,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.group_distribution = Object.assign({}, defaultGroup_distribution);
+                this.groupDistribution = Object.assign({}, defaultGroupDistribution);
             }
         }
     }

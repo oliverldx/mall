@@ -88,7 +88,7 @@
 </template>
 
 <script>
-    import {fetchList,del} from '@/api/school_activity'
+    import {fetchList,del} from '@/api/schoolActivity'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -133,10 +133,10 @@
                 this.getList();
             },
             handleAdd() {
-                this.$router.push({path:'/trs/addSchool_activity'});
+                this.$router.push({path:'/trs/addSchoolActivity'});
             },
             handleUpdate(index, row){
-                this.$router.push({path:'/trs/updateSchool_activity',query:{id:row.id}});
+                this.$router.push({path:'/trs/updateSchoolActivity',query:{id:row.id}});
             },
             handleDelete(index, row){
                 let ids=[];

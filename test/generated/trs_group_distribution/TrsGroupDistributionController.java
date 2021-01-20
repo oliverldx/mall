@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsGroupDistributionMapper;
 import com.macro.mall.model.TrsGroupDistribution;
 import com.macro.mall.dto.TrsGroupDistributionQueryParam;
 import com.macro.mall.dao.TrsGroupDistributionDao;
-import com.macro.mall.model.TrsGroupDistributionExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.List;
 */
 @Controller
 @Api(tags = "TrsGroupDistributionController", description = "分销管理")
-@RequestMapping("/group_distribution")
+@RequestMapping("/groupDistribution")
 public class TrsGroupDistributionController {
 
     @Autowired
@@ -64,6 +63,7 @@ public class TrsGroupDistributionController {
         BindingResult result) {
         trsGroupDistribution.setModifyDate(new Date());
         int count = 0;
+        count = trsGroupDistributionMapper.updateByPrimaryKeySelective(trsGroupDistribution);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsGroupDistributionController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsGroupDistributionMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

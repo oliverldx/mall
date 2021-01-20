@@ -5,7 +5,6 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.TrsSchoolMapper;
 import com.macro.mall.model.TrsSchool;
-import com.macro.mall.model.TrsSchoolExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,7 @@ public class TrsSchoolController {
         BindingResult result) {
         trsSchool.setModifyDate(new Date());
         int count = 0;
+        count = trsSchoolMapper.updateByPrimaryKeySelective(trsSchool);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -71,6 +71,12 @@ public class TrsSchoolController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsSchoolMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

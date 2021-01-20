@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsLocaleMapper;
 import com.macro.mall.model.TrsLocale;
 import com.macro.mall.dto.TrsLocaleQueryParam;
 import com.macro.mall.dao.TrsLocaleDao;
-import com.macro.mall.model.TrsLocaleExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,7 @@ public class TrsLocaleController {
         BindingResult result) {
         trsLocale.setModifyDate(new Date());
         int count = 0;
+        count = trsLocaleMapper.updateByPrimaryKeySelective(trsLocale);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsLocaleController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsLocaleMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

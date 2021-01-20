@@ -1,11 +1,11 @@
 <template> 
-    <group_distribution-detail :is-edit='false'></group_distribution-detail>
+    <group-distribution-detail :is-edit='false'></group-distribution-detail>
 </template>
 <script>
-    import Group_distributionDetail from './components/group_distributionDetail'
+    import GroupDistributionDetail from './components/groupDistributionDetail'
     export default {
-        name: 'addGroup_distribution',
-        components: { Group_distributionDetail }
+        name: 'addGroupDistribution',
+        components: { GroupDistributionDetail }
     }
 </script>
 <style>

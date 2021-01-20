@@ -37,6 +37,7 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("tableName", CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getTableName()));
             controllerData.put("chineseName",table.getComment());
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
             controllerData.put("subName", subName);
             controllerData.put("urlPathAdd", "/" + subName + "/add");
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
@@ -58,6 +59,7 @@ public class ControllerTask extends AbstractTask {
 
             if(StringUtils.isNoneBlank(table.getOne2oneColId(),table.getOne2oneColName())) {
                 new test.code.generator.task.one2one.ControllerTask().run(model);
+                new test.code.generator.task.one2one.ComponentVueTask().run(model);
             }
         }
     }

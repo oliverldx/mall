@@ -1,13 +1,15 @@
+<#include "../base/base.ftl">
 <template>
     <el-card shadow="never">
         <el-form :model="${subName}"
                  :rules="rules"
                  ref="${subName}From"
                  label-width="150px">
+            <@assignVar />
             <#list columns as column>
                 <#if column.comment??>
                 <#switch column.type>
-                    <#case "binint">
+                    <#case "bigint">
                         <#if (column.pkFlag)!>
                             <el-form-item label="${column.comment}" >
                                 <el-input v-model="${subName}.${column.name}"></el-input>
@@ -16,14 +18,7 @@
                         <#break>
                     <#case "varchar">
                         <#if column.length == 1>
-                        <el-form-item label="${column.comment}">
-                            <el-radio-group v-model="${subName}.${column.name}">
-                                <#assign json=column.description?eval />
-                                <#list json[column.name].vals as item >
-                                    <el-radio :label="${item.val!}">${item.name!}</el-radio>
-                                </#list>
-                            </el-radio-group>
-                        </el-form-item>
+                            <@renderFormItem column=column></@renderFormItem>
                         <#else>
                         <el-form-item label="${column.comment}" >
                           <el-input v-model="${subName}.${column.name}"></el-input>
@@ -31,20 +26,17 @@
                         </#if>
                       <#break>
                     <#case "text">
+                    <#if column.description??>
+                        <@renderFormItem column=column></@renderFormItem>
+                    <#else >
                     <el-form-item label="${column.comment}">
                         <el-input type="textarea" :autosize="true" v-model="${subName}.${column.name}"></el-input>
                     </el-form-item>
+                    </#if>
                     <#break>
                     <#case "int">
                       <#if column.length?? && column.length == 1 && column.description??>
-                      <el-form-item label="${column.comment}">
-                      <el-radio-group v-model="${subName}.${column.name}">
-                        <#assign json=column.description?eval />
-                        <#list json[column.name].vals as item >
-                        <el-radio :label="${item.val!}">${item.name!}</el-radio>
-                        </#list>
-                      </el-radio-group>
-                      </el-form-item>
+                          <@renderFormItem column=column></@renderFormItem>
                       <#else>
                       <el-form-item label="${column.comment}" >
                         <el-input v-model="${subName}.${column.name}"></el-input>
@@ -53,19 +45,24 @@
                       <#break>
                     <#case "char">
                         <#if column.length == 1>
-                        <el-form-item label="${column.comment}">
-                            <el-radio-group v-model="${subName}.${column.name}">
-                                <#assign json=column.description?eval />
-                                <#list json[column.name].vals as item >
-                                    <el-radio :label="${item.val!}">${item.name!}</el-radio>
-                                </#list>
-                            </el-radio-group>
-                        </el-form-item>
+                            <@renderFormItem column=column></@renderFormItem>
                       <#else>
                       <el-form-item label="${column.comment}" >
                         <el-input v-model="${subName}.${column.name}"></el-input>
                       </el-form-item>
                       </#if>
+                      <#break>
+                    <#case "datetime">
+                    <#assign showDateTime = true />
+                        <el-form-item label="${column.comment}" >
+                            <el-date-picker
+                                    v-model="${subName}.${column.name}"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="${column.comment}">
+                            </el-date-picker>
+                        </el-form-item>
                       <#break>
                     <#default>
                     <el-form-item label="${column.comment}" >
@@ -84,23 +81,40 @@
 
 <script>
     import {fetchList, create, update, getById,getBy${fkId?cap_first}} from '@/api/${parentTableSubName}/${subName}';
+    <@importJs/>
 
     const default${subName?cap_first} = {
     <#list columns as column>
     <#switch column.type>
-    <#case "binint">
+    <#case "bigint">
     ${column.name}:'',
     <#break>
     <#case "varchar">
     ${column.name}:'',
     <#break>
     <#case "text">
+    <#if column.description??>
+        <#assign json=column.description?eval />
+        <#switch json[column.name].type>
+        <#case "singleUpload">
+        <#case "multiUpload">
+    ${column.name}:[],
+        <#break >
+        <#default >
     ${column.name}:'',
+        </#switch>
+        <#else >
+    ${column.name}:'',
+    </#if>
+
     <#break>
     <#case "int">
     ${column.name}:0,
     <#break>
     <#case "char">
+    ${column.name}:'',
+    <#break>
+    <#case "datetime">
     ${column.name}:'',
     <#break>
     <#default>
@@ -109,7 +123,9 @@
     };
     export default {
         name: "${subName?cap_first}Detail",
-        components: {},
+        components: {
+           <@importVueComponents/>
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -124,6 +140,13 @@
             ${subName}: Object.assign({}, default${subName?cap_first}),
             rules: {
             },
+            <#if showDateTime>
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            </#if>
             isReallyEdit:this.isEdit
         }
         },
@@ -150,7 +173,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit && this.isReallyEdit) {
-                                update(this.$route.query.id, this.${subName}).then(response => {
+                                update(this.${fkId}, this.${subName}).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -159,6 +182,7 @@
                                     this.$router.back();
                                 });
                             } else {
+                                this.${subName}.${one2oneColName}=this.${fkId}
                                 create(this.${subName}).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);

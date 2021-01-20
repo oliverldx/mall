@@ -46,7 +46,9 @@ public class DaoTask extends AbstractTask {
         Map<String, Object> controllerData = new HashMap<>();
         controllerData.put("tableName",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getTableName()));
         controllerData.put("chineseName",table.getComment());
-        controllerData.put("subName",StringUtils.substringAfter(table.getTableName(),"_"));
+        String subName = StringUtils.substringAfter(table.getTableName(), "_");
+        subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
+        controllerData.put("subName", subName);
         controllerData.put("columns", columns);
         controllerData.put("sql", SqlUtil.genSql(table));
         String templateString = FileUtil.getTemplateString(FileTypeEnum.DAO.getValue(), controllerData);

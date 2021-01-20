@@ -1,45 +1,57 @@
 <template>
-    <el-card class="form-container" shadow="never">
-        <el-form :model="school_activity"
+    <el-card shadow="never">
+        <el-form :model="schoolActivity"
                  :rules="rules"
-                 ref="school_activityFrom"
+                 ref="schoolActivityFrom"
                  label-width="150px">
-                    <el-form-item label="培训机构" >
-                        <el-input v-model="school_activity.schoolId"></el-input>
-                    </el-form-item>
-                    <el-form-item label="活动" >
-                        <el-input v-model="school_activity.trsActivityId"></el-input>
-                    </el-form-item>
                       <el-form-item label="可选课程数量" >
-                        <el-input v-model="school_activity.courseNum"></el-input>
+                        <el-input v-model="schoolActivity.courseNum"></el-input>
                       </el-form-item>
                       <el-form-item label="排序" >
-                        <el-input v-model="school_activity.sort"></el-input>
+                        <el-input v-model="schoolActivity.sort"></el-input>
                       </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="school_activity.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="school_activity.modifyDate"></el-input>
-                    </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="schoolActivity.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="schoolActivity.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('school_activityFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('school_activityFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('schoolActivityFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('schoolActivityFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/school_activity';
+    import {fetchList, create, update, getById} from '@/api/schoolActivity';
 
-    const defaultSchool_activity = {
+    const defaultSchoolActivity = {
+    id:'',
+    schoolId:'',
+    trsActivityId:'',
     courseNum:0,
     sort:0,
+    createDate:'',
+    modifyDate:'',
     };
     export default {
-        name: "School_activityDetail",
-        components: {},
+        name: "SchoolActivityDetail",
+        components: {
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -48,18 +60,28 @@
         },
         data() {
             return {
-            school_activity: Object.assign({}, defaultSchool_activity),
+            schoolActivity: Object.assign({}, defaultSchoolActivity),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.school_activity = response.data;
+                    this.schoolActivity = response.data;
+                    if(this.schoolActivity == null) {
+                        this.isReallyEdit = false;
+                        this.schoolActivity = Object.assign({}, defaultSchoolActivity);
+                    }
                 });
             } else {
-                this.school_activity = Object.assign({}, defaultSchool_activity);
+                this.schoolActivity = Object.assign({}, defaultSchoolActivity);
             }
         },
         methods: {
@@ -72,7 +94,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.school_activity).then(response => {
+                                update(this.$route.query.id, this.schoolActivity).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -81,7 +103,7 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.school_activity).then(response => {
+                                create(this.schoolActivity).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -105,7 +127,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.school_activity = Object.assign({}, defaultSchool_activity);
+                this.schoolActivity = Object.assign({}, defaultSchoolActivity);
             }
         }
     }

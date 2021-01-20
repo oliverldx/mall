@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsGiftMapper;
 import com.macro.mall.model.TrsGift;
 import com.macro.mall.dto.TrsGiftQueryParam;
 import com.macro.mall.dao.TrsGiftDao;
-import com.macro.mall.model.TrsGiftExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,7 @@ public class TrsGiftController {
         BindingResult result) {
         trsGift.setModifyDate(new Date());
         int count = 0;
+        count = trsGiftMapper.updateByPrimaryKeySelective(trsGift);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsGiftController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsGiftMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

@@ -7,6 +7,7 @@
 		<Model Expanded="Yes" ID="{7BB41C87-EFE8-409A-A86E-B1C3FCE34F8C}" Loaded="No" Name="mall" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="../pdm/training_school.pdm"/>
 		<Model Expanded="Yes" ID="{7BB41C87-EFE8-409A-A86E-B1C3FCE34F8C}" Loaded="No" Name="mall" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="../pdm/training_school.pdm"/>
 		<Model Expanded="Yes" ID="{7BB41C87-EFE8-409A-A86E-B1C3FCE34F8C}" Loaded="No" Name="mall" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="../pdm/training_school.pdm"/>
+		<Model Expanded="Yes" ID="{7BB41C87-EFE8-409A-A86E-B1C3FCE34F8C}" Loaded="No" Name="mall" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="../pdm/training_school.pdm"/>
 		<Model Expanded="Yes" ID="{7BB41C87-EFE8-409A-A86E-B1C3FCE34F8C}" Name="mall" Type="{CDE44E21-9669-11D1-9914-006097355D9B}" URL="../pdm/training_school.pdm"/>
 	</Local>
 	<BrowserModule Name="Repository"/>

@@ -193,6 +193,13 @@ public class FileUtil {
                 break;
             case ONE2ONE_DAO_XML:
                 fileTypePath = "src/main/resources/dao";
+                break;
+            case ONE2ONE_COMPONENT_DETAIL_VUE:
+                fileTypePath = "src/views";
+                break;
+            case ONE2ONE_API_JS:
+                fileTypePath = "src/api";
+                break;
             default :
                 fileTypePath = "";
                 break;

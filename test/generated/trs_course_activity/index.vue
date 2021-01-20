@@ -91,7 +91,7 @@
 </template>
 
 <script>
-    import {fetchList,del} from '@/api/course_activity'
+    import {fetchList,del} from '@/api/courseActivity'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -136,10 +136,10 @@
                 this.getList();
             },
             handleAdd() {
-                this.$router.push({path:'/trs/addCourse_activity'});
+                this.$router.push({path:'/trs/addCourseActivity'});
             },
             handleUpdate(index, row){
-                this.$router.push({path:'/trs/updateCourse_activity',query:{id:row.id}});
+                this.$router.push({path:'/trs/updateCourseActivity',query:{id:row.id}});
             },
             handleDelete(index, row){
                 let ids=[];

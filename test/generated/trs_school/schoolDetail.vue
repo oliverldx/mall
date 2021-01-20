@@ -1,5 +1,5 @@
 <template>
-    <el-card class="form-container" shadow="never">
+    <el-card shadow="never">
         <el-form :model="school"
                  :rules="rules"
                  ref="schoolFrom"
@@ -28,18 +28,30 @@
                         <el-form-item label="地图标注" >
                           <el-input v-model="school.latlongitude"></el-input>
                         </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="school.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="school.modifyDate"></el-input>
-                    </el-form-item>
-                      <el-form-item label="状态">
-                      <el-radio-group v-model="school.status">
-                        <el-radio :label="0">禁用</el-radio>
-                        <el-radio :label="1">启用</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="school.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="school.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="school.status">
+                            <el-radio :label="0">禁用</el-radio>
+                            <el-radio :label="1">启用</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit('schoolFrom')">提交</el-button>
                 <el-button v-if="!isEdit" @click="resetForm('schoolFrom')">重置</el-button>
@@ -52,19 +64,25 @@
     import {fetchList, create, update, getById} from '@/api/school';
 
     const defaultSchool = {
+    id:'',
     name:'',
     contactName:'',
     contactNo:'',
     logo:'',
     subSchool:'',
+
     video:'',
     description:'',
+
     latlongitude:'',
+    createDate:'',
+    modifyDate:'',
     status:0,
     };
     export default {
         name: "SchoolDetail",
-        components: {},
+        components: {
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -75,13 +93,23 @@
             return {
             school: Object.assign({}, defaultSchool),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.school = response.data;
+                    if(this.school == null) {
+                        this.isReallyEdit = false;
+                        this.school = Object.assign({}, defaultSchool);
+                    }
                 });
             } else {
                 this.school = Object.assign({}, defaultSchool);

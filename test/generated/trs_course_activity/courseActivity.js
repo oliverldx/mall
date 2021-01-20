@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchList(params) {
     return request({
-        url:'/course_activity/list',
+        url:'/courseActivity/list',
         method:'get',
         params:params
       })
@@ -11,7 +11,7 @@ export function fetchList(params) {
 
 export function del(params) {
       return request({
-          url:'/course_activity/delete',
+          url:'/courseActivity/delete',
           method:'post',
           params:params
         })
@@ -19,7 +19,7 @@ export function del(params) {
 
 export function update(id,data) {
     return request({
-        url:'/course_activity/update/'+id,
+        url:'/courseActivity/update/'+id,
         method:'post',
         data:data
     })
@@ -27,14 +27,14 @@ export function update(id,data) {
 
 export function getById(id) {
     return request({
-        url:'/course_activity/'+id,
+        url:'/courseActivity/'+id,
         method:'get'
     })
 }
 
 export function create(data) {
     return request({
-        url:'/course_activity/add',
+        url:'/courseActivity/add',
         method:'post',
         data:data
     })

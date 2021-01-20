@@ -47,6 +47,7 @@ public class UpdateVueTask extends AbstractTask {
 
             Map<String, Object> controllerData = new HashMap<>();
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
             String subNameDetailHyphen = subName + "Detail";
             subNameDetailHyphen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN,subNameDetailHyphen);
             controllerData.put("subName", subName);

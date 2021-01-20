@@ -1,49 +1,61 @@
 <template>
-    <el-card class="form-container" shadow="never">
-        <el-form :model="course_activity"
+    <el-card shadow="never">
+        <el-form :model="courseActivity"
                  :rules="rules"
-                 ref="course_activityFrom"
+                 ref="courseActivityFrom"
                  label-width="150px">
-                    <el-form-item label="课程" >
-                        <el-input v-model="course_activity.trsCourseId"></el-input>
-                    </el-form-item>
-                    <el-form-item label="活动" >
-                        <el-input v-model="course_activity.trsActivityId"></el-input>
-                    </el-form-item>
                       <el-form-item label="库存" >
-                        <el-input v-model="course_activity.courseNum"></el-input>
+                        <el-input v-model="courseActivity.courseNum"></el-input>
                       </el-form-item>
                       <el-form-item label="报名数" >
-                        <el-input v-model="course_activity.applyNum"></el-input>
+                        <el-input v-model="courseActivity.applyNum"></el-input>
                       </el-form-item>
                       <el-form-item label="排序" >
-                        <el-input v-model="course_activity.sort"></el-input>
+                        <el-input v-model="courseActivity.sort"></el-input>
                       </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="course_activity.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="course_activity.modifyDate"></el-input>
-                    </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="courseActivity.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="courseActivity.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('course_activityFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('course_activityFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('courseActivityFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('courseActivityFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/course_activity';
+    import {fetchList, create, update, getById} from '@/api/courseActivity';
 
-    const defaultCourse_activity = {
+    const defaultCourseActivity = {
+    id:'',
+    trsCourseId:'',
+    trsActivityId:'',
     courseNum:0,
     applyNum:0,
     sort:0,
+    createDate:'',
+    modifyDate:'',
     };
     export default {
-        name: "Course_activityDetail",
-        components: {},
+        name: "CourseActivityDetail",
+        components: {
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -52,18 +64,28 @@
         },
         data() {
             return {
-            course_activity: Object.assign({}, defaultCourse_activity),
+            courseActivity: Object.assign({}, defaultCourseActivity),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.course_activity = response.data;
+                    this.courseActivity = response.data;
+                    if(this.courseActivity == null) {
+                        this.isReallyEdit = false;
+                        this.courseActivity = Object.assign({}, defaultCourseActivity);
+                    }
                 });
             } else {
-                this.course_activity = Object.assign({}, defaultCourse_activity);
+                this.courseActivity = Object.assign({}, defaultCourseActivity);
             }
         },
         methods: {
@@ -76,7 +98,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.course_activity).then(response => {
+                                update(this.$route.query.id, this.courseActivity).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -85,7 +107,7 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.course_activity).then(response => {
+                                create(this.courseActivity).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -109,7 +131,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.course_activity = Object.assign({}, defaultCourse_activity);
+                this.courseActivity = Object.assign({}, defaultCourseActivity);
             }
         }
     }

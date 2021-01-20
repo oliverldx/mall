@@ -1,11 +1,11 @@
 <template> 
-    <school_activity-detail :is-edit='true'></school_activity-detail>
+    <school-activity-detail :is-edit='true'></school-activity-detail>
 </template>
 <script>
-    import School_activityDetail from './components/school_activityDetail'
+    import SchoolActivityDetail from './components/schoolActivityDetail'
     export default {
-        name: 'addSchool_activity',
-        components: { School_activityDetail }
+        name: 'addSchoolActivity',
+        components: { SchoolActivityDetail }
     }
 </script>
 <style>

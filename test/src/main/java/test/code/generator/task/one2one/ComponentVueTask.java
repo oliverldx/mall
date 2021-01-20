@@ -38,6 +38,7 @@ public class ComponentVueTask extends AbstractTask {
                 continue;
             }
             Map<String, Column> cols = table.getCols();
+            Column fk = null;
             // label 和 labelIndex 同时存在 并且根据 labelIndex 排序, 字段名从LOWER_UNDERSCORE转为LOWER_CAMEL
             List<Column> columns = cols.values().stream().map(c -> {
                 Column column = new Column();
@@ -46,10 +47,10 @@ public class ComponentVueTask extends AbstractTask {
                 column.setCode(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, c.getCode()));
                 return column;
             }).collect(Collectors.toList());
-
             Map<String, Object> controllerData = new HashMap<>();
             controllerData.put("columns", columns);
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
             String modelName = StringUtils.substringBefore(table.getTableName(), "_");
             String subNameDetailHyphen = subName + "Detail";
             subNameDetailHyphen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN,subNameDetailHyphen);
@@ -67,6 +68,7 @@ public class ComponentVueTask extends AbstractTask {
             String parentTableSubName = StringUtils.substringAfter(parentTable.getTableName(), "_");
             parentTableSubName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,parentTableSubName);
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
+            controllerData.put("one2oneColName",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table.getOne2oneColName()));
             controllerData.put("parentTableSubName",parentTableSubName);
             String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2ONE_COMPONENT_DETAIL_VUE.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.ONE2ONE_COMPONENT_DETAIL_VUE.getValue(),table.getTableName(),templateString);

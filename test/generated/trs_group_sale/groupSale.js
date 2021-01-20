@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fetchList(params) {
     return request({
-        url:'/group_sale/list',
+        url:'/groupSale/list',
         method:'get',
         params:params
       })
@@ -11,7 +11,7 @@ export function fetchList(params) {
 
 export function del(params) {
       return request({
-          url:'/group_sale/delete',
+          url:'/groupSale/delete',
           method:'post',
           params:params
         })
@@ -19,7 +19,7 @@ export function del(params) {
 
 export function update(id,data) {
     return request({
-        url:'/group_sale/update/'+id,
+        url:'/groupSale/update/'+id,
         method:'post',
         data:data
     })
@@ -27,14 +27,14 @@ export function update(id,data) {
 
 export function getById(id) {
     return request({
-        url:'/group_sale/'+id,
+        url:'/groupSale/'+id,
         method:'get'
     })
 }
 
 export function create(data) {
     return request({
-        url:'/group_sale/add',
+        url:'/groupSale/add',
         method:'post',
         data:data
     })

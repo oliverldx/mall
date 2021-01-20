@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsCourseMapper;
 import com.macro.mall.model.TrsCourse;
 import com.macro.mall.dto.TrsCourseQueryParam;
 import com.macro.mall.dao.TrsCourseDao;
-import com.macro.mall.model.TrsCourseExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,7 @@ public class TrsCourseController {
         BindingResult result) {
         trsCourse.setModifyDate(new Date());
         int count = 0;
+        count = trsCourseMapper.updateByPrimaryKeySelective(trsCourse);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsCourseController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsCourseMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

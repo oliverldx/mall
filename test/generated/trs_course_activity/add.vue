@@ -1,11 +1,11 @@
 <template> 
-    <course_activity-detail :is-edit='false'></course_activity-detail>
+    <course-activity-detail :is-edit='false'></course-activity-detail>
 </template>
 <script>
-    import Course_activityDetail from './components/course_activityDetail'
+    import CourseActivityDetail from './components/courseActivityDetail'
     export default {
-        name: 'addCourse_activity',
-        components: { Course_activityDetail }
+        name: 'addCourseActivity',
+        components: { CourseActivityDetail }
     }
 </script>
 <style>

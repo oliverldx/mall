@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsCourseActivityMapper;
 import com.macro.mall.model.TrsCourseActivity;
 import com.macro.mall.dto.TrsCourseActivityQueryParam;
 import com.macro.mall.dao.TrsCourseActivityDao;
-import com.macro.mall.model.TrsCourseActivityExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.List;
 */
 @Controller
 @Api(tags = "TrsCourseActivityController", description = "课程活动管理")
-@RequestMapping("/course_activity")
+@RequestMapping("/courseActivity")
 public class TrsCourseActivityController {
 
     @Autowired
@@ -64,6 +63,7 @@ public class TrsCourseActivityController {
         BindingResult result) {
         trsCourseActivity.setModifyDate(new Date());
         int count = 0;
+        count = trsCourseActivityMapper.updateByPrimaryKeySelective(trsCourseActivity);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsCourseActivityController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsCourseActivityMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

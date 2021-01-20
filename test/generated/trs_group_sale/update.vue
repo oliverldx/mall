@@ -1,11 +1,11 @@
 <template> 
-    <group_sale-detail :is-edit='true'></group_sale-detail>
+    <group-sale-detail :is-edit='true'></group-sale-detail>
 </template>
 <script>
-    import Group_saleDetail from './components/group_saleDetail'
+    import GroupSaleDetail from './components/groupSaleDetail'
     export default {
-        name: 'addGroup_sale',
-        components: { Group_saleDetail }
+        name: 'addGroupSale',
+        components: { GroupSaleDetail }
     }
 </script>
 <style>

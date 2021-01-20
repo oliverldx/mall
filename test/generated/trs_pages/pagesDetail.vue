@@ -1,5 +1,5 @@
 <template>
-    <el-card class="form-container" shadow="never">
+    <el-card shadow="never">
         <el-form :model="pages"
                  :rules="rules"
                  ref="pagesFrom"
@@ -13,15 +13,27 @@
                       <el-form-item label="排序" >
                         <el-input v-model="pages.sort"></el-input>
                       </el-form-item>
-                    <el-form-item label="分享页顶部轮播图片">
-                        <el-input type="textarea" :autosize="true" v-model="pages.swipePic"></el-input>
-                    </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="pages.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="pages.modifyDate"></el-input>
-                    </el-form-item>
+                <el-form-item label="分享页顶部轮播图片">
+                    <multi-upload v-model="pages.swipePic"></multi-upload>
+                </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="pages.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="pages.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
                       <el-form-item label="首页学校显示数量" >
                         <el-input v-model="pages.showSchNum"></el-input>
                       </el-form-item>
@@ -31,39 +43,39 @@
                     <el-form-item label="分享图片">
                         <el-input type="textarea" :autosize="true" v-model="pages.sharePic"></el-input>
                     </el-form-item>
-                    <el-form-item label="分享描述">
-                        <el-input type="textarea" :autosize="true" v-model="pages.description"></el-input>
-                    </el-form-item>
+                <el-form-item label="分享描述">
+                    <tinymce :width="595" :height="300" v-model="pages.description"></tinymce>
+                </el-form-item>
                       <el-form-item label="首页课程显示数量" >
                         <el-input v-model="pages.showCrsNum"></el-input>
                       </el-form-item>
                     <el-form-item label="背景颜色">
                         <el-input type="textarea" :autosize="true" v-model="pages.backgroundColor"></el-input>
                     </el-form-item>
-                      <el-form-item label="收入排行榜">
-                      <el-radio-group v-model="pages.incomeRanking">
-                        <el-radio :label="0">不显示</el-radio>
-                        <el-radio :label="1">显示</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
-                      <el-form-item label="是否显示报名数">
-                      <el-radio-group v-model="pages.showBooking">
-                        <el-radio :label="0">不显示</el-radio>
-                        <el-radio :label="1">显示</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                <el-form-item label="收入排行榜">
+                    <el-radio-group v-model="pages.incomeRanking">
+                            <el-radio :label="0">不显示</el-radio>
+                            <el-radio :label="1">显示</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="是否显示报名数">
+                    <el-radio-group v-model="pages.showBooking">
+                            <el-radio :label="0">不显示</el-radio>
+                            <el-radio :label="1">显示</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                     <el-form-item label="音频文件">
                         <el-input type="textarea" :autosize="true" v-model="pages.audio"></el-input>
                     </el-form-item>
                     <el-form-item label="分享海报底部文字">
                         <el-input type="textarea" :autosize="true" v-model="pages.buttomText"></el-input>
                     </el-form-item>
-                      <el-form-item label="分享页显示我的收入">
-                      <el-radio-group v-model="pages.showMyIncome">
-                        <el-radio :label="0">不显示</el-radio>
-                        <el-radio :label="1">显示</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                <el-form-item label="分享页显示我的收入">
+                    <el-radio-group v-model="pages.showMyIncome">
+                            <el-radio :label="0">不显示</el-radio>
+                            <el-radio :label="1">显示</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                       <el-form-item label="倒计时天数" >
                         <el-input v-model="pages.dayLimit"></el-input>
                       </el-form-item>
@@ -77,28 +89,44 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/pages';
+        import MultiUpload from '@/components/Upload/multiUpload';
+        import Tinymce from '@/components/Tinymce';
 
     const defaultPages = {
+    id:'',
+    trsActivityId:'',
     name:'',
     subName:'',
     sort:0,
-    swipePic:'',
+    swipePic:[],
+
+    createDate:'',
+    modifyDate:'',
     showSchNum:0,
     topPic:'',
+
     sharePic:'',
+
     description:'',
+
     showCrsNum:0,
     backgroundColor:'',
+
     incomeRanking:0,
     showBooking:0,
     audio:'',
+
     buttomText:'',
+
     showMyIncome:0,
     dayLimit:0,
     };
     export default {
         name: "PagesDetail",
-        components: {},
+        components: {
+            MultiUpload,
+            Tinymce,
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -109,13 +137,23 @@
             return {
             pages: Object.assign({}, defaultPages),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.pages = response.data;
+                    if(this.pages == null) {
+                        this.isReallyEdit = false;
+                        this.pages = Object.assign({}, defaultPages);
+                    }
                 });
             } else {
                 this.pages = Object.assign({}, defaultPages);

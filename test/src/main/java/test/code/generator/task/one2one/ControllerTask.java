@@ -41,11 +41,13 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("tableName", CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, table.getTableName()));
             controllerData.put("chineseName",table.getComment());
             String subName = StringUtils.substringAfter(table.getTableName(), "_");
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, subName);
             controllerData.put("subName", subName);
             controllerData.put("urlPathAdd", "/" + subName + "/add");
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
+            System.out.println("rendering the " + table.getTableName());
             Map<String, Table> parentTables = table.getParentTables();
             boolean noGenDao = parentTables == null || parentTables.isEmpty();
             if(!noGenDao) {

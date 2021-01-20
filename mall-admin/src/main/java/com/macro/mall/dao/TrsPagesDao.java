@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 public interface TrsPagesDao {
 
     /**
-    * 根据ActivityId获取页面对象
+    * 根据activityId获取页面
     */
     TrsPages getByActivityId(@Param("activityId") Long activityId);
 

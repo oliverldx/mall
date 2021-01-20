@@ -50,6 +50,7 @@
         <mall-mbg.version>1.0-SNAPSHOT</mall-mbg.version>
         <mall-security.version>1.0-SNAPSHOT</mall-security.version>
         <arthas.version>3.4.3</arthas.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
     </properties>
 
     <dependencies>
@@ -82,6 +83,11 @@
             <groupId>com.taobao.arthas</groupId>
             <artifactId>arthas-spring-boot-starter</artifactId>
             <version>${arthas.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
     </dependencies>
 
@@ -195,6 +201,7 @@
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

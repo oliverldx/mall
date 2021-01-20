@@ -7,7 +7,6 @@ import com.macro.mall.mapper.TrsGroupSaleMapper;
 import com.macro.mall.model.TrsGroupSale;
 import com.macro.mall.dto.TrsGroupSaleQueryParam;
 import com.macro.mall.dao.TrsGroupSaleDao;
-import com.macro.mall.model.TrsGroupSaleExample;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import java.util.List;
 */
 @Controller
 @Api(tags = "TrsGroupSaleController", description = "课程活动管理")
-@RequestMapping("/group_sale")
+@RequestMapping("/groupSale")
 public class TrsGroupSaleController {
 
     @Autowired
@@ -64,6 +63,7 @@ public class TrsGroupSaleController {
         BindingResult result) {
         trsGroupSale.setModifyDate(new Date());
         int count = 0;
+        count = trsGroupSaleMapper.updateByPrimaryKeySelective(trsGroupSale);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -75,6 +75,12 @@ public class TrsGroupSaleController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsGroupSaleMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

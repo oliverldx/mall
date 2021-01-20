@@ -1,12 +1,9 @@
 <template>
-    <el-card class="form-container" shadow="never">
+    <el-card shadow="never">
         <el-form :model="course"
                  :rules="rules"
                  ref="courseFrom"
                  label-width="150px">
-                    <el-form-item label="培训机构" >
-                        <el-input v-model="course.trsSchoolId"></el-input>
-                    </el-form-item>
                         <el-form-item label="名称" >
                           <el-input v-model="course.name"></el-input>
                         </el-form-item>
@@ -19,18 +16,30 @@
                         <el-form-item label="图片" >
                           <el-input v-model="course.pic"></el-input>
                         </el-form-item>
-                    <el-form-item label="创建时间" >
-                        <el-input v-model="course.createDate"></el-input>
-                    </el-form-item>
-                    <el-form-item label="修改时间" >
-                        <el-input v-model="course.modifyDate"></el-input>
-                    </el-form-item>
-                      <el-form-item label="状态">
-                      <el-radio-group v-model="course.status">
-                        <el-radio :label="0">禁用</el-radio>
-                        <el-radio :label="1">启用</el-radio>
-                      </el-radio-group>
-                      </el-form-item>
+                        <el-form-item label="创建时间" >
+                            <el-date-picker
+                                    v-model="course.createDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="创建时间">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="修改时间" >
+                            <el-date-picker
+                                    v-model="course.modifyDate"
+                                    value-format="timestamp"
+                                    type="datetime"
+                                    :picker-options="pickerOptions1"
+                                    placeholder="修改时间">
+                            </el-date-picker>
+                        </el-form-item>
+                <el-form-item label="状态">
+                    <el-radio-group v-model="course.status">
+                            <el-radio :label="0">禁用</el-radio>
+                            <el-radio :label="1">启用</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit('courseFrom')">提交</el-button>
                 <el-button v-if="!isEdit" @click="resetForm('courseFrom')">重置</el-button>
@@ -43,14 +52,20 @@
     import {fetchList, create, update, getById} from '@/api/course';
 
     const defaultCourse = {
+    id:'',
+    trsSchoolId:'',
     name:'',
     description:'',
+
     pic:'',
+    createDate:'',
+    modifyDate:'',
     status:0,
     };
     export default {
         name: "CourseDetail",
-        components: {},
+        components: {
+        },
         props: {
             isEdit: {
                 type: Boolean,
@@ -61,13 +76,23 @@
             return {
             course: Object.assign({}, defaultCourse),
             rules: {
-            }
+            },
+            pickerOptions1: {
+                disabledDate(time) {
+                    return time.getTime() < Date.now();
+                }
+            },
+            isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.course = response.data;
+                    if(this.course == null) {
+                        this.isReallyEdit = false;
+                        this.course = Object.assign({}, defaultCourse);
+                    }
                 });
             } else {
                 this.course = Object.assign({}, defaultCourse);

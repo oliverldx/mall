@@ -79,7 +79,7 @@
 </template>
 
 <script>
-    import {fetchList,del} from '@/api/group_distribution'
+    import {fetchList,del} from '@/api/groupDistribution'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -124,10 +124,10 @@
                 this.getList();
             },
             handleAdd() {
-                this.$router.push({path:'/trs/addGroup_distribution'});
+                this.$router.push({path:'/trs/addGroupDistribution'});
             },
             handleUpdate(index, row){
-                this.$router.push({path:'/trs/updateGroup_distribution',query:{id:row.id}});
+                this.$router.push({path:'/trs/updateGroupDistribution',query:{id:row.id}});
             },
             handleDelete(index, row){
                 let ids=[];
