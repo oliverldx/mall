@@ -18,6 +18,8 @@ public class Table {
     private Map<String,Table> parentTables;
     private String one2oneColId;
     private String one2oneColName;
+    private String one2ManyColId;
+    private String one2ManyColName;
 
 
 

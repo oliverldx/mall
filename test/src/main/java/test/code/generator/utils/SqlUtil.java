@@ -17,13 +17,17 @@ import java.util.stream.Collectors;
 public class SqlUtil {
 
     public static String genSql(Table table) {
-        StringBuilder sb = new StringBuilder();
         Map<String, Column> cols = table.getCols();
         List<Column> collect = cols.values().stream()
                 .filter(col -> StringUtils.isNotBlank(col.getLabel()) && col.getLabelIndex() != null)
                 .sorted(Comparator.comparing(Column::getLabelIndex))
                 .collect(Collectors.toList());
 
+        return genSql(table, collect);
+    }
+
+    private static String genSql(Table table, List<Column> collect) {
+        StringBuilder sb = new StringBuilder();
         StringBuilder tableSb = new StringBuilder();
         Map<String, Table> parentTables = table.getParentTables();
         if(parentTables == null) {
@@ -46,7 +50,7 @@ public class SqlUtil {
             if(StringUtils.isBlank(col.getDescription())) {
                 selectJoiner.add(table.getTableName() + "." + col.getName());
             }else {
-                JSONObject jsonObject = new JSONObject(col.getDescription());
+                JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
                 String type = jsonObject.getStr("type");
                 if("sql".equals(type)) {
                     JSONArray jsonArray = jsonObject.getJSONArray("vals");
@@ -66,6 +70,25 @@ public class SqlUtil {
         sb.append(FileUtil.TAB).append(" FROM ");
         sb.append(tableSb.toString());
 
+        StringJoiner whereJoiner = new StringJoiner(" and ");
+        for (Column col : collect) {
+            if(StringUtils.isBlank(col.getDescription())) {
+                continue;
+            }
+            JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+            String type = jsonObject.getStr("type");
+            if ("sql_where".equals(type)) {
+                String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+                whereJoiner.add(table.getTableName() + "." + col.getName() + "=#{queryParam."+colName+"}");
+            }
+        }
+
+        if(whereJoiner.length() > 0 ) {
+            sb.append("\n\twhere \n");
+            sb.append("\t\t"+whereJoiner.toString());
+        }
+
+
         return sb.toString();
     }
 
@@ -75,5 +98,15 @@ public class SqlUtil {
                 "\t FROM "+table.getTableName()+" as "+table.getTableName()+" where "+table.getTableName()+"."+table.getOne2oneColName()+" = #{"+ CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_"))+"}";
 
         return sql;
+    }
+
+
+    public static String genOne2ManySql(Table table) {
+        Map<String, Column> cols = table.getCols();
+        List<Column> collect = cols.values().stream()
+                .filter(col -> StringUtils.isNotBlank(col.getLabel()))
+                .collect(Collectors.toList());
+
+        return genSql(table, collect);
     }
 }

@@ -131,6 +131,24 @@ public class FileUtil {
             case ONE2ONE_API_JS:
                 fileName = "one2one/" + subNameConvert + ".js";
                 break;
+            case ONE2MANY_CONTROLLER:
+                fileName = "one2many/" + tableNameConvert + "Controller.java";
+                break;
+            case ONE2MANY_DAO:
+                fileName = "one2many/" + tableNameConvert + "Dao.java";
+                break;
+            case ONE2MANY_DAO_XML:
+                fileName = "one2many/" + tableNameConvert + ".xml";
+                break;
+            case ONE2MANY_INDEX_VUE:
+                fileName = "one2many/" + subNameConvert + ".vue";
+                break;
+            case ONE2MANY_API_JS:
+                fileName = "one2many/" + subNameConvert + ".js";
+                break;
+            case ONE2MANY_QUERY_PARAM:
+                fileName = "one2many/" + tableNameConvert + "QueryParam.java";
+                break;
             default :
                 fileName = "null.java";
                 break;
@@ -198,6 +216,21 @@ public class FileUtil {
                 fileTypePath = "src/views";
                 break;
             case ONE2ONE_API_JS:
+                fileTypePath = "src/api";
+                break;
+            case ONE2MANY_CONTROLLER:
+                fileTypePath = "src/main/java/com/macro/mall/controller";
+                break;
+            case ONE2MANY_DAO:
+                fileTypePath = "src/main/java/com/macro/mall/dao";
+                break;
+            case ONE2MANY_DAO_XML:
+                fileTypePath = "src/main/resources/dao";
+                break;
+            case ONE2MANY_INDEX_VUE:
+                fileTypePath = "src/views";
+                break;
+            case ONE2MANY_API_JS:
                 fileTypePath = "src/api";
                 break;
             default :

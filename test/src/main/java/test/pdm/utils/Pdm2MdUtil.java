@@ -82,6 +82,9 @@ public class Pdm2MdUtil {
             if("1..1".equals(r.getCardinality())) {
                 childTable.setOne2oneColId(columnC.getId());
                 childTable.setOne2oneColName(columnC.getName());
+            } else if ("1..*".equals(r.getCardinality())) {
+                childTable.setOne2ManyColId(columnC.getId());
+                childTable.setOne2ManyColName(columnC.getName());
             }
 
             childTable.addParentTables(parentTable);

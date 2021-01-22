@@ -17,7 +17,13 @@ public enum FileTypeEnum {
     ONE2ONE_DAO(14,"one2one/dao"),
     ONE2ONE_DAO_XML(15,"one2one/dao_xml"),
     ONE2ONE_COMPONENT_DETAIL_VUE(16,"one2one/component_detail"),
-    ONE2ONE_API_JS(17,"one2one/api_js");
+    ONE2ONE_API_JS(17,"one2one/api_js"),
+    ONE2MANY_CONTROLLER(18,"one2many/controller"),
+    ONE2MANY_DAO(19,"one2many/dao"),
+    ONE2MANY_DAO_XML(20,"one2many/dao_xml"),
+    ONE2MANY_INDEX_VUE(21,"one2many/index_vue"),
+    ONE2MANY_API_JS(22,"one2many/api_js"),
+    ONE2MANY_QUERY_PARAM(23,"one2many/query_param");
 
 
     private int value;

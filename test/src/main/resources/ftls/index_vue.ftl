@@ -95,7 +95,7 @@
     };
 
     export default {
-        name: 'Course',
+        name: '${subName}',
         props: {},
         data() {
             return {
