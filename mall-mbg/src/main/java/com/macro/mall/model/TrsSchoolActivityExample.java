@@ -165,63 +165,63 @@ public class TrsSchoolActivityExample {
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdIsNull() {
-            addCriterion("school_id is null");
+        public Criteria andTrsSchoolIdIsNull() {
+            addCriterion("trs_school_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdIsNotNull() {
-            addCriterion("school_id is not null");
+        public Criteria andTrsSchoolIdIsNotNull() {
+            addCriterion("trs_school_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdEqualTo(Long value) {
-            addCriterion("school_id =", value, "schoolId");
+        public Criteria andTrsSchoolIdEqualTo(Long value) {
+            addCriterion("trs_school_id =", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdNotEqualTo(Long value) {
-            addCriterion("school_id <>", value, "schoolId");
+        public Criteria andTrsSchoolIdNotEqualTo(Long value) {
+            addCriterion("trs_school_id <>", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdGreaterThan(Long value) {
-            addCriterion("school_id >", value, "schoolId");
+        public Criteria andTrsSchoolIdGreaterThan(Long value) {
+            addCriterion("trs_school_id >", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("school_id >=", value, "schoolId");
+        public Criteria andTrsSchoolIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("trs_school_id >=", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdLessThan(Long value) {
-            addCriterion("school_id <", value, "schoolId");
+        public Criteria andTrsSchoolIdLessThan(Long value) {
+            addCriterion("trs_school_id <", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdLessThanOrEqualTo(Long value) {
-            addCriterion("school_id <=", value, "schoolId");
+        public Criteria andTrsSchoolIdLessThanOrEqualTo(Long value) {
+            addCriterion("trs_school_id <=", value, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdIn(List<Long> values) {
-            addCriterion("school_id in", values, "schoolId");
+        public Criteria andTrsSchoolIdIn(List<Long> values) {
+            addCriterion("trs_school_id in", values, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdNotIn(List<Long> values) {
-            addCriterion("school_id not in", values, "schoolId");
+        public Criteria andTrsSchoolIdNotIn(List<Long> values) {
+            addCriterion("trs_school_id not in", values, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdBetween(Long value1, Long value2) {
-            addCriterion("school_id between", value1, value2, "schoolId");
+        public Criteria andTrsSchoolIdBetween(Long value1, Long value2) {
+            addCriterion("trs_school_id between", value1, value2, "trsSchoolId");
             return (Criteria) this;
         }
 
-        public Criteria andSchoolIdNotBetween(Long value1, Long value2) {
-            addCriterion("school_id not between", value1, value2, "schoolId");
+        public Criteria andTrsSchoolIdNotBetween(Long value1, Long value2) {
+            addCriterion("trs_school_id not between", value1, value2, "trsSchoolId");
             return (Criteria) this;
         }
 

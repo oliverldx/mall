@@ -3,7 +3,7 @@
 <mapper namespace="com.macro.mall.mapper.TrsSchoolActivityMapper">
   <resultMap id="BaseResultMap" type="com.macro.mall.model.TrsSchoolActivity">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="school_id" jdbcType="BIGINT" property="schoolId" />
+    <result column="trs_school_id" jdbcType="BIGINT" property="trsSchoolId" />
     <result column="trs_activity_id" jdbcType="BIGINT" property="trsActivityId" />
     <result column="course_num" jdbcType="INTEGER" property="courseNum" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, school_id, trs_activity_id, course_num, sort, create_date, modify_date
+    id, trs_school_id, trs_activity_id, course_num, sort, create_date, modify_date
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.TrsSchoolActivityExample" resultMap="BaseResultMap">
     select
@@ -105,10 +105,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into trs_school_activity (school_id, trs_activity_id, course_num, 
+    insert into trs_school_activity (trs_school_id, trs_activity_id, course_num, 
       sort, create_date, modify_date
       )
-    values (#{schoolId,jdbcType=BIGINT}, #{trsActivityId,jdbcType=BIGINT}, #{courseNum,jdbcType=INTEGER}, 
+    values (#{trsSchoolId,jdbcType=BIGINT}, #{trsActivityId,jdbcType=BIGINT}, #{courseNum,jdbcType=INTEGER}, 
       #{sort,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -118,8 +118,8 @@
     </selectKey>
     insert into trs_school_activity
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="schoolId != null">
-        school_id,
+      <if test="trsSchoolId != null">
+        trs_school_id,
       </if>
       <if test="trsActivityId != null">
         trs_activity_id,
@@ -138,8 +138,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="schoolId != null">
-        #{schoolId,jdbcType=BIGINT},
+      <if test="trsSchoolId != null">
+        #{trsSchoolId,jdbcType=BIGINT},
       </if>
       <if test="trsActivityId != null">
         #{trsActivityId,jdbcType=BIGINT},
@@ -170,8 +170,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.schoolId != null">
-        school_id = #{record.schoolId,jdbcType=BIGINT},
+      <if test="record.trsSchoolId != null">
+        trs_school_id = #{record.trsSchoolId,jdbcType=BIGINT},
       </if>
       <if test="record.trsActivityId != null">
         trs_activity_id = #{record.trsActivityId,jdbcType=BIGINT},
@@ -196,7 +196,7 @@
   <update id="updateByExample" parameterType="map">
     update trs_school_activity
     set id = #{record.id,jdbcType=BIGINT},
-      school_id = #{record.schoolId,jdbcType=BIGINT},
+      trs_school_id = #{record.trsSchoolId,jdbcType=BIGINT},
       trs_activity_id = #{record.trsActivityId,jdbcType=BIGINT},
       course_num = #{record.courseNum,jdbcType=INTEGER},
       sort = #{record.sort,jdbcType=INTEGER},
@@ -209,8 +209,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TrsSchoolActivity">
     update trs_school_activity
     <set>
-      <if test="schoolId != null">
-        school_id = #{schoolId,jdbcType=BIGINT},
+      <if test="trsSchoolId != null">
+        trs_school_id = #{trsSchoolId,jdbcType=BIGINT},
       </if>
       <if test="trsActivityId != null">
         trs_activity_id = #{trsActivityId,jdbcType=BIGINT},
@@ -232,7 +232,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TrsSchoolActivity">
     update trs_school_activity
-    set school_id = #{schoolId,jdbcType=BIGINT},
+    set trs_school_id = #{trsSchoolId,jdbcType=BIGINT},
       trs_activity_id = #{trsActivityId,jdbcType=BIGINT},
       course_num = #{courseNum,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER},

@@ -25,7 +25,7 @@ public class TrsLocale implements Serializable {
     private Integer enable;
 
     @ApiModelProperty(value = "开启二维码自动注册老师")
-    private Integer autoRegTeacher;
+    private Integer autoRegTeache;
 
     @ApiModelProperty(value = "开启家长组二维码")
     private Integer qrcodeParents;
@@ -91,12 +91,12 @@ public class TrsLocale implements Serializable {
         this.enable = enable;
     }
 
-    public Integer getAutoRegTeacher() {
-        return autoRegTeacher;
+    public Integer getAutoRegTeache() {
+        return autoRegTeache;
     }
 
-    public void setAutoRegTeacher(Integer autoRegTeacher) {
-        this.autoRegTeacher = autoRegTeacher;
+    public void setAutoRegTeache(Integer autoRegTeache) {
+        this.autoRegTeache = autoRegTeache;
     }
 
     public Integer getQrcodeParents() {
@@ -128,7 +128,7 @@ public class TrsLocale implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", enable=").append(enable);
-        sb.append(", autoRegTeacher=").append(autoRegTeacher);
+        sb.append(", autoRegTeache=").append(autoRegTeache);
         sb.append(", qrcodeParents=").append(qrcodeParents);
         sb.append(", link=").append(link);
         sb.append(", serialVersionUID=").append(serialVersionUID);

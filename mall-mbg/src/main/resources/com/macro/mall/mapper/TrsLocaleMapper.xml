@@ -9,7 +9,7 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="enable" jdbcType="INTEGER" property="enable" />
-    <result column="auto_reg_teacher" jdbcType="INTEGER" property="autoRegTeacher" />
+    <result column="auto_reg_teache" jdbcType="INTEGER" property="autoRegTeache" />
     <result column="qrcode_parents" jdbcType="INTEGER" property="qrcodeParents" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TrsLocale">
@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, trs_activity_id, name, text_3d, create_date, modify_date, enable, auto_reg_teacher, 
+    id, trs_activity_id, name, text_3d, create_date, modify_date, enable, auto_reg_teache, 
     qrcode_parents
   </sql>
   <sql id="Blob_Column_List">
@@ -134,11 +134,11 @@
     </selectKey>
     insert into trs_locale (trs_activity_id, name, text_3d, 
       create_date, modify_date, enable, 
-      auto_reg_teacher, qrcode_parents, link
+      auto_reg_teache, qrcode_parents, link
       )
     values (#{trsActivityId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{text3d,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, #{enable,jdbcType=INTEGER}, 
-      #{autoRegTeacher,jdbcType=INTEGER}, #{qrcodeParents,jdbcType=INTEGER}, #{link,jdbcType=LONGVARCHAR}
+      #{autoRegTeache,jdbcType=INTEGER}, #{qrcodeParents,jdbcType=INTEGER}, #{link,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.TrsLocale">
@@ -165,8 +165,8 @@
       <if test="enable != null">
         enable,
       </if>
-      <if test="autoRegTeacher != null">
-        auto_reg_teacher,
+      <if test="autoRegTeache != null">
+        auto_reg_teache,
       </if>
       <if test="qrcodeParents != null">
         qrcode_parents,
@@ -194,8 +194,8 @@
       <if test="enable != null">
         #{enable,jdbcType=INTEGER},
       </if>
-      <if test="autoRegTeacher != null">
-        #{autoRegTeacher,jdbcType=INTEGER},
+      <if test="autoRegTeache != null">
+        #{autoRegTeache,jdbcType=INTEGER},
       </if>
       <if test="qrcodeParents != null">
         #{qrcodeParents,jdbcType=INTEGER},
@@ -235,8 +235,8 @@
       <if test="record.enable != null">
         enable = #{record.enable,jdbcType=INTEGER},
       </if>
-      <if test="record.autoRegTeacher != null">
-        auto_reg_teacher = #{record.autoRegTeacher,jdbcType=INTEGER},
+      <if test="record.autoRegTeache != null">
+        auto_reg_teache = #{record.autoRegTeache,jdbcType=INTEGER},
       </if>
       <if test="record.qrcodeParents != null">
         qrcode_parents = #{record.qrcodeParents,jdbcType=INTEGER},
@@ -258,7 +258,7 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       enable = #{record.enable,jdbcType=INTEGER},
-      auto_reg_teacher = #{record.autoRegTeacher,jdbcType=INTEGER},
+      auto_reg_teache = #{record.autoRegTeache,jdbcType=INTEGER},
       qrcode_parents = #{record.qrcodeParents,jdbcType=INTEGER},
       link = #{record.link,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -274,7 +274,7 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       enable = #{record.enable,jdbcType=INTEGER},
-      auto_reg_teacher = #{record.autoRegTeacher,jdbcType=INTEGER},
+      auto_reg_teache = #{record.autoRegTeache,jdbcType=INTEGER},
       qrcode_parents = #{record.qrcodeParents,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -301,8 +301,8 @@
       <if test="enable != null">
         enable = #{enable,jdbcType=INTEGER},
       </if>
-      <if test="autoRegTeacher != null">
-        auto_reg_teacher = #{autoRegTeacher,jdbcType=INTEGER},
+      <if test="autoRegTeache != null">
+        auto_reg_teache = #{autoRegTeache,jdbcType=INTEGER},
       </if>
       <if test="qrcodeParents != null">
         qrcode_parents = #{qrcodeParents,jdbcType=INTEGER},
@@ -321,7 +321,7 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       enable = #{enable,jdbcType=INTEGER},
-      auto_reg_teacher = #{autoRegTeacher,jdbcType=INTEGER},
+      auto_reg_teache = #{autoRegTeache,jdbcType=INTEGER},
       qrcode_parents = #{qrcodeParents,jdbcType=INTEGER},
       link = #{link,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -334,7 +334,7 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       enable = #{enable,jdbcType=INTEGER},
-      auto_reg_teacher = #{autoRegTeacher,jdbcType=INTEGER},
+      auto_reg_teache = #{autoRegTeache,jdbcType=INTEGER},
       qrcode_parents = #{qrcodeParents,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import test.code.generator.FileTypeEnum;
 import test.code.generator.task.AbstractTask;
 import test.code.generator.utils.FileUtil;
+import test.code.generator.utils.SubListUtil;
 import test.pdm.entity.Column;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
@@ -63,6 +64,9 @@ public class ApiJsTask extends AbstractTask {
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2ManyColName(),"_")));
+            SubListUtil.putFtlDataForSubList(controllerData,table);
+            controllerData.put("urlPathSubList", "/" + subName + "/"+StringUtils.uncapitalize((String)controllerData.get("subListName"))+"List");
+            controllerData.put("urlPathAddSubList", "/" + subName + "/add"+StringUtils.capitalize((String)controllerData.get("subListName"))+"List");
             String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_API_JS.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.ONE2MANY_API_JS.getValue(),table.getTableName(),templateString);
         }

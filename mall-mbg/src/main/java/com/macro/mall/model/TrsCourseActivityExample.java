@@ -165,63 +165,63 @@ public class TrsCourseActivityExample {
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdIsNull() {
-            addCriterion("course_id is null");
+        public Criteria andTrsCourseIdIsNull() {
+            addCriterion("trs_course_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdIsNotNull() {
-            addCriterion("course_id is not null");
+        public Criteria andTrsCourseIdIsNotNull() {
+            addCriterion("trs_course_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdEqualTo(Long value) {
-            addCriterion("course_id =", value, "courseId");
+        public Criteria andTrsCourseIdEqualTo(Long value) {
+            addCriterion("trs_course_id =", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdNotEqualTo(Long value) {
-            addCriterion("course_id <>", value, "courseId");
+        public Criteria andTrsCourseIdNotEqualTo(Long value) {
+            addCriterion("trs_course_id <>", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdGreaterThan(Long value) {
-            addCriterion("course_id >", value, "courseId");
+        public Criteria andTrsCourseIdGreaterThan(Long value) {
+            addCriterion("trs_course_id >", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("course_id >=", value, "courseId");
+        public Criteria andTrsCourseIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("trs_course_id >=", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdLessThan(Long value) {
-            addCriterion("course_id <", value, "courseId");
+        public Criteria andTrsCourseIdLessThan(Long value) {
+            addCriterion("trs_course_id <", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdLessThanOrEqualTo(Long value) {
-            addCriterion("course_id <=", value, "courseId");
+        public Criteria andTrsCourseIdLessThanOrEqualTo(Long value) {
+            addCriterion("trs_course_id <=", value, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdIn(List<Long> values) {
-            addCriterion("course_id in", values, "courseId");
+        public Criteria andTrsCourseIdIn(List<Long> values) {
+            addCriterion("trs_course_id in", values, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdNotIn(List<Long> values) {
-            addCriterion("course_id not in", values, "courseId");
+        public Criteria andTrsCourseIdNotIn(List<Long> values) {
+            addCriterion("trs_course_id not in", values, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdBetween(Long value1, Long value2) {
-            addCriterion("course_id between", value1, value2, "courseId");
+        public Criteria andTrsCourseIdBetween(Long value1, Long value2) {
+            addCriterion("trs_course_id between", value1, value2, "trsCourseId");
             return (Criteria) this;
         }
 
-        public Criteria andCourseIdNotBetween(Long value1, Long value2) {
-            addCriterion("course_id not between", value1, value2, "courseId");
+        public Criteria andTrsCourseIdNotBetween(Long value1, Long value2) {
+            addCriterion("trs_course_id not between", value1, value2, "trsCourseId");
             return (Criteria) this;
         }
 

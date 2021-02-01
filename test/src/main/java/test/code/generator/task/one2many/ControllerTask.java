@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import test.code.generator.FileTypeEnum;
 import test.code.generator.task.AbstractTask;
 import test.code.generator.utils.FileUtil;
+import test.code.generator.utils.SubListUtil;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
 import test.pdm.utils.Pdm2MdUtil;
@@ -47,7 +48,9 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
-            controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2ManyColName(),"_")));
+            String fkId = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2ManyColName(), "_"));
+            controllerData.put("fkId", fkId);
+            controllerData.put("fkIdFullName",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table.getOne2ManyColName()));
             System.out.println("rendering the " + table.getTableName());
             Map<String, Table> parentTables = table.getParentTables();
             boolean noGenDao = parentTables == null || parentTables.isEmpty();
@@ -56,6 +59,7 @@ public class ControllerTask extends AbstractTask {
             }else {
                 controllerData.put("genDao", "");
             }
+            SubListUtil.putFtlDataForSubList(controllerData,table);
             String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_CONTROLLER.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.ONE2MANY_CONTROLLER.getValue(),table.getTableName(),templateString);
             if(noGenDao) {

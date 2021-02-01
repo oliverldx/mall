@@ -165,7 +165,7 @@
 
 <#if script>
 <script>
-    import {fetchList,create, update,del} from '@/api/${subName}'
+    import {fetchList,create, update,del} from '@/api/${parentTableSubName}/${subName}'
     <@importJs/>
 
     const default${subName?cap_first} = {
@@ -222,6 +222,9 @@
         },
         data() {
             return {
+                ${subName}: Object.assign({}, default${subName?cap_first}),
+                rules: {
+                },
                 listQuery: Object.assign({}, defaultListQuery),
                 listLoading: true,
                 list: null,

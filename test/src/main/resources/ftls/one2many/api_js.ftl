@@ -40,4 +40,21 @@ export function create(data) {
     })
 }
 
+<#if showSubList>
 
+export function fetch${subListName?cap_first}List(params) {
+    return request({
+        url:'${urlPathSubList}',
+        method:'get',
+        params:params
+    })
+}
+
+export function create${subListName?cap_first}List(params) {
+    return request({
+        url:'${urlPathAddSubList}',
+        method:'post',
+        params:params
+    })
+}
+</#if>

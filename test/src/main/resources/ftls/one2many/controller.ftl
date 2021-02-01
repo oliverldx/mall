@@ -6,8 +6,12 @@ import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.${tableName}Mapper;
 import com.macro.mall.model.${tableName};
 <#if genDao?default("")?trim?length gt 1>
+import com.macro.mall.dto.${tableName}Dto;
 import com.macro.mall.dto.${tableName}QueryParam;
 import com.macro.mall.dao.${tableName}Dao;
+</#if>
+<#if showSubList>
+import com.macro.mall.dto.${tableName}SubListQueryParam;
 </#if>
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,14 +56,19 @@ public class ${tableName}Controller {
     @ApiOperation("获取${chineseName}列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<${tableName}>> list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+<#if genDao?default("")?trim?length gt 1>
+    public CommonResult<CommonPage<${tableName}Dto>>
+<#else >
+    public CommonResult<CommonPage<${tableName}>>
+</#if>
+        list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
 <#if genDao?default("")?trim?length gt 1>
         ${tableName}QueryParam ${tableName?uncap_first}QueryParam,
 </#if>
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
 <#if genDao?default("")?trim?length gt 1>
-        List<${tableName}> ${tableName?uncap_first}List = ${tableName?uncap_first}Dao.getList(${tableName?uncap_first}QueryParam);
+        List<${tableName}Dto> ${tableName?uncap_first}List = ${tableName?uncap_first}Dao.getList(${tableName?uncap_first}QueryParam);
 <#else>
         ${tableName}Example example = new ${tableName}Example();
         List<${tableName}> ${tableName?uncap_first}List = ${tableName?uncap_first}Mapper.selectByExample(example);
@@ -105,4 +114,47 @@ public class ${tableName}Controller {
         ${tableName} ${tableName?uncap_first} = ${tableName?uncap_first}Mapper.selectByPrimaryKey(id);
         return CommonResult.success(${tableName?uncap_first});
     }
+
+
+    <#if showSubList>
+    @ApiOperation("获取${subListName?uncap_first}列表")
+    @RequestMapping(value = "/${subListName?uncap_first}List", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<${tableName}SubListQueryParam>> ${subListName?uncap_first}List(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+        ${tableName}SubListQueryParam ${tableName?uncap_first}SubListQueryParam,
+    @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<${tableName}SubListQueryParam> ${subListName?uncap_first}List = ${tableName?uncap_first}Dao.get${subListName}List(${tableName?uncap_first}SubListQueryParam);
+        return  CommonResult.success(CommonPage.restPage(${subListName?uncap_first}List),"获取${chineseName}-${subListName?uncap_first}列表成功");
+    }
+
+    @ApiOperation("添加${chineseName}-${subListName?uncap_first}")
+    @RequestMapping(value = "/add${subListName}List", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult add${subListName}List(@RequestParam("ids") List<Long> ids, @RequestParam("${fkId}") Long ${fkId}) {
+        int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        Date createDate = new Date();
+        for (Long id : ids) {
+            ${tableName} ${tableName?uncap_first} = new  ${tableName}();
+            ${tableName?uncap_first}.setCreateDate(createDate);
+            ${tableName?uncap_first}.setModifyDate(createDate);
+            <#list subColumns as column>
+                <#if column.code == fkId>
+                    ${tableName?uncap_first}.set${column.name?cap_first}(${fkId});
+                <#else >
+                    ${tableName?uncap_first}.set${column.name?cap_first}(id);
+                </#if>
+            </#list>
+            count = ${tableName?uncap_first}Mapper.insert(${tableName?uncap_first});
+        }
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+        }
+    </#if>
+
 }

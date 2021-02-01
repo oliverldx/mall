@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MoveFileTask extends AbstractTask {
@@ -61,8 +60,7 @@ public class MoveFileTask extends AbstractTask {
         String moveFileFolder = null;
         for (Table table : tableList) {
 
-            Optional<Table> first = table.getParentTables().values().stream().findFirst();
-            Table parentTable = first.get();
+            Table parentTable = getParentTable(table.getOne2oneColId(),table);
 
             filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_CONTROLLER.getValue(), table.getTableName());
             moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2ONE_CONTROLLER.getValue());

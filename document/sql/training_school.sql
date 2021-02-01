@@ -53,7 +53,7 @@ drop table if exists trs_school_activity;
 create table trs_school_activity
 (
     id                   bigint not null auto_increment,
-    school_id            bigint,
+    trs_school_id            bigint,
     trs_activity_id      bigint,
     course_num           int comment '可选课程数量',
     sort                 int comment '排序',
@@ -103,7 +103,7 @@ drop table if exists trs_course_activity;
 create table trs_course_activity
 (
     id                   bigint not null auto_increment,
-    course_id            bigint,
+    trs_course_id            bigint,
     trs_activity_id      bigint,
     course_num           int comment '库存',
     apply_num            int comment '报名数',
@@ -245,3 +245,35 @@ create table trs_group_sale
 );
 
 alter table trs_group_sale comment '课程活动';
+
+
+drop table if exists tus_user;
+
+drop table if exists tus_user;
+
+/*==============================================================*/
+/* Table: tus_user                                              */
+/*==============================================================*/
+create table tus_user
+(
+    id                   bigint not null auto_increment comment 'ID',
+    user_id              varchar(10) comment '用户ID',
+    pic                  text comment '头像',
+    nick_name            varchar(100) comment '昵称',
+    level                char(1) comment '等级',
+    balance              decimal comment '余额',
+    sex                  int(1) comment '性别',
+    name                 varchar(100) comment '姓名',
+    mobile               varchar(15) comment '手机号',
+    take_order           char(1) comment '是否下单',
+    invite_people_count  int comment '邀请人数',
+    create_date          datetime comment '注册时间',
+    modify_date          datetime comment '修改时间',
+    parent_level_one     bigint comment '上一级',
+    parent_level_two     bigint comment '上二级',
+    province             varchar(10) comment '省',
+    city                 varchar(10) comment '市',
+    primary key (id)
+);
+
+alter table tus_user comment '用户';

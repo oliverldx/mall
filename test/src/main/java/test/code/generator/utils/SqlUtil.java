@@ -5,13 +5,11 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.google.common.base.CaseFormat;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import test.pdm.entity.Column;
 import test.pdm.entity.Table;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SqlUtil {
@@ -37,11 +35,12 @@ public class SqlUtil {
 
         for(String k : parentTables.keySet()) {
             Table parentTable = parentTables.get(k);
-            String fkName = table.getCols().values().stream().filter(Column::isFkFlag).findFirst().get().getFkColumnName();
+            String fkName = table.getCols().values().stream().filter(Column::isFkFlag).filter(column -> column.getFkTable().getId().equals(k)).findFirst().get().getName();
+            String pkName = parentTable.getCols().values().stream().filter(Column::isPkFlag).findFirst().get().getName();
             tableSb.append(FileUtil.TAB).append(" LEFT JOIN ")
                     .append(parentTable.getTableName()).append(" as ").append(parentTable.getTableName())
                     .append(" ON ").append(table.getTableName()).append(".").append(fkName)
-                    .append(" = ").append(parentTable.getTableName()).append(".").append(fkName).append(FileUtil.SEPERATE_LINE);
+                    .append(" = ").append(parentTable.getTableName()).append(".").append(pkName).append(FileUtil.SEPERATE_LINE);
         }
 
         sb.append("SELECT ");
@@ -106,7 +105,87 @@ public class SqlUtil {
         List<Column> collect = cols.values().stream()
                 .filter(col -> StringUtils.isNotBlank(col.getLabel()))
                 .collect(Collectors.toList());
-
         return genSql(table, collect);
     }
+
+    public static String genOne2ManySubListSQl(List<Map> subListCols,Table table) {
+        Optional<Column> colSubList = SubListUtil.getSubListColumn(table);
+        Column column = colSubList.get();
+
+        StringBuilder tableSb = new StringBuilder();
+        Table fkTable = column.getFkTable();
+        Optional<Column> pkColumn = fkTable.getCols().values().stream().filter(col -> col.isPkFlag()).findFirst();
+        Column pkCol = pkColumn.get();
+
+        StringJoiner where = new StringJoiner(FileUtil.SEPERATE_LINE);
+        where.add(table.getTableName()+"."+pkCol.getName() + " IS NULL");
+
+        StringJoiner select = new StringJoiner(",");
+        for(Map m : subListCols) {
+            StringBuilder whereConditionStringBuilder = new StringBuilder();
+            String colName = (String) m.get("colName");
+            select.add(fkTable.getTableName()+"."+colName);
+            String to = "queryParam."+CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, colName);
+            whereConditionStringBuilder.append(FileUtil.TAB).append("<if test=\""+to+"!=null\">").append(FileUtil.SEPERATE_LINE)
+                    .append(FileUtil.TAB).append(" and ").append(fkTable.getTableName()).append(".").append(colName)
+                    .append(" = #{").append(to).append("}").append(FileUtil.SEPERATE_LINE).append(FileUtil.TAB).append("</if>");
+            where.add(whereConditionStringBuilder.toString());
+        }
+
+        String fkName = table.getCols().values().stream().filter(Column::isFkFlag).filter(col -> col.getFkTable().getId().equals(fkTable.getId())).findFirst().get().getName();
+        tableSb.append(fkTable.getTableName()).append(" as ").append(fkTable.getTableName()).append(FileUtil.SEPERATE_LINE);
+        tableSb.append(FileUtil.TAB).append(" LEFT JOIN ")
+                .append(table.getTableName()).append(" as ").append(table.getTableName())
+                .append(" ON ").append(fkTable.getTableName()).append(".").append(pkCol.getName())
+                .append(" = ").append(table.getTableName()).append(".").append(fkName).append(FileUtil.SEPERATE_LINE);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT ")
+                .append(select.toString()).append(FileUtil.SEPERATE_LINE)
+                .append(FileUtil.TAB).append(" FROM ").append(FileUtil.SEPERATE_LINE)
+                .append(FileUtil.TAB).append(tableSb.toString()).append(FileUtil.SEPERATE_LINE)
+                .append(FileUtil.TAB).append(" WHERE ").append(FileUtil.SEPERATE_LINE)
+                .append(FileUtil.TAB).append(where.toString());
+        return sb.toString();
+    }
+
+    public static List<Column> getAliasColumns(Table table) {
+        Map<String, Column> cols = table.getCols();
+        List<Column> tableAliasColumns = new ArrayList<>();
+        cols.values().stream()
+                .filter(col -> {
+                    if (StringUtils.isNotBlank(col.getDescription())) {
+                        return true;
+                    }
+                    return false;
+                }).forEach(col -> {
+                    JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+                    String type = jsonObject.getStr("type");
+                    if("sql".equals(type)) {
+                        JSONArray vals = jsonObject.getJSONArray("vals");
+                        List<Column> columns = vals.stream().map(json -> {
+                            String dataName = ((JSONObject) json).getStr("dataName");
+                            String alias = ((JSONObject) json).getStr("alias");
+                            String label = ((JSONObject) json).getStr("label");
+                            Integer labelIndex = ((JSONObject) json).getInt("labelIndex");
+                            Optional<Column> first = col.getFkTable().getCols().values().stream().filter(c -> c.getName().equals(dataName)).findFirst();
+                            Column column = new Column();
+                            BeanUtils.copyProperties(first.get(), column);
+                            column.setName(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, alias));
+                            column.setCode(alias);
+                            if(StringUtils.isNotBlank(label)) {
+                                column.setLabel(label);
+                            }
+                            if(labelIndex != null) {
+                                column.setLabelIndex(labelIndex);
+                            }
+                            return column;
+                        }).collect(Collectors.toList());
+                        tableAliasColumns.addAll(columns);
+                    }
+                });
+        return tableAliasColumns;
+    }
+
+
 }

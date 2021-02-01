@@ -31,13 +31,13 @@
                                         取消
                                     </el-button>
                                 </template>
-                                {{scope.row.id}}
+                                <span v-else>{{scope.row.id}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column label="培训机构" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.trsSchoolId" class="edit-input" size="small" />
+                                    <el-input v-model="scope.row.schoolName" class="edit-input" size="small" />
                                     <el-button
                                             class="cancel-btn"
                                             size="small"
@@ -48,7 +48,7 @@
                                         取消
                                     </el-button>
                                 </template>
-                                {{scope.row.trsSchoolId}}
+                                <span v-else>{{scope.row.schoolName}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column label="每单可选课程数量" width="180" align="center">
@@ -65,7 +65,7 @@
                                         取消
                                     </el-button>
                                 </template>
-                                {{scope.row.courseNum}}
+                                <span v-else>{{scope.row.courseNum}}</span>
                             </template>
                         </el-table-column>
                         <el-table-column label="排序" width="180" align="center">
@@ -82,7 +82,7 @@
                                         取消
                                     </el-button>
                                 </template>
-                                {{scope.row.sort}}
+                                <span v-else>{{scope.row.sort}}</span>
                             </template>
                         </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
@@ -125,42 +125,54 @@
                     :total="total">
             </el-pagination>
         </div>
-        <el-dialog title="添加" :visible.sync="dialogFormVisible">
-            <el-form ref="schoolActivityFrom" :rules="rules" :model="schoolActivity" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-                                    <el-form-item label="ID" >
-                                        <el-input v-model="schoolActivity.id"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="可选课程数量" >
-                                        <el-input v-model="schoolActivity.courseNum"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="排序" >
-                                        <el-input v-model="schoolActivity.sort"></el-input>
-                                    </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">
-                    取消
-                </el-button>
-                <el-button type="primary" @click="onSubmit('schoolActivityFrom')">
-                    提交
-                </el-button>
+        <el-dialog title="新增" :visible.sync="selectDialogVisible" width="50%">
+            <el-input v-model="dialogData.listQuery.keyword"
+                      style="width: 250px;margin-bottom: 20px"
+                      size="small"
+                      placeholder="商品名称搜索">
+                <el-button slot="append" icon="el-icon-search" @click="handleSelectSearch()"></el-button>
+            </el-input>
+            <el-table :data="dialogData.list"
+                      @selection-change="handleDialogSelectionChange" border>
+                <el-table-column type="selection" width="60" align="center"></el-table-column>
+                        <el-table-column label="ID" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.id}}</template>
+                        </el-table-column>
+                        <el-table-column label="标志" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.logo}}</template>
+                        </el-table-column>
+                        <el-table-column label="名称" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.name}}</template>
+                        </el-table-column>
+                        <el-table-column label="联系人" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.contactName}}</template>
+                        </el-table-column>
+            </el-table>
+            <div class="pagination-container">
+                <el-pagination
+                        background
+                        @size-change="handleDialogSizeChange"
+                        @current-change="handleDialogCurrentChange"
+                        layout="prev, pager, next"
+                        :current-page.sync="dialogData.listQuery.pageNum"
+                        :page-size="dialogData.listQuery.pageSize"
+                        :page-sizes="[5,10,15]"
+                        :total="dialogData.total">
+                </el-pagination>
+            </div>
+            <div style="clear: both;"></div>
+            <div slot="footer">
+                <el-button  size="small" @click="selectDialogVisible = false">取 消</el-button>
+                <el-button  size="small" type="primary" @click="handleSelectDialogConfirm()">确 定</el-button>
             </div>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import {fetchList,create, update,del} from '@/api/schoolActivity'
-
-    const defaultSchoolActivity = {
-        id:'',
-        trsSchoolId:'',
-        courseNum:0,
-        sort:0,
-    };
+    import {fetchList,create, update,del,fetchSchoolList,createSchoolList} from '@/api/activity/schoolActivity'
 
     const defaultListQuery = {
-        activityId: this.activityId,
         pageNum: 1,
         pageSize: 10
     };
@@ -179,8 +191,18 @@
                 list: null,
                 total: null,
                 operateType: null,
-                dialogFormVisible: false,
-                multipleSelection: []
+                multipleSelection: [],
+                selectDialogVisible:false,
+                dialogData:{
+                    list: null,
+                    total: null,
+                    multipleSelection:[],
+                    listQuery:{
+                        keyword: null,
+                        pageNum: 1,
+                        pageSize: 5
+                    }
+                }
             }
         },
         created() {
@@ -208,14 +230,13 @@
                 this.getList();
             },
             handleAdd() {
-                this.dialogFormVisible = true
-                this.$nextTick(() => {
-                    this.$refs['schoolActivityFrom'].clearValidate()
-                })
+                this.selectDialogVisible=true;
+                this.getDialogList();
             },
             cancelEdit(row) {
-                row.originalCourseNum = row.courseNum
-                row.originalSort = row.sort
+                row.schoolName = row.originalSchoolName
+                row.courseNum = row.originalCourseNum
+                row.sort = row.originalSort
                 row.edit = false
                 this.$message({
                     message: '修改已取消',
@@ -223,6 +244,7 @@
                 })
             },
             confirmEdit(row) {
+                row.originalSchoolName = row.schoolName
                 row.originalCourseNum = row.courseNum
                 row.originalSort = row.sort
                 row.edit = false
@@ -242,9 +264,17 @@
             },
             getList() {
                 this.listLoading = true;
+                this.listQuery.trsActivityId=this.activityId;
                 fetchList(this.listQuery).then(response => {
                     this.listLoading = false;
-                    this.list = response.data.list;
+                    const dataList = response.data.list;
+                    this.list = dataList.map(row => {
+                        this.$set(row, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+                row.originalSchoolName = row.schoolName
+                row.originalCourseNum = row.courseNum
+                row.originalSort = row.sort
+                        return row
+                    })
                     this.total = response.data.total;
                 });
             },
@@ -266,39 +296,58 @@
                     });
                 })
             },
-            onSubmit(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.$confirm('是否提交数据', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.schoolActivity.trsActivityId=this.activityId
-                            create(this.schoolActivity).then(response => {
-                                this.$refs[formName].resetFields();
-                                this.resetForm(formName);
-                                this.$message({
-                                    message: '提交成功',
-                                    type: 'success',
-                                    duration: 1000
-                                });
-                            });
-                        });
-
-                    } else {
+            handleSelectSearch(){
+                this.getDialogList();
+            },
+            handleDialogSizeChange(val) {
+                this.dialogData.listQuery.pageNum = 1;
+                this.dialogData.listQuery.pageSize = val;
+                this.getDialogList();
+            },
+            handleDialogCurrentChange(val) {
+                this.dialogData.listQuery.pageNum = val;
+                this.getDialogList();
+            },
+            handleDialogSelectionChange(val){
+                this.dialogData.multipleSelection = val;
+            },
+            handleSelectDialogConfirm(){
+                if (this.dialogData.multipleSelection < 1) {
+                    this.$message({
+                        message: '请选择一条记录',
+                        type: 'warning',
+                        duration: 1000
+                    });
+                    return;
+                }
+                let params = new URLSearchParams();
+                let selectSchools = [];
+                for (let i = 0; i < this.dialogData.multipleSelection.length; i++) {
+                    selectSchools.push(this.dialogData.multipleSelection[i].id);
+                }
+                this.$confirm('使用要进行添加操作?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    params.append("ids",selectSchools);
+                    params.append("activityId",this.activityId);
+                    createSchoolList(params).then(response=>{
+                        this.selectDialogVisible=false;
+                        this.dialogData.multipleSelection=[];
+                        this.getList();
                         this.$message({
-                            message: '验证失败',
-                            type: 'error',
-                            duration: 1000
+                            type: 'success',
+                            message: '添加成功!'
                         });
-                        return false;
-                    }
+                    });
                 });
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-                this.schoolActivity = Object.assign({}, defaultSchoolActivity);
+            getDialogList(){
+                fetchSchoolList(this.dialogData.listQuery).then(response=>{
+                    this.dialogData.list=response.data.list;
+                    this.dialogData.total=response.data.total;
+                })
             }
         }
     }

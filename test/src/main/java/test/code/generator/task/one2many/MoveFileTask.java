@@ -9,6 +9,8 @@ import test.code.generator.FileTypeEnum;
 import test.code.generator.ProjectFilePathEnum;
 import test.code.generator.task.AbstractTask;
 import test.code.generator.utils.FileUtil;
+import test.code.generator.utils.SubListUtil;
+import test.pdm.entity.Column;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
 import test.pdm.utils.Pdm2MdUtil;
@@ -39,7 +41,7 @@ public class MoveFileTask extends AbstractTask {
     @Override
     public List<Table> getTables(Model model) {
         Map<String, Table> tabs = model.getTables();
-        List<String> convertTabs = CollectionUtil.newArrayList("trs_pages","trs_group_sale","trs_group_distribution","trs_locale");
+        List<String> convertTabs = CollectionUtil.newArrayList("trs_school_activity","trs_course_activity");
         List<Table> tableList = tabs.values().stream().filter(t -> {
             if(convertTabs.isEmpty()) {
                 return true;
@@ -61,24 +63,28 @@ public class MoveFileTask extends AbstractTask {
         String moveFileFolder = null;
         for (Table table : tableList) {
 
-            Optional<Table> first = table.getParentTables().values().stream().findFirst();
-            Table parentTable = first.get();
+            Table parentTable = getParentTable(table.getOne2ManyColId(),table);
 
-            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_CONTROLLER.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2ONE_CONTROLLER.getValue());
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_CONTROLLER.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_CONTROLLER.getValue());
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
 
-
-            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_COMPONENT_DETAIL_VUE.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2ONE_COMPONENT_DETAIL_VUE.getValue());
+            Optional<Column> subListColumn = SubListUtil.getSubListColumn(table);
+            if(subListColumn.isPresent()) {
+                filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_SUBLIST_INDEX_VUE.getValue(), table.getTableName());
+                moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2MANY_SUBLIST_INDEX_VUE.getValue());
+            }else {
+                filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_INDEX_VUE.getValue(), table.getTableName());
+                moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2MANY_INDEX_VUE.getValue());
+            }
             String subName = StringUtils.substringAfter(parentTable.getTableName(), "_");
             String modelName = StringUtils.substringBefore(parentTable.getTableName(), "_");
             moveFileFolder += File.separator + modelName + File.separator + subName;
             moveFileFolder += File.separator + "components";
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
 
-            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_API_JS.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2ONE_API_JS.getValue());
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_API_JS.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2MANY_API_JS.getValue());
 
             String parentTableSubName = StringUtils.substringAfter(parentTable.getTableName(), "_");
             parentTableSubName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,parentTableSubName);
@@ -90,13 +96,27 @@ public class MoveFileTask extends AbstractTask {
                 continue;
             }
 
-            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_DAO.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2ONE_DAO.getValue());
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_DAO.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_DAO.getValue());
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
 
-            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_DAO_XML.getValue(), table.getTableName());
-            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2ONE_DAO_XML.getValue());
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_DAO_XML.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_DAO_XML.getValue());
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_QUERY_PARAM.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_QUERY_PARAM.getValue());
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_ENTITY_DTO.getValue(), table.getTableName());
+            moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_ENTITY_DTO.getValue());
+            FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+
+            if(subListColumn.isPresent()) {
+                filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_SUBLIST_QUERY_PARAM.getValue(), table.getTableName());
+                moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN.getValue(), FileTypeEnum.ONE2MANY_SUBLIST_QUERY_PARAM.getValue());
+                FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
+            }
 
         }
     }

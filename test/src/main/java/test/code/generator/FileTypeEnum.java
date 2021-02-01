@@ -23,7 +23,12 @@ public enum FileTypeEnum {
     ONE2MANY_DAO_XML(20,"one2many/dao_xml"),
     ONE2MANY_INDEX_VUE(21,"one2many/index_vue"),
     ONE2MANY_API_JS(22,"one2many/api_js"),
-    ONE2MANY_QUERY_PARAM(23,"one2many/query_param");
+    ONE2MANY_QUERY_PARAM(23,"one2many/query_param"),
+    ONE2MANY_SUBLIST_QUERY_PARAM(24,"one2many/sublist_query_param"),
+    ONE2MANY_SUBLIST_INDEX_VUE(25,"one2many/sublist_vue"),
+    ENTITY_DTO(26,"entity_dto"),
+    ONE2ONE_ENTITY_DTO(27,"one2one/entity_dto"),
+    ONE2MANY_ENTITY_DTO(28,"one2many/entity_dto");
 
 
     private int value;

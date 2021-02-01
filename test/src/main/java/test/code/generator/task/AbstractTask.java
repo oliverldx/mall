@@ -2,6 +2,7 @@ package test.code.generator.task;
 
 import cn.hutool.core.collection.CollectionUtil;
 import freemarker.template.TemplateException;
+import test.pdm.entity.Column;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
 
@@ -14,7 +15,7 @@ public abstract class AbstractTask {
 
     public List<Table> getTables(Model model) {
         Map<String, Table> tabs = model.getTables();
-        List<String> convertTabs = CollectionUtil.newArrayList();
+        List<String> convertTabs = CollectionUtil.newArrayList("tus_user");
         List<Table> tableList = tabs.values().stream().filter(t -> {
             if(convertTabs.isEmpty()) {
                 return true;
@@ -28,6 +29,11 @@ public abstract class AbstractTask {
         }
         return tableList;
 
+    }
+
+    public Table getParentTable(String fkColId, Table table) {
+        Column column = table.getCols().get(fkColId);
+        return column.getFkTable();
     }
 
     public  abstract void run(Model model) throws IOException, TemplateException;

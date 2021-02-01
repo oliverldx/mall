@@ -545,63 +545,63 @@ public class TrsLocaleExample {
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherIsNull() {
-            addCriterion("auto_reg_teacher is null");
+        public Criteria andAutoRegTeacheIsNull() {
+            addCriterion("auto_reg_teache is null");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherIsNotNull() {
-            addCriterion("auto_reg_teacher is not null");
+        public Criteria andAutoRegTeacheIsNotNull() {
+            addCriterion("auto_reg_teache is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherEqualTo(Integer value) {
-            addCriterion("auto_reg_teacher =", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheEqualTo(Integer value) {
+            addCriterion("auto_reg_teache =", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherNotEqualTo(Integer value) {
-            addCriterion("auto_reg_teacher <>", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheNotEqualTo(Integer value) {
+            addCriterion("auto_reg_teache <>", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherGreaterThan(Integer value) {
-            addCriterion("auto_reg_teacher >", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheGreaterThan(Integer value) {
+            addCriterion("auto_reg_teache >", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherGreaterThanOrEqualTo(Integer value) {
-            addCriterion("auto_reg_teacher >=", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheGreaterThanOrEqualTo(Integer value) {
+            addCriterion("auto_reg_teache >=", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherLessThan(Integer value) {
-            addCriterion("auto_reg_teacher <", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheLessThan(Integer value) {
+            addCriterion("auto_reg_teache <", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherLessThanOrEqualTo(Integer value) {
-            addCriterion("auto_reg_teacher <=", value, "autoRegTeacher");
+        public Criteria andAutoRegTeacheLessThanOrEqualTo(Integer value) {
+            addCriterion("auto_reg_teache <=", value, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherIn(List<Integer> values) {
-            addCriterion("auto_reg_teacher in", values, "autoRegTeacher");
+        public Criteria andAutoRegTeacheIn(List<Integer> values) {
+            addCriterion("auto_reg_teache in", values, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherNotIn(List<Integer> values) {
-            addCriterion("auto_reg_teacher not in", values, "autoRegTeacher");
+        public Criteria andAutoRegTeacheNotIn(List<Integer> values) {
+            addCriterion("auto_reg_teache not in", values, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherBetween(Integer value1, Integer value2) {
-            addCriterion("auto_reg_teacher between", value1, value2, "autoRegTeacher");
+        public Criteria andAutoRegTeacheBetween(Integer value1, Integer value2) {
+            addCriterion("auto_reg_teache between", value1, value2, "autoRegTeache");
             return (Criteria) this;
         }
 
-        public Criteria andAutoRegTeacherNotBetween(Integer value1, Integer value2) {
-            addCriterion("auto_reg_teacher not between", value1, value2, "autoRegTeacher");
+        public Criteria andAutoRegTeacheNotBetween(Integer value1, Integer value2) {
+            addCriterion("auto_reg_teache not between", value1, value2, "autoRegTeache");
             return (Criteria) this;
         }
 

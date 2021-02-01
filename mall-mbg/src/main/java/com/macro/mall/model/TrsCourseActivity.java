@@ -7,7 +7,7 @@ import java.util.Date;
 public class TrsCourseActivity implements Serializable {
     private Long id;
 
-    private Long courseId;
+    private Long trsCourseId;
 
     private Long trsActivityId;
 
@@ -36,12 +36,12 @@ public class TrsCourseActivity implements Serializable {
         this.id = id;
     }
 
-    public Long getCourseId() {
-        return courseId;
+    public Long getTrsCourseId() {
+        return trsCourseId;
     }
 
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
+    public void setTrsCourseId(Long trsCourseId) {
+        this.trsCourseId = trsCourseId;
     }
 
     public Long getTrsActivityId() {
@@ -99,7 +99,7 @@ public class TrsCourseActivity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", courseId=").append(courseId);
+        sb.append(", trsCourseId=").append(trsCourseId);
         sb.append(", trsActivityId=").append(trsActivityId);
         sb.append(", courseNum=").append(courseNum);
         sb.append(", applyNum=").append(applyNum);

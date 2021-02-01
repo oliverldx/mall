@@ -2,12 +2,14 @@ package test.code.generator.task.one2many;
 
 import com.google.common.base.CaseFormat;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import test.code.generator.FileTypeEnum;
 import test.code.generator.task.AbstractTask;
 import test.code.generator.utils.FileUtil;
 import test.code.generator.utils.SqlUtil;
+import test.code.generator.utils.SubListUtil;
 import test.pdm.entity.Column;
 import test.pdm.entity.Model;
 import test.pdm.entity.Table;
@@ -56,11 +58,17 @@ public class DaoTask extends AbstractTask {
         controllerData.put("columns", columns);
         controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2ManyColName(),"_")));
         controllerData.put("sql", SqlUtil.genOne2ManySql(table));
+        controllerData.put("aliasColumns", SqlUtil.getAliasColumns(table));
+        SubListUtil.putFtlDataForSubList(controllerData,table);
         String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_DAO.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.ONE2MANY_DAO.getValue(),table.getTableName(),templateString);
 
+
         templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_DAO_XML.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.ONE2MANY_DAO_XML.getValue(),table.getTableName(),templateString);
+
+        templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_ENTITY_DTO.getValue(), controllerData);
+        FileUtil.generateFile(FileTypeEnum.ONE2MANY_ENTITY_DTO.getValue(),table.getTableName(),templateString);
 
         columns = cols.values().stream().filter(col -> StringUtils.isNotBlank(col.getLabel())).map(c -> {
             Column column = new Column();
@@ -72,6 +80,14 @@ public class DaoTask extends AbstractTask {
         controllerData.put("columns", columns);
         templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_QUERY_PARAM.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.ONE2MANY_QUERY_PARAM.getValue(),table.getTableName(),templateString);
+
+        Boolean showSubList = (Boolean)controllerData.get("showSubList");
+        if(BooleanUtils.isTrue(showSubList)) {
+            templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_SUBLIST_QUERY_PARAM.getValue(), controllerData);
+            FileUtil.generateFile(FileTypeEnum.ONE2MANY_SUBLIST_QUERY_PARAM.getValue(),table.getTableName(),templateString);
+        }
+
+
 
     }
 

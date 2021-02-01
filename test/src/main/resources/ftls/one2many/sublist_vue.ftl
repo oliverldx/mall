@@ -1,3 +1,5 @@
+<#include "../base/base.ftl">
+<#if template>
 <template>
     <div class="app-container">
         <el-card class="operate-container" shadow="never">
@@ -17,10 +19,13 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
+                <#list columns as column>
+                    <#--只渲染label不为空的字段-->
+                    <#if column.label?default("")?trim?length gt 1>
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.id" class="edit-input" size="small" />
+                                    <el-input v-model="scope.row.${column.name}" class="edit-input" size="small" />
                                     <el-button
                                             class="cancel-btn"
                                             size="small"
@@ -31,77 +36,11 @@
                                         取消
                                     </el-button>
                                 </template>
-                                <span v-else>{{scope.row.id}}</span>
+                                <span v-else>{{scope.row.${column.name}}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="课程" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.courseName" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                <span v-else>{{scope.row.courseName}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="库存数" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.courseNum" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                <span v-else>{{scope.row.courseNum}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="排序" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.sort" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                <span v-else>{{scope.row.sort}}</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="报名数" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.applyNum" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                <span v-else>{{scope.row.applyNum}}</span>
-                            </template>
-                        </el-table-column>
+                    </#if>
+                </#list>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -152,18 +91,14 @@
             <el-table :data="dialogData.list"
                       @selection-change="handleDialogSelectionChange" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
+                <#list subListColumns as column>
+                <#--只渲染label不为空的字段-->
+                    <#if column.label?default("")?trim?length gt 1>
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.${column.name}}}</template>
                         </el-table-column>
-                        <el-table-column label="头图" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.pic}}</template>
-                        </el-table-column>
-                        <el-table-column label="课程名称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="原价" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.price}}</template>
-                        </el-table-column>
+                    </#if>
+                </#list>
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -185,9 +120,11 @@
         </el-dialog>
     </div>
 </template>
+</#if>
 
+<#if script>
 <script>
-    import {fetchList,create, update,del,fetchCourseList,createCourseList} from '@/api/activity/courseActivity'
+    import {fetchList,create, update,del,fetch${subListName?cap_first}List,create${subListName?cap_first}List} from '@/api/${parentTableSubName}/${subName}'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -195,9 +132,9 @@
     };
 
     export default {
-        name: 'courseActivity',
+        name: '${subName}',
         props: {
-            activityId: {
+            ${fkId}: {
                 type: [String, Number]
             }
         },
@@ -251,10 +188,7 @@
                 this.getDialogList();
             },
             cancelEdit(row) {
-                row.courseName = row.originalCourseName
-                row.courseNum = row.originalCourseNum
-                row.sort = row.originalSort
-                row.applyNum = row.originalApplyNum
+                <@resetCol columns=columns/>
                 row.edit = false
                 this.$message({
                     message: '修改已取消',
@@ -262,13 +196,10 @@
                 })
             },
             confirmEdit(row) {
-                row.originalCourseName = row.courseName
-                row.originalCourseNum = row.courseNum
-                row.originalSort = row.sort
-                row.originalApplyNum = row.applyNum
+                <@addOrignCol columns=columns/>
                 row.edit = false
-                this.courseActivity.trsActivityId=this.activityId
-                update(this.activityId, this.courseActivity).then(response => {
+                this.${subName}.${one2manyColName}=this.${fkId}
+                update(this.${fkId}, this.${subName}).then(response => {
                     this.$message({
                         message: '修改成功',
                         type: 'success',
@@ -283,16 +214,13 @@
             },
             getList() {
                 this.listLoading = true;
-                this.listQuery.trsActivityId=this.activityId;
+                this.listQuery.${fkIdFullName}=this.${fkId};
                 fetchList(this.listQuery).then(response => {
                     this.listLoading = false;
                     const dataList = response.data.list;
                     this.list = dataList.map(row => {
                         this.$set(row, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
-                row.originalCourseName = row.courseName
-                row.originalCourseNum = row.courseNum
-                row.originalSort = row.sort
-                row.originalApplyNum = row.applyNum
+                        <@addOrignCol columns=columns/>
                         return row
                     })
                     this.total = response.data.total;
@@ -341,18 +269,18 @@
                     return;
                 }
                 let params = new URLSearchParams();
-                let selectCourses = [];
+                let select${subListName?cap_first}s = [];
                 for (let i = 0; i < this.dialogData.multipleSelection.length; i++) {
-                    selectCourses.push(this.dialogData.multipleSelection[i].id);
+                    select${subListName?cap_first}s.push(this.dialogData.multipleSelection[i].id);
                 }
                 this.$confirm('使用要进行添加操作?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    params.append("ids",selectCourses);
-                    params.append("activityId",this.activityId);
-                    createCourseList(params).then(response=>{
+                    params.append("ids",select${subListName?cap_first}s);
+                    params.append("${fkId}",this.${fkId});
+                    create${subListName?cap_first}List(params).then(response=>{
                         this.selectDialogVisible=false;
                         this.dialogData.multipleSelection=[];
                         this.getList();
@@ -364,7 +292,7 @@
                 });
             },
             getDialogList(){
-                fetchCourseList(this.dialogData.listQuery).then(response=>{
+                fetch${subListName?cap_first}List(this.dialogData.listQuery).then(response=>{
                     this.dialogData.list=response.data.list;
                     this.dialogData.total=response.data.total;
                 })
@@ -372,8 +300,28 @@
         }
     }
 </script>
+</#if>
 
+<#if style>
 <style lang="scss" scoped>
 
 </style>
+</#if>
 
+<#macro addOrignCol columns>
+    <#list columns as column>
+    <#--只渲染label不为空的字段-->
+        <#if column.label?default("")?trim?length gt 1 && !column.pkFlag && !column.fkFlag>
+                row.original${column.name?cap_first} = row.${column.name}
+        </#if>
+    </#list>
+</#macro>
+
+<#macro resetCol columns>
+    <#list columns as column>
+    <#--只渲染label不为空的字段-->
+        <#if column.label?default("")?trim?length gt 1 && !column.pkFlag && !column.fkFlag>
+                row.${column.name} = row.original${column.name?cap_first}
+        </#if>
+    </#list>
+</#macro>

@@ -40,10 +40,19 @@ export function create(data) {
     })
 }
 
-export function getByActivityId(id) {
+
+export function fetchCourseList(params) {
     return request({
-        url:'/courseActivity/getByActivityId/'+id,
-        method:'get'
+        url:'/courseActivity/courseList',
+        method:'get',
+        params:params
     })
 }
 
+export function createCourseList(params) {
+    return request({
+        url:'/courseActivity/addCourseList',
+        method:'post',
+        params:params
+    })
+}

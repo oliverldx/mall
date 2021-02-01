@@ -141,6 +141,7 @@ public class FileUtil {
                 fileName = "one2many/" + tableNameConvert + ".xml";
                 break;
             case ONE2MANY_INDEX_VUE:
+            case ONE2MANY_SUBLIST_INDEX_VUE:
                 fileName = "one2many/" + subNameConvert + ".vue";
                 break;
             case ONE2MANY_API_JS:
@@ -148,6 +149,18 @@ public class FileUtil {
                 break;
             case ONE2MANY_QUERY_PARAM:
                 fileName = "one2many/" + tableNameConvert + "QueryParam.java";
+                break;
+            case ONE2MANY_SUBLIST_QUERY_PARAM:
+                fileName = "one2many/" + tableNameConvert + "SubListQueryParam.java";
+                break;
+            case ENTITY_DTO:
+                fileName = tableNameConvert + "Dto.java";
+                break;
+            case ONE2ONE_ENTITY_DTO:
+                fileName = "one2one/" + tableNameConvert + "Dto.java";
+                break;
+            case ONE2MANY_ENTITY_DTO:
+                fileName = "one2many/" + tableNameConvert + "Dto.java";
                 break;
             default :
                 fileName = "null.java";
@@ -181,55 +194,39 @@ public class FileUtil {
         String fileTypePath = "";
         switch (fileTypeEnum) {
             case CONTROLLER:
+            case ONE2ONE_CONTROLLER:
+            case ONE2MANY_CONTROLLER:
                 fileTypePath = "src/main/java/com/macro/mall/controller";
                 break;
+            case ENTITY_DTO:
+            case ONE2ONE_ENTITY_DTO:
+            case ONE2MANY_ENTITY_DTO:
             case QUERY_PARAM:
+            case ONE2MANY_QUERY_PARAM:
+            case ONE2MANY_SUBLIST_QUERY_PARAM:
                 fileTypePath = "src/main/java/com/macro/mall/dto";
                 break;
             case DAO:
+            case ONE2ONE_DAO:
+            case ONE2MANY_DAO:
                 fileTypePath = "src/main/java/com/macro/mall/dao";
+                break;
+            case DAO_XML:
+            case ONE2ONE_DAO_XML:
+            case ONE2MANY_DAO_XML:
+                fileTypePath = "src/main/resources/dao";
                 break;
             case INDEX_VUE:
             case ADD_VUE:
             case UPDATE_VUE:
+            case COMPONENT_DETAIL_VUE:
+            case ONE2ONE_COMPONENT_DETAIL_VUE:
+            case ONE2MANY_INDEX_VUE:
+            case ONE2MANY_SUBLIST_INDEX_VUE:
                 fileTypePath = "src/views";
-                break;
-            case DAO_XML:
-                fileTypePath = "src/main/resources/dao";
                 break;
             case API_JS:
-                fileTypePath = "src/api";
-                break;
-            case COMPONENT_DETAIL_VUE:
-                fileTypePath = "src/views";
-                break;
-            case ONE2ONE_CONTROLLER:
-                fileTypePath = "src/main/java/com/macro/mall/controller";
-                break;
-            case ONE2ONE_DAO:
-                fileTypePath = "src/main/java/com/macro/mall/dao";
-                break;
-            case ONE2ONE_DAO_XML:
-                fileTypePath = "src/main/resources/dao";
-                break;
-            case ONE2ONE_COMPONENT_DETAIL_VUE:
-                fileTypePath = "src/views";
-                break;
             case ONE2ONE_API_JS:
-                fileTypePath = "src/api";
-                break;
-            case ONE2MANY_CONTROLLER:
-                fileTypePath = "src/main/java/com/macro/mall/controller";
-                break;
-            case ONE2MANY_DAO:
-                fileTypePath = "src/main/java/com/macro/mall/dao";
-                break;
-            case ONE2MANY_DAO_XML:
-                fileTypePath = "src/main/resources/dao";
-                break;
-            case ONE2MANY_INDEX_VUE:
-                fileTypePath = "src/views";
-                break;
             case ONE2MANY_API_JS:
                 fileTypePath = "src/api";
                 break;
