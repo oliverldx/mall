@@ -277,3 +277,36 @@ create table tus_user
 );
 
 alter table tus_user comment '用户';
+
+drop table if exists tus_capital_record;
+
+/*==============================================================*/
+/* Table: tus_capital_record                                    */
+/*==============================================================*/
+create table tus_capital_record
+(
+    id                   bigint not null auto_increment comment 'ID',
+    tus_id               bigint comment 'ID',
+    money                decimal comment '金额',
+    description          text comment '备注',
+    create_date          datetime comment '注册时间',
+    modify_date          datetime comment '修改时间',
+    primary key (id)
+);
+
+alter table tus_capital_record comment '资金记录';
+
+drop table if exists tus_promotion_poster;
+
+/*==============================================================*/
+/* Table: tus_promotion_poster                                  */
+/*==============================================================*/
+create table tus_promotion_poster
+(
+    id                   bigint not null auto_increment comment 'ID',
+    tus_id               bigint comment 'ID',
+    poster               text comment '海报',
+    primary key (id)
+);
+
+alter table tus_promotion_poster comment '推广海报';

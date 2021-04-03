@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TusPromotionPosterDao">
+
+    <select id="getByUserId" resultMap="com.macro.mall.mapper.TusPromotionPosterMapper.BaseResultMap">
+        SELECT *
+	 FROM tus_promotion_poster as tus_promotion_poster where tus_promotion_poster.tus_user_id = #{userId}
+    </select>
+</mapper>

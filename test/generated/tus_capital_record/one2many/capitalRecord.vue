@@ -1,5 +1,3 @@
-<#include "../base/base.ftl">
-<#if template>
 <template>
     <div class="app-container">
         <el-card class="operate-container" shadow="never">
@@ -19,13 +17,10 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <#list columns as column>
-                    <#--只渲染label不为空的字段-->
-                    <#if column.label?default("")?trim?length gt 1>
-                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                        <el-table-column label="金额" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.${column.name}" class="edit-input" size="small" />
+                                    <el-input v-model="scope.row.money" class="edit-input" size="small" />
                                     <el-button
                                             class="cancel-btn"
                                             size="small"
@@ -36,11 +31,43 @@
                                         取消
                                     </el-button>
                                 </template>
-                                {{scope.row.${column.name}}}
+                                {{scope.row.money}}
                             </template>
                         </el-table-column>
-                    </#if>
-                </#list>
+                        <el-table-column label="备注" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.description" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                {{scope.row.description}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="时间" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.modifyDate" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                {{scope.row.modifyDate}}
+                            </template>
+                        </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -82,147 +109,60 @@
             </el-pagination>
         </div>
         <el-dialog title="添加" :visible.sync="dialogFormVisible">
-            <el-form ref="${subName}From" :rules="rules" :model="${subName}" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-                <@assignVar />
-                <#list columns as column>
-                    <#if column.comment??>
-                        <#switch column.type>
-                            <#case "bigint">
-                                <#if (column.pkFlag)!>
-                                    <el-form-item label="${column.comment}" >
-                                        <el-input v-model="${subName}.${column.name}"></el-input>
+            <el-form ref="capitalRecordFrom" :rules="rules" :model="capitalRecord" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+                                <el-form-item label="金额" >
+                                    <el-input v-model="capitalRecord.money"></el-input>
+                                </el-form-item>
+                                    <el-form-item label="备注">
+                                        <el-input type="textarea" :autosize="true" v-model="capitalRecord.description"></el-input>
                                     </el-form-item>
-                                </#if>
-                                <#break>
-                            <#case "varchar">
-                                <#if column.length == 1>
-                                    <@renderFormItem column=column></@renderFormItem>
-                                <#else>
-                                    <el-form-item label="${column.comment}" >
-                                        <el-input v-model="${subName}.${column.name}"></el-input>
-                                    </el-form-item>
-                                </#if>
-                                <#break>
-                            <#case "text">
-                                <#if column.description??>
-                                    <@renderFormItem column=column></@renderFormItem>
-                                <#else >
-                                    <el-form-item label="${column.comment}">
-                                        <el-input type="textarea" :autosize="true" v-model="${subName}.${column.name}"></el-input>
-                                    </el-form-item>
-                                </#if>
-                                <#break>
-                            <#case "int">
-                                <#if column.length?? && column.length == 1 && column.description??>
-                                    <@renderFormItem column=column></@renderFormItem>
-                                <#else>
-                                    <el-form-item label="${column.comment}" >
-                                        <el-input v-model="${subName}.${column.name}"></el-input>
-                                    </el-form-item>
-                                </#if>
-                                <#break>
-                            <#case "char">
-                                <#if column.length == 1>
-                                    <@renderFormItem column=column></@renderFormItem>
-                                <#else>
-                                    <el-form-item label="${column.comment}" >
-                                        <el-input v-model="${subName}.${column.name}"></el-input>
-                                    </el-form-item>
-                                </#if>
-                                <#break>
-                            <#case "datetime">
-                                <#assign showDateTime = true />
-                                <el-form-item label="${column.comment}" >
+                                <el-form-item label="修改时间" >
                                     <el-date-picker
-                                            v-model="${subName}.${column.name}"
+                                            v-model="capitalRecord.modifyDate"
                                             value-format="timestamp"
                                             type="datetime"
                                             :picker-options="pickerOptions1"
-                                            placeholder="${column.comment}">
+                                            placeholder="修改时间">
                                     </el-date-picker>
                                 </el-form-item>
-                                <#break>
-                            <#default>
-                                <el-form-item label="${column.comment}" >
-                                    <el-input v-model="${subName}.${column.name}"></el-input>
-                                </el-form-item>
-                        </#switch>
-                    </#if>
-                </#list>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">
                     取消
                 </el-button>
-                <el-button type="primary" @click="onSubmit('${subName}From')">
+                <el-button type="primary" @click="onSubmit('capitalRecordFrom')">
                     提交
                 </el-button>
             </div>
         </el-dialog>
     </div>
 </template>
-</#if>
 
-<#if script>
 <script>
-    import {fetchList,create, update,del} from '@/api/${parentTableSubName}/${subName}'
-    <@importJs/>
+    import {fetchList,create, update,del} from '@/api/user/capitalRecord'
 
-    const default${subName?cap_first} = {
-        <#list columns as column>
-        <#switch column.type>
-        <#case "bigint">
-        ${column.name}:'',
-        <#break>
-        <#case "varchar">
-        ${column.name}:'',
-        <#break>
-        <#case "text">
-        <#if column.description??>
-        <#assign json=column.description?eval />
-        <#switch json[column.name].type>
-        <#case "singleUpload">
-        <#case "multiUpload">
-        ${column.name}:[],
-        <#break >
-        <#default >
-        ${column.name}:'',
-        </#switch>
-        <#else >
-        ${column.name}:'',
-        </#if>
+    const defaultCapitalRecord = {
+        description:'',
 
-        <#break>
-        <#case "int">
-        ${column.name}:0,
-        <#break>
-        <#case "char">
-        ${column.name}:'',
-        <#break>
-        <#case "datetime">
-        ${column.name}:'',
-        <#break>
-        <#default>
-        </#switch>
-        </#list>
+        modifyDate:'',
     };
 
     const defaultListQuery = {
-        ${fkId}: this.${fkId},
+        userId: this.userId,
         pageNum: 1,
         pageSize: 10
     };
 
     export default {
-        name: '${subName}',
+        name: 'capitalRecord',
         props: {
-            ${fkId}: {
+            userId: {
                 type: [String, Number]
             }
         },
         data() {
             return {
-                ${subName}: Object.assign({}, default${subName?cap_first}),
+                capitalRecord: Object.assign({}, defaultCapitalRecord),
                 rules: {
                 },
                 listQuery: Object.assign({}, defaultListQuery),
@@ -266,11 +206,13 @@
             handleAdd() {
                 this.dialogFormVisible = true
                 this.$nextTick(() => {
-                    this.$refs['${subName}From'].clearValidate()
+                    this.$refs['capitalRecordFrom'].clearValidate()
                 })
             },
             cancelEdit(row) {
-                <@addOrignCol columns=columns/>
+                row.originalMoney = row.money
+                row.originalDescription = row.description
+                row.originalModifyDate = row.modifyDate
                 row.edit = false
                 this.$message({
                     message: '修改已取消',
@@ -278,10 +220,12 @@
                 })
             },
             confirmEdit(row) {
-                <@addOrignCol columns=columns/>
+                row.originalMoney = row.money
+                row.originalDescription = row.description
+                row.originalModifyDate = row.modifyDate
                 row.edit = false
-                this.${subName}.${one2manyColName}=this.${fkId}
-                update(this.${fkId}, this.${subName}).then(response => {
+                this.capitalRecord.tusUserId=this.userId
+                update(this.userId, this.capitalRecord).then(response => {
                     this.$message({
                         message: '修改成功',
                         type: 'success',
@@ -328,8 +272,8 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            this.${subName}.${one2manyColName}=this.${fkId}
-                            create(this.${subName}).then(response => {
+                            this.capitalRecord.tusUserId=this.userId
+                            create(this.capitalRecord).then(response => {
                                 this.$refs[formName].resetFields();
                                 this.resetForm(formName);
                                 this.$message({
@@ -352,33 +296,13 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.${subName} = Object.assign({}, default${subName?cap_first});
+                this.capitalRecord = Object.assign({}, defaultCapitalRecord);
             }
         }
     }
 </script>
-</#if>
 
-<#if style>
 <style lang="scss" scoped>
 
 </style>
-</#if>
 
-<#macro addOrignCol columns>
-    <#list columns as column>
-    <#--只渲染label不为空的字段-->
-        <#if column.label?default("")?trim?length gt 1 && !column.pkFlag && !column.fkFlag>
-                row.original${column.name?cap_first} = row.${column.name}
-        </#if>
-    </#list>
-</#macro>
-
-<#macro resetCol columns>
-    <#list columns as column>
-    <#--只渲染label不为空的字段-->
-        <#if column.label?default("")?trim?length gt 1 && !column.pkFlag && !column.fkFlag>
-                row.${column.name} = row.original${column.name?cap_first}
-        </#if>
-    </#list>
-</#macro>
