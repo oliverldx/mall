@@ -249,8 +249,6 @@ alter table trs_group_sale comment '课程活动';
 
 drop table if exists tus_user;
 
-drop table if exists tus_user;
-
 /*==============================================================*/
 /* Table: tus_user                                              */
 /*==============================================================*/

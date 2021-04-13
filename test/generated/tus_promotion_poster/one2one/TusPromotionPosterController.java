@@ -1,18 +1,15 @@
 package com.macro.mall.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dao.TusPromotionPosterDao;
 import com.macro.mall.mapper.TusPromotionPosterMapper;
 import com.macro.mall.model.TusPromotionPoster;
-import com.macro.mall.dao.TusPromotionPosterDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;

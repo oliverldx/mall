@@ -46,8 +46,15 @@ public class TrsCourseController {
         return  CommonResult.success(chooseCourses,"获取课程列表成功");
     }
 
+    @ApiOperation("获取课程")
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<TrsCourse> get(@PathVariable Long id) {
+        TrsCourse trsCourse = trsCourseMapper.selectByPrimaryKey(id);
+        return  CommonResult.success(trsCourse,"获取课程内容成功");
+    }
 
-    @ApiOperation("删除购物车中的某个商品")
+    @ApiOperation("删除课程")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult delete(@RequestParam("ids") List<Long> ids) {

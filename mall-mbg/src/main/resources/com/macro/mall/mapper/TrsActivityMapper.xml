@@ -17,6 +17,7 @@
     <result column="gift_num" jdbcType="INTEGER" property="giftNum" />
     <result column="lucky_draw" jdbcType="INTEGER" property="luckyDraw" />
     <result column="school_mark" jdbcType="INTEGER" property="schoolMark" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TrsActivity">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -81,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, price, sales_num, course_num, qrcode, end_date, start_date, create_date, 
-    modify_date, status, choose_all_course, gift_num, lucky_draw, school_mark
+    modify_date, status, choose_all_course, gift_num, lucky_draw, school_mark, pic
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -142,14 +143,14 @@
       course_num, qrcode, end_date, 
       start_date, create_date, modify_date, 
       status, choose_all_course, gift_num, 
-      lucky_draw, school_mark, description
-      )
+      lucky_draw, school_mark, pic, 
+      description)
     values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{salesNum,jdbcType=INTEGER}, 
       #{courseNum,jdbcType=INTEGER}, #{qrcode,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, 
       #{startDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=INTEGER}, #{chooseAllCourse,jdbcType=INTEGER}, #{giftNum,jdbcType=INTEGER}, 
-      #{luckyDraw,jdbcType=INTEGER}, #{schoolMark,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
-      )
+      #{luckyDraw,jdbcType=INTEGER}, #{schoolMark,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.TrsActivity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -199,6 +200,9 @@
       <if test="schoolMark != null">
         school_mark,
       </if>
+      <if test="pic != null">
+        pic,
+      </if>
       <if test="description != null">
         description,
       </if>
@@ -245,6 +249,9 @@
       </if>
       <if test="schoolMark != null">
         #{schoolMark,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
       </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
@@ -305,6 +312,9 @@
       <if test="record.schoolMark != null">
         school_mark = #{record.schoolMark,jdbcType=INTEGER},
       </if>
+      <if test="record.pic != null">
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
@@ -330,6 +340,7 @@
       gift_num = #{record.giftNum,jdbcType=INTEGER},
       lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
       school_mark = #{record.schoolMark,jdbcType=INTEGER},
+      pic = #{record.pic,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -351,7 +362,8 @@
       choose_all_course = #{record.chooseAllCourse,jdbcType=INTEGER},
       gift_num = #{record.giftNum,jdbcType=INTEGER},
       lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
-      school_mark = #{record.schoolMark,jdbcType=INTEGER}
+      school_mark = #{record.schoolMark,jdbcType=INTEGER},
+      pic = #{record.pic,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -401,6 +413,9 @@
       <if test="schoolMark != null">
         school_mark = #{schoolMark,jdbcType=INTEGER},
       </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -423,6 +438,7 @@
       gift_num = #{giftNum,jdbcType=INTEGER},
       lucky_draw = #{luckyDraw,jdbcType=INTEGER},
       school_mark = #{schoolMark,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -441,7 +457,8 @@
       choose_all_course = #{chooseAllCourse,jdbcType=INTEGER},
       gift_num = #{giftNum,jdbcType=INTEGER},
       lucky_draw = #{luckyDraw,jdbcType=INTEGER},
-      school_mark = #{schoolMark,jdbcType=INTEGER}
+      school_mark = #{schoolMark,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

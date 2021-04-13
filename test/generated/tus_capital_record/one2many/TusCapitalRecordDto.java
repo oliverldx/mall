@@ -1,8 +1,7 @@
 package com.macro.mall.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import com.macro.mall.model.TusCapitalRecord;
+import lombok.Data;
 
 
 /**

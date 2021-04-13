@@ -49,6 +49,9 @@ public class TrsActivity implements Serializable {
     @ApiModelProperty(value = "是否开启机构评分")
     private Integer schoolMark;
 
+    @ApiModelProperty(value = "图片")
+    private String pic;
+
     @ApiModelProperty(value = "介绍")
     private String description;
 
@@ -174,6 +177,14 @@ public class TrsActivity implements Serializable {
         this.schoolMark = schoolMark;
     }
 
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -203,6 +214,7 @@ public class TrsActivity implements Serializable {
         sb.append(", giftNum=").append(giftNum);
         sb.append(", luckyDraw=").append(luckyDraw);
         sb.append(", schoolMark=").append(schoolMark);
+        sb.append(", pic=").append(pic);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

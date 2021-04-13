@@ -1,8 +1,8 @@
 package com.macro.mall.dao;
 
 
-import com.macro.mall.dto.TusCapitalRecordQueryParam;
 import com.macro.mall.dto.TusCapitalRecordDto;
+import com.macro.mall.dto.TusCapitalRecordQueryParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

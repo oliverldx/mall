@@ -1,0 +1,1 @@
+alter table trs_activity add pic varchar(255) comment '图片';
