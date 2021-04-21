@@ -51,6 +51,7 @@ public class DaoTask extends AbstractTask {
         controllerData.put("subName", subName);
         controllerData.put("columns", columns);
         controllerData.put("sql", SqlUtil.genSql(table));
+        System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
         String templateString = FileUtil.getTemplateString(FileTypeEnum.DAO.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.DAO.getValue(),table.getTableName(),templateString);
 

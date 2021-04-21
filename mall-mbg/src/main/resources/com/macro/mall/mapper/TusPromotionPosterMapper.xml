@@ -3,9 +3,7 @@
 <mapper namespace="com.macro.mall.mapper.TusPromotionPosterMapper">
   <resultMap id="BaseResultMap" type="com.macro.mall.model.TusPromotionPoster">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="tus_user_id" jdbcType="BIGINT" property="tusUserId" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="tus_id" jdbcType="BIGINT" property="tusId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TusPromotionPoster">
     <result column="poster" jdbcType="LONGVARCHAR" property="poster" />
@@ -69,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, tus_user_id, create_date, modify_date
+    id, tus_id
   </sql>
   <sql id="Blob_Column_List">
     poster
@@ -126,10 +124,8 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tus_promotion_poster (tus_user_id, create_date, modify_date, 
-      poster)
-    values (#{tusUserId,jdbcType=BIGINT}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{poster,jdbcType=LONGVARCHAR})
+    insert into tus_promotion_poster (tus_id, poster)
+    values (#{tusId,jdbcType=BIGINT}, #{poster,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.TusPromotionPoster">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -137,28 +133,16 @@
     </selectKey>
     insert into tus_promotion_poster
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="tusUserId != null">
-        tus_user_id,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="modifyDate != null">
-        modify_date,
+      <if test="tusId != null">
+        tus_id,
       </if>
       <if test="poster != null">
         poster,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="tusUserId != null">
-        #{tusUserId,jdbcType=BIGINT},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyDate != null">
-        #{modifyDate,jdbcType=TIMESTAMP},
+      <if test="tusId != null">
+        #{tusId,jdbcType=BIGINT},
       </if>
       <if test="poster != null">
         #{poster,jdbcType=LONGVARCHAR},
@@ -177,14 +161,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.tusUserId != null">
-        tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
-      </if>
-      <if test="record.createDate != null">
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.modifyDate != null">
-        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      <if test="record.tusId != null">
+        tus_id = #{record.tusId,jdbcType=BIGINT},
       </if>
       <if test="record.poster != null">
         poster = #{record.poster,jdbcType=LONGVARCHAR},
@@ -197,9 +175,7 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update tus_promotion_poster
     set id = #{record.id,jdbcType=BIGINT},
-      tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
+      tus_id = #{record.tusId,jdbcType=BIGINT},
       poster = #{record.poster,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -208,9 +184,7 @@
   <update id="updateByExample" parameterType="map">
     update tus_promotion_poster
     set id = #{record.id,jdbcType=BIGINT},
-      tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP}
+      tus_id = #{record.tusId,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -218,14 +192,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TusPromotionPoster">
     update tus_promotion_poster
     <set>
-      <if test="tusUserId != null">
-        tus_user_id = #{tusUserId,jdbcType=BIGINT},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyDate != null">
-        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      <if test="tusId != null">
+        tus_id = #{tusId,jdbcType=BIGINT},
       </if>
       <if test="poster != null">
         poster = #{poster,jdbcType=LONGVARCHAR},
@@ -235,17 +203,13 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.TusPromotionPoster">
     update tus_promotion_poster
-    set tus_user_id = #{tusUserId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    set tus_id = #{tusId,jdbcType=BIGINT},
       poster = #{poster,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TusPromotionPoster">
     update tus_promotion_poster
-    set tus_user_id = #{tusUserId,jdbcType=BIGINT},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    set tus_id = #{tusId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

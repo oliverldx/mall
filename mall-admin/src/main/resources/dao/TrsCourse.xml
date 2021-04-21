@@ -3,9 +3,8 @@
 <mapper namespace="com.macro.mall.dao.TrsCourseDao">
 
     <select id="getList" resultMap="com.macro.mall.mapper.TrsCourseMapper.BaseResultMap">
-        SELECT trs_course.id,trs_course.pic,trs_course.name,trs_course.price
+        SELECT trs_course.id,trs_course.pic,trs_course.name,trs_course.price,trs_school.name school_name,trs_course.status
 	 FROM trs_course as trs_course
-	 LEFT JOIN trs_school as trs_school ON trs_course.id = trs_school.id
-
+	 LEFT JOIN trs_school as trs_school ON trs_course.trs_school_id = trs_school.id
     </select>
 </mapper>

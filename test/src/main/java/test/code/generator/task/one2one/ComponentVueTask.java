@@ -62,8 +62,7 @@ public class ComponentVueTask extends AbstractTask {
             controllerData.put("urlPathList", "/" + subName + "/list");
             controllerData.put("urlPathAddVue", "/" + modelName + "/add" + StringUtils.capitalize(subName));
             controllerData.put("urlPathUpdateVue", "/" + modelName + "/update" + StringUtils.capitalize(subName));
-            System.out.println("rendering the " + table.getTableName());
-            Table parentTable = getParentTable(table.getOne2oneColId(),table);
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());            Table parentTable = getParentTable(table.getOne2oneColId(),table);
             String parentTableSubName = StringUtils.substringAfter(parentTable.getTableName(), "_");
             parentTableSubName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,parentTableSubName);
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));

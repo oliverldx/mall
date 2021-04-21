@@ -81,7 +81,7 @@ public class IndexVueTask extends AbstractTask {
             controllerData.put("one2manyColName",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, table.getOne2ManyColName()));
             controllerData.put("parentTableSubName",parentTableSubName);
             SubListUtil.putFtlDataForSubList(controllerData,table);
-            System.out.println("rendering the " + table.getTableName());
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             Boolean showSubList = (Boolean) controllerData.get("showSubList");
             if(BooleanUtils.isTrue(showSubList)) {
                 String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_SUBLIST_INDEX_VUE.getValue(), controllerData);

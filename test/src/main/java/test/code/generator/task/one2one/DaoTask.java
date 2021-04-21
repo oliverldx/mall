@@ -56,6 +56,7 @@ public class DaoTask extends AbstractTask {
         controllerData.put("columns", columns);
         controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
         controllerData.put("sql", SqlUtil.genOne2OneSql(table));
+        System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
         String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2ONE_DAO.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.ONE2ONE_DAO.getValue(),table.getTableName(),templateString);
 

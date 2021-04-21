@@ -60,6 +60,7 @@ public class DaoTask extends AbstractTask {
         controllerData.put("sql", SqlUtil.genOne2ManySql(table));
         controllerData.put("aliasColumns", SqlUtil.getAliasColumns(table));
         SubListUtil.putFtlDataForSubList(controllerData,table);
+        System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
         String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_DAO.getValue(), controllerData);
         FileUtil.generateFile(FileTypeEnum.ONE2MANY_DAO.getValue(),table.getTableName(),templateString);
 

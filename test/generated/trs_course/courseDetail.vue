@@ -13,9 +13,9 @@
                     <el-form-item label="介绍">
                         <el-input type="textarea" :autosize="true" v-model="course.description"></el-input>
                     </el-form-item>
-                        <el-form-item label="图片" >
-                          <el-input v-model="course.pic"></el-input>
-                        </el-form-item>
+                <el-form-item label="图片">
+                    <single-upload v-model="course.pic"></single-upload>
+                </el-form-item>
                         <el-form-item label="创建时间" >
                             <el-date-picker
                                     v-model="course.createDate"
@@ -50,6 +50,7 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/course';
+        import SingleUpload from '@/components/Upload/singleUpload';
 
     const defaultCourse = {
     id:'',
@@ -65,6 +66,7 @@
     export default {
         name: "CourseDetail",
         components: {
+        SingleUpload,
         },
         props: {
             isEdit: {
@@ -89,6 +91,12 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.course = response.data;
+                if(this.course.createDate) {
+                    this.course.createDate = new Date(this.course.createDate);
+                }
+                if(this.course.modifyDate) {
+                    this.course.modifyDate = new Date(this.course.modifyDate);
+                }
                     if(this.course == null) {
                         this.isReallyEdit = false;
                         this.course = Object.assign({}, defaultCourse);

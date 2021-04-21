@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 public class TrsSchoolActivityQueryParam {
 
-        @ApiModelProperty(value = "TODO")
+        @ApiModelProperty(value = "ID")
         private String id;
         @ApiModelProperty(value = "培训机构")
-        private String schoolId;
+        private String trsSchoolId;
         @ApiModelProperty(value = "可选课程数量")
         private String courseNum;
         @ApiModelProperty(value = "排序")

@@ -40,6 +40,9 @@ public class TrsSchool implements Serializable {
     @ApiModelProperty(value = "介绍")
     private String description;
 
+    @ApiModelProperty(value = "图片")
+    private String pic;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -138,6 +141,14 @@ public class TrsSchool implements Serializable {
         this.description = description;
     }
 
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -156,6 +167,7 @@ public class TrsSchool implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", subSchool=").append(subSchool);
         sb.append(", description=").append(description);
+        sb.append(", pic=").append(pic);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

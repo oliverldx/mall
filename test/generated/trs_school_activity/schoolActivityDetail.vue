@@ -4,6 +4,9 @@
                  :rules="rules"
                  ref="schoolActivityFrom"
                  label-width="150px">
+                            <el-form-item label="ID" >
+                                <el-input v-model="schoolActivity.id"></el-input>
+                            </el-form-item>
                       <el-form-item label="可选课程数量" >
                         <el-input v-model="schoolActivity.courseNum"></el-input>
                       </el-form-item>
@@ -41,7 +44,7 @@
 
     const defaultSchoolActivity = {
     id:'',
-    schoolId:'',
+    trsSchoolId:'',
     trsActivityId:'',
     courseNum:0,
     sort:0,
@@ -75,6 +78,12 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.schoolActivity = response.data;
+                if(this.schoolActivity.createDate) {
+                    this.schoolActivity.createDate = new Date(this.schoolActivity.createDate);
+                }
+                if(this.schoolActivity.modifyDate) {
+                    this.schoolActivity.modifyDate = new Date(this.schoolActivity.modifyDate);
+                }
                     if(this.schoolActivity == null) {
                         this.isReallyEdit = false;
                         this.schoolActivity = Object.assign({}, defaultSchoolActivity);

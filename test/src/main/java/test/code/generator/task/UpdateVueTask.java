@@ -52,6 +52,7 @@ public class UpdateVueTask extends AbstractTask {
             subNameDetailHyphen = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN,subNameDetailHyphen);
             controllerData.put("subName", subName);
             controllerData.put("subNameDetailHyphen", subNameDetailHyphen);
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             String templateString = FileUtil.getTemplateString(FileTypeEnum.UPDATE_VUE.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.UPDATE_VUE.getValue(),table.getTableName(),templateString);
             new ApiJsTask().run(model);

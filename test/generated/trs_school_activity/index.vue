@@ -50,7 +50,7 @@
                             <template slot-scope="scope">{{scope.row.id}}</template>
                         </el-table-column>
                         <el-table-column label="培训机构" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.schoolId}}</template>
+                            <template slot-scope="scope">{{scope.row.trsSchoolId}}</template>
                         </el-table-column>
                         <el-table-column label="每单可选课程数量" width="180" align="center">
                             <template slot-scope="scope">{{scope.row.courseNum}}</template>
@@ -96,7 +96,7 @@
     };
 
     export default {
-        name: 'Course',
+        name: 'schoolActivity',
         props: {},
         data() {
             return {

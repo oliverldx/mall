@@ -61,7 +61,7 @@ public class ComponentDetailVueTask extends AbstractTask {
             controllerData.put("urlPathList", "/" + subName + "/list");
             controllerData.put("urlPathAddVue", "/" + modelName + "/add" + StringUtils.capitalize(subName));
             controllerData.put("urlPathUpdateVue", "/" + modelName + "/update" + StringUtils.capitalize(subName));
-            System.out.println("rendering the " + table.getTableName());
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             String templateString = FileUtil.getTemplateString(FileTypeEnum.COMPONENT_DETAIL_VUE.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.COMPONENT_DETAIL_VUE.getValue(),table.getTableName(),templateString);
         }

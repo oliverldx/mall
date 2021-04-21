@@ -36,7 +36,7 @@ public class MoveFileTask extends AbstractTask {
     @Override
     public List<Table> getTables(Model model) {
         Map<String, Table> tabs = model.getTables();
-        List<String> convertTabs = CollectionUtil.newArrayList("tus_user");
+        List<String> convertTabs = CollectionUtil.newArrayList("trs_school","trs_course","trs_school_activity","trs_source_activity","trs_activity");
         List<Table> tableList = tabs.values().stream().filter(t -> {
             if(convertTabs.isEmpty()) {
                 return true;

@@ -63,6 +63,7 @@ public class ApiJsTask extends AbstractTask {
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2ONE_API_JS.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.ONE2ONE_API_JS.getValue(),table.getTableName(),templateString);
         }

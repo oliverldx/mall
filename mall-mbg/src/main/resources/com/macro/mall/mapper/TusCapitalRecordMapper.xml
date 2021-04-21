@@ -3,7 +3,7 @@
 <mapper namespace="com.macro.mall.mapper.TusCapitalRecordMapper">
   <resultMap id="BaseResultMap" type="com.macro.mall.model.TusCapitalRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="tus_user_id" jdbcType="BIGINT" property="tusUserId" />
+    <result column="tus_id" jdbcType="BIGINT" property="tusId" />
     <result column="money" jdbcType="DECIMAL" property="money" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, tus_user_id, money, create_date, modify_date
+    id, tus_id, money, create_date, modify_date
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -127,9 +127,9 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into tus_capital_record (tus_user_id, money, create_date, 
+    insert into tus_capital_record (tus_id, money, create_date, 
       modify_date, description)
-    values (#{tusUserId,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, 
+    values (#{tusId,jdbcType=BIGINT}, #{money,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, 
       #{modifyDate,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.TusCapitalRecord">
@@ -138,8 +138,8 @@
     </selectKey>
     insert into tus_capital_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="tusUserId != null">
-        tus_user_id,
+      <if test="tusId != null">
+        tus_id,
       </if>
       <if test="money != null">
         money,
@@ -155,8 +155,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="tusUserId != null">
-        #{tusUserId,jdbcType=BIGINT},
+      <if test="tusId != null">
+        #{tusId,jdbcType=BIGINT},
       </if>
       <if test="money != null">
         #{money,jdbcType=DECIMAL},
@@ -184,8 +184,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.tusUserId != null">
-        tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
+      <if test="record.tusId != null">
+        tus_id = #{record.tusId,jdbcType=BIGINT},
       </if>
       <if test="record.money != null">
         money = #{record.money,jdbcType=DECIMAL},
@@ -207,7 +207,7 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update tus_capital_record
     set id = #{record.id,jdbcType=BIGINT},
-      tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
+      tus_id = #{record.tusId,jdbcType=BIGINT},
       money = #{record.money,jdbcType=DECIMAL},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
@@ -219,7 +219,7 @@
   <update id="updateByExample" parameterType="map">
     update tus_capital_record
     set id = #{record.id,jdbcType=BIGINT},
-      tus_user_id = #{record.tusUserId,jdbcType=BIGINT},
+      tus_id = #{record.tusId,jdbcType=BIGINT},
       money = #{record.money,jdbcType=DECIMAL},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_date = #{record.modifyDate,jdbcType=TIMESTAMP}
@@ -230,8 +230,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TusCapitalRecord">
     update tus_capital_record
     <set>
-      <if test="tusUserId != null">
-        tus_user_id = #{tusUserId,jdbcType=BIGINT},
+      <if test="tusId != null">
+        tus_id = #{tusId,jdbcType=BIGINT},
       </if>
       <if test="money != null">
         money = #{money,jdbcType=DECIMAL},
@@ -250,7 +250,7 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.TusCapitalRecord">
     update tus_capital_record
-    set tus_user_id = #{tusUserId,jdbcType=BIGINT},
+    set tus_id = #{tusId,jdbcType=BIGINT},
       money = #{money,jdbcType=DECIMAL},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
@@ -259,7 +259,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TusCapitalRecord">
     update tus_capital_record
-    set tus_user_id = #{tusUserId,jdbcType=BIGINT},
+    set tus_id = #{tusId,jdbcType=BIGINT},
       money = #{money,jdbcType=DECIMAL},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP}

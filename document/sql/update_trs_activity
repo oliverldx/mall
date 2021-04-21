@@ -1,1 +1,2 @@
 alter table trs_activity add pic varchar(255) comment '图片';
+alter table trs_school add pic text comment '图片';

@@ -165,63 +165,63 @@ public class TusCapitalRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdIsNull() {
-            addCriterion("tus_user_id is null");
+        public Criteria andTusIdIsNull() {
+            addCriterion("tus_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdIsNotNull() {
-            addCriterion("tus_user_id is not null");
+        public Criteria andTusIdIsNotNull() {
+            addCriterion("tus_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdEqualTo(Long value) {
-            addCriterion("tus_user_id =", value, "tusUserId");
+        public Criteria andTusIdEqualTo(Long value) {
+            addCriterion("tus_id =", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdNotEqualTo(Long value) {
-            addCriterion("tus_user_id <>", value, "tusUserId");
+        public Criteria andTusIdNotEqualTo(Long value) {
+            addCriterion("tus_id <>", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdGreaterThan(Long value) {
-            addCriterion("tus_user_id >", value, "tusUserId");
+        public Criteria andTusIdGreaterThan(Long value) {
+            addCriterion("tus_id >", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("tus_user_id >=", value, "tusUserId");
+        public Criteria andTusIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("tus_id >=", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdLessThan(Long value) {
-            addCriterion("tus_user_id <", value, "tusUserId");
+        public Criteria andTusIdLessThan(Long value) {
+            addCriterion("tus_id <", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdLessThanOrEqualTo(Long value) {
-            addCriterion("tus_user_id <=", value, "tusUserId");
+        public Criteria andTusIdLessThanOrEqualTo(Long value) {
+            addCriterion("tus_id <=", value, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdIn(List<Long> values) {
-            addCriterion("tus_user_id in", values, "tusUserId");
+        public Criteria andTusIdIn(List<Long> values) {
+            addCriterion("tus_id in", values, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdNotIn(List<Long> values) {
-            addCriterion("tus_user_id not in", values, "tusUserId");
+        public Criteria andTusIdNotIn(List<Long> values) {
+            addCriterion("tus_id not in", values, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdBetween(Long value1, Long value2) {
-            addCriterion("tus_user_id between", value1, value2, "tusUserId");
+        public Criteria andTusIdBetween(Long value1, Long value2) {
+            addCriterion("tus_id between", value1, value2, "tusId");
             return (Criteria) this;
         }
 
-        public Criteria andTusUserIdNotBetween(Long value1, Long value2) {
-            addCriterion("tus_user_id not between", value1, value2, "tusUserId");
+        public Criteria andTusIdNotBetween(Long value1, Long value2) {
+            addCriterion("tus_id not between", value1, value2, "tusId");
             return (Criteria) this;
         }
 

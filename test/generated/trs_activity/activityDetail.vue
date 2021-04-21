@@ -141,6 +141,18 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.activity = response.data;
+                if(this.activity.endDate) {
+                    this.activity.endDate = new Date(this.activity.endDate);
+                }
+                if(this.activity.startDate) {
+                    this.activity.startDate = new Date(this.activity.startDate);
+                }
+                if(this.activity.createDate) {
+                    this.activity.createDate = new Date(this.activity.createDate);
+                }
+                if(this.activity.modifyDate) {
+                    this.activity.modifyDate = new Date(this.activity.modifyDate);
+                }
                     if(this.activity == null) {
                         this.isReallyEdit = false;
                         this.activity = Object.assign({}, defaultActivity);

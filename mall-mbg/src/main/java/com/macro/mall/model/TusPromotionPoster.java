@@ -2,20 +2,13 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.util.Date;
 
 public class TusPromotionPoster implements Serializable {
     @ApiModelProperty(value = "ID")
     private Long id;
 
     @ApiModelProperty(value = "ID")
-    private Long tusUserId;
-
-    @ApiModelProperty(value = "创建时间")
-    private Date createDate;
-
-    @ApiModelProperty(value = "修改时间")
-    private Date modifyDate;
+    private Long tusId;
 
     @ApiModelProperty(value = "海报")
     private String poster;
@@ -30,28 +23,12 @@ public class TusPromotionPoster implements Serializable {
         this.id = id;
     }
 
-    public Long getTusUserId() {
-        return tusUserId;
+    public Long getTusId() {
+        return tusId;
     }
 
-    public void setTusUserId(Long tusUserId) {
-        this.tusUserId = tusUserId;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
+    public void setTusId(Long tusId) {
+        this.tusId = tusId;
     }
 
     public String getPoster() {
@@ -69,9 +46,7 @@ public class TusPromotionPoster implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", tusUserId=").append(tusUserId);
-        sb.append(", createDate=").append(createDate);
-        sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", tusId=").append(tusId);
         sb.append(", poster=").append(poster);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

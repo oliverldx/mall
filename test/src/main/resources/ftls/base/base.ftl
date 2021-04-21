@@ -31,6 +31,62 @@
     <#if showTinymce>
         Tinymce,
     </#if>
+    <#if showMapInput>
+        MapInput,
+    </#if>
+</#macro>
+
+<#macro initObject>
+    <#list columns as column>
+        <#switch column.type>
+            <#case "text">
+            <#if column.description??>
+                <#assign json=column.description?eval />
+                <#switch json[column.name].type>
+                    <#case "singleUpload">
+                    <#case "multiUpload">
+                    if(this.${subName}.${column.name}===undefined||this.${subName}.${column.name}==null||this.${subName}.${column.name}===''){
+                        this.${subName}.${column.name}=[]
+                    }else {
+                        this.${subName}.${column.name} = this.${subName}.${column.name}.split(',');
+                    }
+                        <#break >
+                    <#default >
+                </#switch>
+            <#else >
+            </#if>
+            <#break>
+            <#case "datetime">
+                if(this.${subName}.${column.name}) {
+                    this.${subName}.${column.name} = new Date(this.${subName}.${column.name});
+                }
+                <#break>
+            <#default>
+        </#switch>
+    </#list>
+</#macro>
+
+<#macro updateObject>
+    <#list columns as column>
+        <#switch column.type>
+            <#case "text">
+                <#if column.description??>
+                    <#assign json=column.description?eval />
+                    <#switch json[column.name].type>
+                        <#case "singleUpload">
+                        <#case "multiUpload">
+                    if(this.${subName}.${column.name} && this.${subName}.${column.name}.length > 0){
+                        this.${subName}.${column.name}=this.${subName}.${column.name}.toString()
+                    }
+                            <#break >
+                        <#default >
+                    </#switch>
+                <#else >
+                </#if>
+                <#break>
+            <#default>
+        </#switch>
+    </#list>
 </#macro>
 
 <#macro renderFormItem column>
@@ -66,7 +122,9 @@
                 <#break >
             <#case "mapInput">
                 <#assign showMapInput = true />
-                <map-input v-model="pages.buttomText"></map-input>
+                <el-form-item label="${column.comment}">
+                    <map-input v-model="${subName}.${column.name}"></map-input>
+                </el-form-item>
                 <#break >
             <#default >
                 <#switch column.type>

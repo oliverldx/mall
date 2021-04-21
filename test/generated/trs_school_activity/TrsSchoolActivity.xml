@@ -3,10 +3,10 @@
 <mapper namespace="com.macro.mall.dao.TrsSchoolActivityDao">
 
     <select id="getList" resultMap="com.macro.mall.mapper.TrsSchoolActivityMapper.BaseResultMap">
-        SELECT trs_school_activity.id,trs_school_activity.course_num,trs_school_activity.sort
+        SELECT trs_school_activity.id,trs_school.name school_name,trs_school_activity.course_num,trs_school_activity.sort
 	 FROM trs_school_activity as trs_school_activity
-	 LEFT JOIN trs_school as trs_school ON trs_school_activity.id = trs_school.id
-	 LEFT JOIN trs_activity as trs_activity ON trs_school_activity.id = trs_activity.id
+	 LEFT JOIN trs_school as trs_school ON trs_school_activity.trs_school_id = trs_school.id
+	 LEFT JOIN trs_activity as trs_activity ON trs_school_activity.trs_activity_id = trs_activity.id
 
     </select>
 </mapper>

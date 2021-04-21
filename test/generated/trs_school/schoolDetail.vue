@@ -13,21 +13,24 @@
                         <el-form-item label="联系方式" >
                           <el-input v-model="school.contactNo"></el-input>
                         </el-form-item>
-                        <el-form-item label="机构logo" >
-                          <el-input v-model="school.logo"></el-input>
-                        </el-form-item>
+                <el-form-item label="机构相册">
+                    <multi-upload v-model="school.pic"></multi-upload>
+                </el-form-item>
+                <el-form-item label="机构logo">
+                    <single-upload v-model="school.logo"></single-upload>
+                </el-form-item>
                     <el-form-item label="分校名称">
                         <el-input type="textarea" :autosize="true" v-model="school.subSchool"></el-input>
                     </el-form-item>
                         <el-form-item label="机构视频" >
                           <el-input v-model="school.video"></el-input>
                         </el-form-item>
-                    <el-form-item label="介绍">
-                        <el-input type="textarea" :autosize="true" v-model="school.description"></el-input>
-                    </el-form-item>
-                        <el-form-item label="地图标注" >
-                          <el-input v-model="school.latlongitude"></el-input>
-                        </el-form-item>
+                <el-form-item label="介绍">
+                    <tinymce :width="595" :height="300" v-model="school.description"></tinymce>
+                </el-form-item>
+                <el-form-item label="地图标注">
+                    <map-input v-model="school.latlongitude"></map-input>
+                </el-form-item>
                         <el-form-item label="创建时间" >
                             <el-date-picker
                                     v-model="school.createDate"
@@ -62,12 +65,18 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/school';
+        import SingleUpload from '@/components/Upload/singleUpload';
+        import MultiUpload from '@/components/Upload/multiUpload';
+        import Tinymce from '@/components/Tinymce';
+        import MapInput from '@/components/MapInput/mapInput';
 
     const defaultSchool = {
     id:'',
     name:'',
     contactName:'',
     contactNo:'',
+    pic:[],
+
     logo:'',
     subSchool:'',
 
@@ -82,6 +91,10 @@
     export default {
         name: "SchoolDetail",
         components: {
+        SingleUpload,
+        MultiUpload,
+        Tinymce,
+        MapInput,
         },
         props: {
             isEdit: {
@@ -106,6 +119,17 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.school = response.data;
+                    if(this.school.pic===undefined||this.school.pic==null||this.school.pic===''){
+                        this.school.pic=[]
+                    }else {
+                        this.school.pic = this.school.pic.split(',');
+                    }
+                if(this.school.createDate) {
+                    this.school.createDate = new Date(this.school.createDate);
+                }
+                if(this.school.modifyDate) {
+                    this.school.modifyDate = new Date(this.school.modifyDate);
+                }
                     if(this.school == null) {
                         this.isReallyEdit = false;
                         this.school = Object.assign({}, defaultSchool);
@@ -125,6 +149,9 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
+                    if(this.school.pic && this.school.pic.length > 0){
+                        this.school.pic=this.school.pic.toString()
+                    }
                                 update(this.$route.query.id, this.school).then(response => {
                                     this.$message({
                                         message: '修改成功',
@@ -134,6 +161,9 @@
                                     this.$router.back();
                                 });
                             } else {
+                    if(this.school.pic && this.school.pic.length > 0){
+                        this.school.pic=this.school.pic.toString()
+                    }
                                 create(this.school).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);

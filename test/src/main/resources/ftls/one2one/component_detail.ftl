@@ -17,7 +17,7 @@
                         </#if>
                         <#break>
                     <#case "varchar">
-                        <#if column.length == 1>
+                        <#if column.description??>
                             <@renderFormItem column=column></@renderFormItem>
                         <#else>
                         <el-form-item label="${column.comment}" >
@@ -154,6 +154,7 @@
             if (this.isEdit) {
                 getBy${fkId?cap_first}(this.${fkId}).then(response => {
                     this.${subName} = response.data;
+                    <@initObject/>
                     if(this.${subName} == null) {
                         this.isReallyEdit = false;
                         this.${subName} = Object.assign({}, default${subName?cap_first});
@@ -173,6 +174,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit && this.isReallyEdit) {
+				                <@updateObject/>
                                 update(this.${fkId}, this.${subName}).then(response => {
                                     this.$message({
                                         message: '修改成功',
@@ -182,6 +184,7 @@
                                     this.$router.back();
                                 });
                             } else {
+                                <@updateObject/>
                                 this.${subName}.${one2oneColName}=this.${fkId}
                                 create(this.${subName}).then(response => {
                                     this.$refs[formName].resetFields();

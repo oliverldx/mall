@@ -102,7 +102,7 @@
     };
 
     export default {
-        name: 'Course',
+        name: 'school',
         props: {},
         data() {
             return {

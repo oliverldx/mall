@@ -58,6 +58,7 @@ public class ApiJsTask extends AbstractTask {
             controllerData.put("urlPathGetById", "/" + subName + "/");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("urlPathList", "/" + subName + "/list");
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             String templateString = FileUtil.getTemplateString(FileTypeEnum.API_JS.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.API_JS.getValue(),table.getTableName(),templateString);
         }

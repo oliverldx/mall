@@ -67,6 +67,7 @@ public class ApiJsTask extends AbstractTask {
             SubListUtil.putFtlDataForSubList(controllerData,table);
             controllerData.put("urlPathSubList", "/" + subName + "/"+StringUtils.uncapitalize((String)controllerData.get("subListName"))+"List");
             controllerData.put("urlPathAddSubList", "/" + subName + "/add"+StringUtils.capitalize((String)controllerData.get("subListName"))+"List");
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             String templateString = FileUtil.getTemplateString(FileTypeEnum.ONE2MANY_API_JS.getValue(), controllerData);
             FileUtil.generateFile(FileTypeEnum.ONE2MANY_API_JS.getValue(),table.getTableName(),templateString);
         }

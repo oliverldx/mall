@@ -47,7 +47,7 @@ public class ControllerTask extends AbstractTask {
             controllerData.put("urlPathUpdate", "/" + subName + "/update");
             controllerData.put("urlPathDel", "/" + subName + "/delete");
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));
-            System.out.println("rendering the " + table.getTableName());
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
             Map<String, Table> parentTables = table.getParentTables();
             boolean noGenDao = parentTables == null || parentTables.isEmpty();
             if(!noGenDao) {

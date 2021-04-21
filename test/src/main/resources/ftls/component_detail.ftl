@@ -17,7 +17,7 @@
                         </#if>
                         <#break>
                     <#case "varchar">
-                        <#if column.length == 1>
+                        <#if column.description??>
                             <@renderFormItem column=column></@renderFormItem>
                         <#else>
                         <el-form-item label="${column.comment}" >
@@ -124,15 +124,7 @@
     export default {
         name: "${subName?cap_first}Detail",
         components: {
-            <#if showSingleUpload>
-            SingleUpload,
-            </#if>
-            <#if showMultiUpload>
-            MultiUpload,
-            </#if>
-            <#if showTinymce>
-            Tinymce,
-            </#if>
+            <@importVueComponents/>
         },
         props: {
             isEdit: {
@@ -159,6 +151,7 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.${subName} = response.data;
+                    <@initObject/>
                     if(this.${subName} == null) {
                         this.isReallyEdit = false;
                         this.${subName} = Object.assign({}, default${subName?cap_first});
@@ -178,6 +171,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
+                                <@updateObject/>
                                 update(this.$route.query.id, this.${subName}).then(response => {
                                     this.$message({
                                         message: '修改成功',
@@ -187,6 +181,7 @@
                                     this.$router.back();
                                 });
                             } else {
+                                <@updateObject/>
                                 create(this.${subName}).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);

@@ -60,6 +60,7 @@ public class TrsActivityController {
         BindingResult result) {
         trsActivity.setModifyDate(new Date());
         int count = 0;
+        count = trsActivityMapper.updateByPrimaryKeySelective(trsActivity);
         if (count > 0) {
             return CommonResult.success(count);
         }
@@ -71,6 +72,12 @@ public class TrsActivityController {
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
+        if(ids == null || ids.isEmpty()) {
+            return CommonResult.failed();
+        }
+        for (Long id : ids) {
+            count = trsActivityMapper.deleteByPrimaryKey(id);
+        }
         if (count > 0) {
             return CommonResult.success(count);
         }

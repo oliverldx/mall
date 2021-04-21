@@ -105,7 +105,7 @@
     };
 
     export default {
-        name: 'Course',
+        name: 'activity',
         props: {},
         data() {
             return {

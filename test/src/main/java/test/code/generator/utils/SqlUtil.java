@@ -61,6 +61,8 @@ public class SqlUtil {
                             selectJoiner.add(col.getFkTable().getTableName() + "." + dataName + " " + alias);
                         }
                     }
+                }else {
+                    selectJoiner.add(table.getTableName() + "." + col.getName());
                 }
 
             }
