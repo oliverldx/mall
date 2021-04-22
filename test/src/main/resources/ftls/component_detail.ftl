@@ -1,4 +1,6 @@
 <#include "./base/base.ftl">
+<#assign listParentMethod='' />
+<#assign listParentOption='' />
 <template>
     <el-card shadow="never">
         <el-form :model="${subName}"
@@ -14,6 +16,43 @@
                             <el-form-item label="${column.comment}" >
                                 <el-input v-model="${subName}.${column.name}"></el-input>
                             </el-form-item>
+                        </#if>
+                        <#if (column.fkFlag)!>
+                            <#if column.description??>
+                                <#assign json=column.description?eval />
+                                <#switch json[column.name].type>
+                                    <#case "sql">
+                                        <#assign vals=json[column.name].vals/>
+                                        <#list vals as val>
+                                            <#if val.label == column.label>
+                                                <#if val.aliasVue??>
+                                                <#assign listParentMethod='list'+val.aliasVue?cap_first+'Method'/>
+                                                <#assign listParentOption='list'+val.aliasVue?cap_first+'Options'/>
+
+                            <el-form-item label="${column.comment}" >
+                                <el-select
+                                        v-model="${subName}.${column.name}"
+                                        filterable
+                                        reserve-keyword
+                                        placeholder="请选择${column.label}">
+                                    <el-option
+                                            v-for="item in list${val.aliasVue?cap_first}Options"
+                                            :key="item.${column.name}"
+                                            :label="item.${val.aliasVue}"
+                                            :value="item.${column.name}">
+                                        <#-- <span style="float: left">{{ item.productName }}</span>
+                                         <span style="float: right; color: #8492a6; font-size: 13px">NO.{{ item.productSn }}</span>-->
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                                                </#if>
+                                            </#if>
+                                        </#list>
+                                        <#break >
+                                    <#default >
+                                </#switch>
+                            </#if>
+
                         </#if>
                         <#break>
                     <#case "varchar">
@@ -81,6 +120,9 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/${subName}';
+    <#if parentTableSubName??>
+        import {fetchList as fetchParentTableList} from '@/api/${parentTableSubName}';
+    </#if>
     <@importJs/>
 
     const default${subName?cap_first} = {
@@ -144,6 +186,9 @@
                 }
             },
             </#if>
+            <#if listParentOption??>
+                ${listParentOption}:[],
+            </#if>
             isReallyEdit:this.isEdit
         }
         },
@@ -160,7 +205,11 @@
             } else {
                 this.${subName} = Object.assign({}, default${subName?cap_first});
             }
+            <#if listParentMethod??>
+                this.${listParentMethod}()
+            </#if>
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -207,7 +256,41 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.${subName} = Object.assign({}, default${subName?cap_first});
-            }
+            },
+            <#list columns as column>
+            <#switch column.type>
+            <#case "bigint">
+            <#if (column.fkFlag)!>
+                <#if column.description??>
+                <#assign json=column.description?eval />
+                <#switch json[column.name].type>
+                        <#case "sql">
+                        <#assign vals=json[column.name].vals/>
+                        <#list vals as val>
+                            <#if val.label == column.label>
+                                <#if val.aliasVue??>
+                list${val.aliasVue?cap_first}Method(){
+                    fetchParentTableList({pageNum: 1,pageSize: 1000}).then(response=>{
+                        let list = response.data.list;
+                        this.list${val.aliasVue?cap_first}Options = [];
+                        for(let i=0;i<list.length;i++){
+                            let item = list[i];
+                            this.list${val.aliasVue?cap_first}Options.push({${column.name}:item.${column.fkColumnName},${val.aliasVue}:item.${val.dataName}});
+                        }
+                    });
+                }
+                                </#if>
+                            </#if>
+                        </#list>
+                <#break >
+                <#default >
+                </#switch>
+                </#if>
+            </#if>
+            <#break>
+            <#default>
+            </#switch>
+            </#list>
         }
     }
 </script>

@@ -5,8 +5,6 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.TrsCourseMapper;
 import com.macro.mall.model.TrsCourse;
-import com.macro.mall.dto.TrsCourseDto;
-import com.macro.mall.dto.TrsCourseQueryParam;
 import com.macro.mall.dao.TrsCourseDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,23 +44,11 @@ public class TrsCourseController {
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取课程列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ApiOperation("修改课程")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<TrsCourseDto>>
-        list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-        TrsCourseQueryParam trsCourseQueryParam,
-        @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<TrsCourseDto> trsCourseList = trsCourseDao.getList(trsCourseQueryParam);
-        return  CommonResult.success(CommonPage.restPage(trsCourseList),"获取课程列表成功");
-    }
-
-     @ApiOperation("修改课程")
-     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult update(@PathVariable Long id,@Validated @RequestBody TrsCourse trsCourse,
-        BindingResult result) {
+    public CommonResult update(@PathVariable Long id,@Validated @RequestBody TrsCourse trsCourse,
+            BindingResult result) {
         trsCourse.setModifyDate(new Date());
         int count = 0;
         count = trsCourseMapper.updateByPrimaryKeySelective(trsCourse);
@@ -70,12 +56,12 @@ public class TrsCourseController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
-     @ApiOperation("删除课程")
-     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-     @ResponseBody
-     public CommonResult delete(@RequestParam("ids") List<Long> ids) {
+    @ApiOperation("删除课程")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = 0;
         if(ids == null || ids.isEmpty()) {
             return CommonResult.failed();
@@ -87,7 +73,7 @@ public class TrsCourseController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-     }
+    }
 
     @ApiOperation("根据id获取课程")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -97,6 +83,11 @@ public class TrsCourseController {
         return CommonResult.success(trsCourse);
     }
 
-
-
+    @ApiOperation("根据schoolId获取课程")
+    @RequestMapping(value = "/getBySchoolId/{schoolId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<TrsCourse> getBySchoolId(@PathVariable Long schoolId) {
+        TrsCourse trsCourse = trsCourseDao.getBySchoolId(schoolId);
+        return CommonResult.success(trsCourse);
+    }
 }

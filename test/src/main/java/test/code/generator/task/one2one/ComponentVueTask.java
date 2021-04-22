@@ -32,13 +32,11 @@ public class ComponentVueTask extends AbstractTask {
     @Override
     public void run(Model model) throws IOException, TemplateException {
         List<Table> tableList = getTables(model);
-        List<String> types = Arrays.asList("int", "char", "varchar");
         for (Table table : tableList) {
             if(StringUtils.isAnyBlank(table.getOne2oneColId(),table.getOne2oneColName())) {
                 continue;
             }
             Map<String, Column> cols = table.getCols();
-            Column fk = null;
             // label 和 labelIndex 同时存在 并且根据 labelIndex 排序, 字段名从LOWER_UNDERSCORE转为LOWER_CAMEL
             List<Column> columns = cols.values().stream().map(c -> {
                 Column column = new Column();
@@ -62,7 +60,8 @@ public class ComponentVueTask extends AbstractTask {
             controllerData.put("urlPathList", "/" + subName + "/list");
             controllerData.put("urlPathAddVue", "/" + modelName + "/add" + StringUtils.capitalize(subName));
             controllerData.put("urlPathUpdateVue", "/" + modelName + "/update" + StringUtils.capitalize(subName));
-            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());            Table parentTable = getParentTable(table.getOne2oneColId(),table);
+            System.out.println(this.getClass().getCanonicalName()+" rendering the " + table.getTableName());
+            Table parentTable = getParentTable(table.getOne2oneColId(),table);
             String parentTableSubName = StringUtils.substringAfter(parentTable.getTableName(), "_");
             parentTableSubName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,parentTableSubName);
             controllerData.put("fkId",CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, StringUtils.substringAfter(table.getOne2oneColName(),"_")));

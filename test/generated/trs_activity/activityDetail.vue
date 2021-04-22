@@ -134,6 +134,7 @@
                     return time.getTime() < Date.now();
                 }
             },
+                :[],
             isReallyEdit:this.isEdit
         }
         },
@@ -161,7 +162,9 @@
             } else {
                 this.activity = Object.assign({}, defaultActivity);
             }
+                this.()
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -206,7 +209,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.activity = Object.assign({}, defaultActivity);
-            }
+            },
         }
     }
 </script>

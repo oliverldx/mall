@@ -89,6 +89,130 @@
     </#list>
 </#macro>
 
+<#macro listObject>
+    <#list columns as column>
+    <#--只渲染label不为空的字段-->
+        <#if column.label?default("")?trim?length gt 1>
+            <#if column.description??>
+                <#assign json=column.description?eval />
+                <#--驼峰转下划线-->
+<#--                <#assign jsonColName=json[column.name?replace("([a-z])([A-Z]+)","$1_$2","r")?lower_case]/>-->
+                <#assign jsonColName=json[column.name]/>
+                <#if jsonColName??>
+                <#switch jsonColName.type>
+                    <#case "singleUpload">
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                            <template slot-scope="scope"><img style="height: 80px" :src="scope.row.${column.name}"></template>
+                        </el-table-column>
+                        <#break >
+                    <#case "sql">
+                        <#assign vals=jsonColName.vals/>
+                        <#list vals as val>
+                            <#if val.label == column.label>
+                                <#if val.aliasVue??>
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.${val.aliasVue}}}</template>
+                        </el-table-column>
+                                </#if>
+                                <#else >
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.${column.name}}}</template>
+                        </el-table-column>
+                            </#if>
+                        </#list>
+                        <#break >
+                    <#case "radio">
+                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.${column.name} | format${column.name?cap_first}}}</template>
+                        </el-table-column>
+                        <#break >
+                    <#default >
+                    <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                        <template slot-scope="scope">{{scope.row.${column.name}}}</template>
+                    </el-table-column>
+                </#switch>
+                </#if>
+            <#else >
+                <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.${column.name}}}</template>
+                </el-table-column>
+            </#if>
+        </#if>
+    </#list>
+    <#list columns as column>
+        <#switch column.type>
+            <#case "text">
+                <#if column.description??>
+                    <#assign json=column.description?eval />
+                    <#switch json[column.name].type>
+                        <#case "singleUpload">
+                        <#case "multiUpload">
+                    if(this.${subName}.${column.name} && this.${subName}.${column.name}.length > 0){
+                        this.${subName}.${column.name}=this.${subName}.${column.name}.toString()
+                    }
+                            <#break >
+                        <#default >
+                    </#switch>
+                <#else >
+                </#if>
+                <#break>
+            <#default>
+        </#switch>
+    </#list>
+</#macro>
+
+<#macro genDefaultOptions>
+    <#list columns as column>
+        <#switch column.type>
+            <#case "int">
+                 <#if column.length?? && column.length == 1 && column.description??>
+                     <#assign json=column.description?eval />
+                     <#switch json[column.name].type>
+                         <#case "radio">
+                             <#assign vals=json[column.name].vals/>
+     const default${column.name?cap_first}Options=[
+                             <#list vals as val>
+         {
+         label: '${val.name}',
+         value: ${val.val}
+         },
+                             </#list>
+     ];
+                             <#break >
+                         <#default >
+                     </#switch>
+                </#if>
+                <#break>
+            <#default>
+        </#switch>
+    </#list>
+</#macro>
+
+<#macro genFormatMethods>
+    <#list columns as column>
+        <#switch column.type>
+            <#case "int">
+                 <#if column.length?? && column.length == 1 && column.description??>
+                     <#assign json=column.description?eval />
+                     <#switch json[column.name].type>
+                         <#case "radio">
+         format${column.name?cap_first}(${column.name}){
+            for(let i=0;i<default${column.name?cap_first}Options.length;i++){
+                 if(status===default${column.name?cap_first}Options[i].value){
+                    return default${column.name?cap_first}Options[i].label;
+                 }
+             }
+         },
+                             <#break >
+                         <#default >
+                     </#switch>
+                </#if>
+                <#break>
+            <#default>
+        </#switch>
+    </#list>
+</#macro>
+
 <#macro renderFormItem column>
     <#if column.description??>
         <#assign json=column.description?eval />
@@ -141,3 +265,4 @@
         </#switch>
     </#if>
 </#macro>
+

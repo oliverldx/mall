@@ -4,22 +4,6 @@
                  :rules="rules"
                  ref="courseFrom"
                  label-width="150px">
-
-                            <el-form-item label="培训机构" >
-                                <el-select
-                                        v-model="course.trsSchoolId"
-                                        filterable
-                                        reserve-keyword
-                                        placeholder="请选择培训机构">
-                                    <el-option
-                                            v-for="item in listSchoolNameOptions"
-                                            :key="item.trsSchoolId"
-                                            :label="item.schoolName"
-                                            :value="item.trsSchoolId">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-
                         <el-form-item label="名称" >
                           <el-input v-model="course.name"></el-input>
                         </el-form-item>
@@ -65,8 +49,7 @@
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/course';
-        import {fetchList as fetchParentTableList} from '@/api/school';
+    import {fetchList, create, update, getById,getBySchoolId} from '@/api/school/course';
         import SingleUpload from '@/components/Upload/singleUpload';
 
     const defaultCourse = {
@@ -89,6 +72,9 @@
             isEdit: {
                 type: Boolean,
                 default: false
+            },
+            schoolId: {
+                type: [String, Number]
             }
         },
         data() {
@@ -101,13 +87,12 @@
                     return time.getTime() < Date.now();
                 }
             },
-                listSchoolNameOptions:[],
             isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
-                getById(this.$route.query.id).then(response => {
+                getBySchoolId(this.schoolId).then(response => {
                     this.course = response.data;
                 if(this.course.createDate) {
                     this.course.createDate = new Date(this.course.createDate);
@@ -123,9 +108,7 @@
             } else {
                 this.course = Object.assign({}, defaultCourse);
             }
-                this.listSchoolNameMethod()
         },
-
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -135,8 +118,8 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            if (this.isEdit) {
-                                update(this.$route.query.id, this.course).then(response => {
+                            if (this.isEdit && this.isReallyEdit) {
+                                update(this.schoolId, this.course).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -145,6 +128,7 @@
                                     this.$router.back();
                                 });
                             } else {
+                                this.course.trsSchoolId=this.schoolId
                                 create(this.course).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
@@ -170,17 +154,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.course = Object.assign({}, defaultCourse);
-            },
-                listSchoolNameMethod(){
-                    fetchParentTableList({pageNum: 1,pageSize: 1000}).then(response=>{
-                        let list = response.data.list;
-                        this.listSchoolNameOptions = [];
-                        for(let i=0;i<list.length;i++){
-                            let item = list[i];
-                            this.listSchoolNameOptions.push({trsSchoolId:item.id,schoolName:item.name});
-                        }
-                    });
-                }
+            }
         }
     }
 </script>

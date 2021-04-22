@@ -13,6 +13,8 @@ public class TrsSchoolActivityQueryParam {
         private String id;
         @ApiModelProperty(value = "培训机构")
         private String trsSchoolId;
+        @ApiModelProperty(value = "活动")
+        private String trsActivityId;
         @ApiModelProperty(value = "可选课程数量")
         private String courseNum;
         @ApiModelProperty(value = "排序")

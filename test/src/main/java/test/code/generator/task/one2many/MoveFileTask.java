@@ -41,7 +41,7 @@ public class MoveFileTask extends AbstractTask {
     @Override
     public List<Table> getTables(Model model) {
         Map<String, Table> tabs = model.getTables();
-        List<String> convertTabs = CollectionUtil.newArrayList("trs_school","trs_course");
+        List<String> convertTabs = CollectionUtil.newArrayList("trs_school","trs_course","trs_school_activity","trs_source_activity","trs_activity");
         List<Table> tableList = tabs.values().stream().filter(t -> {
             if(convertTabs.isEmpty()) {
                 return true;
@@ -63,6 +63,10 @@ public class MoveFileTask extends AbstractTask {
         String moveFileFolder = null;
         for (Table table : tableList) {
 
+            if(StringUtils.isAnyBlank(table.getOne2ManyColId(),table.getOne2ManyColName())) {
+                continue;
+            }
+
             Table parentTable = getParentTable(table.getOne2ManyColId(),table);
 
             filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_CONTROLLER.getValue(), table.getTableName());
@@ -78,6 +82,10 @@ public class MoveFileTask extends AbstractTask {
                 moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2MANY_INDEX_VUE.getValue());
             }
             String subName = StringUtils.substringAfter(parentTable.getTableName(), "_");
+            String tableSubName = StringUtils.substringAfter(table.getTableName(), "_");
+            if(!StringUtils.containsIgnoreCase(tableSubName, subName)) {
+                subName = tableSubName;
+            }
             String modelName = StringUtils.substringBefore(parentTable.getTableName(), "_");
             moveFileFolder += File.separator + modelName + File.separator + subName;
             moveFileFolder += File.separator + "components";
@@ -86,9 +94,12 @@ public class MoveFileTask extends AbstractTask {
             filePath = FileUtil.getFilePath(FileTypeEnum.ONE2MANY_API_JS.getValue(), table.getTableName());
             moveFileFolder = FileUtil.getMoveFilePath(ProjectFilePathEnum.ADMIN_WEB.getValue(), FileTypeEnum.ONE2MANY_API_JS.getValue());
 
-            String parentTableSubName = StringUtils.substringAfter(parentTable.getTableName(), "_");
-            parentTableSubName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,parentTableSubName);
-            moveFileFolder += File.separator + parentTableSubName;
+            subName = StringUtils.substringAfter(parentTable.getTableName(), "_");
+            if(!StringUtils.containsIgnoreCase(tableSubName, subName)) {
+                subName = tableSubName;
+            }
+            subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,subName);
+            moveFileFolder += File.separator + subName;
             FileUtils.copyFileToDirectory(new File(filePath),new File(moveFileFolder));
 
             Map<String, Table> parentTables = table.getParentTables();

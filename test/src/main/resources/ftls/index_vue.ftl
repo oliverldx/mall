@@ -1,3 +1,4 @@
+<#include "./base/base.ftl">
 <#if template>
 <template>
     <div class="app-container">
@@ -47,14 +48,7 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <#list columns as column>
-                    <#--只渲染label不为空的字段-->
-                    <#if column.label?default("")?trim?length gt 1>
-                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.${column.name}}}</template>
-                        </el-table-column>
-                    </#if>
-                </#list>
+                <@listObject/>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -94,6 +88,8 @@
         pageSize: 10
     };
 
+    <@genDefaultOptions/>
+
     export default {
         name: '${subName}',
         props: {},
@@ -111,6 +107,9 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+          <@genFormatMethods/>
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

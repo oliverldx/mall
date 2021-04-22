@@ -60,6 +60,10 @@ public class MoveFileTask extends AbstractTask {
         String moveFileFolder = null;
         for (Table table : tableList) {
 
+            if(StringUtils.isAnyBlank(table.getOne2oneColId(),table.getOne2oneColName())) {
+                continue;
+            }
+
             Table parentTable = getParentTable(table.getOne2oneColId(),table);
 
             filePath = FileUtil.getFilePath(FileTypeEnum.ONE2ONE_CONTROLLER.getValue(), table.getTableName());
