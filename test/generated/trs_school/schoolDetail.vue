@@ -112,7 +112,6 @@
                     return time.getTime() < Date.now();
                 }
             },
-                :[],
             isReallyEdit:this.isEdit
         }
         },
@@ -139,9 +138,7 @@
             } else {
                 this.school = Object.assign({}, defaultSchool);
             }
-                this.()
         },
-
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -192,7 +189,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.school = Object.assign({}, defaultSchool);
-            },
+            }
         }
     }
 </script>

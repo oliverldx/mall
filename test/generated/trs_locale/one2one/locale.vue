@@ -103,6 +103,12 @@
             if (this.isEdit) {
                 getByActivityId(this.activityId).then(response => {
                     this.locale = response.data;
+                if(this.locale.createDate) {
+                    this.locale.createDate = new Date(this.locale.createDate);
+                }
+                if(this.locale.modifyDate) {
+                    this.locale.modifyDate = new Date(this.locale.modifyDate);
+                }
                     if(this.locale == null) {
                         this.isReallyEdit = false;
                         this.locale = Object.assign({}, defaultLocale);

@@ -153,6 +153,17 @@
             if (this.isEdit) {
                 getByActivityId(this.activityId).then(response => {
                     this.pages = response.data;
+                    if(this.pages.swipePic===undefined||this.pages.swipePic==null||this.pages.swipePic===''){
+                        this.pages.swipePic=[]
+                    }else {
+                        this.pages.swipePic = this.pages.swipePic.split(',');
+                    }
+                if(this.pages.createDate) {
+                    this.pages.createDate = new Date(this.pages.createDate);
+                }
+                if(this.pages.modifyDate) {
+                    this.pages.modifyDate = new Date(this.pages.modifyDate);
+                }
                     if(this.pages == null) {
                         this.isReallyEdit = false;
                         this.pages = Object.assign({}, defaultPages);
@@ -172,6 +183,9 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit && this.isReallyEdit) {
+                    if(this.pages.swipePic && this.pages.swipePic.length > 0){
+                        this.pages.swipePic=this.pages.swipePic.toString()
+                    }
                                 update(this.activityId, this.pages).then(response => {
                                     this.$message({
                                         message: '修改成功',
@@ -181,6 +195,9 @@
                                     this.$router.back();
                                 });
                             } else {
+                    if(this.pages.swipePic && this.pages.swipePic.length > 0){
+                        this.pages.swipePic=this.pages.swipePic.toString()
+                    }
                                 this.pages.trsActivityId=this.activityId
                                 create(this.pages).then(response => {
                                     this.$refs[formName].resetFields();

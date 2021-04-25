@@ -6,7 +6,7 @@
     </resultMap>
 
     <select id="getList" resultMap="TusCapitalRecordDto">
-        SELECT tus_capital_record.id,tus_capital_record.money,tus_capital_record.description,tus_capital_record.modify_date
+        SELECT tus_capital_record.id,tus_capital_record.tus_user_id,tus_capital_record.money,tus_capital_record.description,tus_capital_record.modify_date
 	 FROM tus_capital_record as tus_capital_record
 	 LEFT JOIN tus_user as tus_user ON tus_capital_record.tus_user_id = tus_user.id
 

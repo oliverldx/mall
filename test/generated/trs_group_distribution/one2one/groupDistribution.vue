@@ -103,6 +103,12 @@
             if (this.isEdit) {
                 getByActivityId(this.activityId).then(response => {
                     this.groupDistribution = response.data;
+                if(this.groupDistribution.createDate) {
+                    this.groupDistribution.createDate = new Date(this.groupDistribution.createDate);
+                }
+                if(this.groupDistribution.modifyDate) {
+                    this.groupDistribution.modifyDate = new Date(this.groupDistribution.modifyDate);
+                }
                     if(this.groupDistribution == null) {
                         this.isReallyEdit = false;
                         this.groupDistribution = Object.assign({}, defaultGroupDistribution);

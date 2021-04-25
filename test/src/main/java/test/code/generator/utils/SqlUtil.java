@@ -49,7 +49,8 @@ public class SqlUtil {
             if(StringUtils.isBlank(col.getDescription())) {
                 selectJoiner.add(table.getTableName() + "." + col.getName());
             }else {
-                JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+                String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+                JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(colName);
                 String type = jsonObject.getStr("type");
                 if("sql".equals(type)) {
                     JSONArray jsonArray = jsonObject.getJSONArray("vals");
@@ -76,10 +77,10 @@ public class SqlUtil {
             if(StringUtils.isBlank(col.getDescription())) {
                 continue;
             }
-            JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+            String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+            JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(colName);
             String type = jsonObject.getStr("type");
             if ("sql_where".equals(type)) {
-                String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
                 whereJoiner.add(table.getTableName() + "." + col.getName() + "=#{queryParam."+colName+"}");
             }
         }
@@ -161,7 +162,8 @@ public class SqlUtil {
                     }
                     return false;
                 }).forEach(col -> {
-                    JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+                    String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+                    JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(colName);
                     String type = jsonObject.getStr("type");
                     if("sql".equals(type)) {
                         JSONArray vals = jsonObject.getJSONArray("vals");

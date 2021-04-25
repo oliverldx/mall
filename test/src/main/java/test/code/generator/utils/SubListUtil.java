@@ -23,7 +23,8 @@ public class SubListUtil {
                     if (StringUtils.isBlank(col.getDescription())) {
                         return false;
                     }
-                    JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(col.getName());
+                    String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+                    JSONObject jsonObject = new JSONObject(col.getDescription()).getJSONObject(colName);
                     if (jsonObject.containsKey("subList")) {
                         return true;
                     }
@@ -42,8 +43,8 @@ public class SubListUtil {
             String subName = StringUtils.substringAfter(tableName, "_");
             subName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, subName);
             ftlData.put("subListName", subName);
-
-            JSONArray subListJsonArray = new JSONObject(col.getDescription()).getJSONObject(col.getName()).getJSONArray("subList");
+            String colName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, col.getName());
+            JSONArray subListJsonArray = new JSONObject(col.getDescription()).getJSONObject(colName).getJSONArray("subList");
             List<Map> subListCols = subListJsonArray.stream().sorted(Comparator.comparing(obj -> ((JSONObject) obj).getInt("colIndex"))).map(obj -> (Map) obj).collect(Collectors.toList());
             String s = SqlUtil.genOne2ManySubListSQl(subListCols, table);
             ftlData.put("subListSql", s);

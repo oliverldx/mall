@@ -46,15 +46,18 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <el-table-column label="ID" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.id}}</template>
-                </el-table-column>
-                <el-table-column label="每单可选课程数量" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.courseNum}}</template>
-                </el-table-column>
-                <el-table-column label="排序" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.sort}}</template>
-                </el-table-column>
+                        <el-table-column label="ID" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.id}}</template>
+                        </el-table-column>
+                        <el-table-column label="培训机构" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.trsSchoolId}}</template>
+                        </el-table-column>
+                        <el-table-column label="每单可选课程数量" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.courseNum}}</template>
+                        </el-table-column>
+                        <el-table-column label="排序" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.sort}}</template>
+                        </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -92,7 +95,6 @@
         pageSize: 10
     };
 
-
     export default {
         name: 'schoolActivity',
         props: {},
@@ -110,8 +112,6 @@
             this.getList();
         },
         mounted() {},
-        filters:{
-        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

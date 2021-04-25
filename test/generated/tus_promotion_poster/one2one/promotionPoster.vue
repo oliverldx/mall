@@ -77,6 +77,12 @@
             if (this.isEdit) {
                 getByUserId(this.userId).then(response => {
                     this.promotionPoster = response.data;
+                if(this.promotionPoster.createDate) {
+                    this.promotionPoster.createDate = new Date(this.promotionPoster.createDate);
+                }
+                if(this.promotionPoster.modifyDate) {
+                    this.promotionPoster.modifyDate = new Date(this.promotionPoster.modifyDate);
+                }
                     if(this.promotionPoster == null) {
                         this.isReallyEdit = false;
                         this.promotionPoster = Object.assign({}, defaultPromotionPoster);

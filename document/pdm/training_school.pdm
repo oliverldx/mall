@@ -7066,7 +7066,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:Code>tus_user_id</a:Code>
 <a:CreationDate>1612165660</a:CreationDate>
 <a:Creator>oliver</a:Creator>
-<a:ModificationDate>1612240092</a:ModificationDate>
+<a:ModificationDate>1619086132</a:ModificationDate>
 <a:Modifier>oliver</a:Modifier>
 <a:Comment>用户id</a:Comment>
 <a:DataType>bigint</a:DataType>
@@ -7074,8 +7074,8 @@ LABL 0 新宋体,8,N</a:FontList>
 <a:AutoMigrated>1</a:AutoMigrated>
 <a:Description>{\rtf1\ansi\ansicpg936\deff0\nouicompat\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset0 Microsoft Sans Serif;}{\f1\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}}
 {\colortbl ;\red0\green0\blue0;}
-{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
-\pard\f0\fs20\{&quot;tus_user_id&quot;:\{&quot;vals&quot;:\lang2052 [\{&quot;dataName&quot;:&quot;name&quot;,&quot;alias&quot;:&quot;&quot;,&quot;label&quot;:&quot;&quot;,&quot;labelIndex&quot;:&quot;&quot;\}],&quot;type&quot;:&quot;sql_where&quot;\}\}\cf1\f1\fs16\par
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\f0\fs20\{&quot;tusUserId&quot;:\{&quot;vals&quot;:\lang2052 [\{&quot;dataName&quot;:&quot;name&quot;,&quot;alias&quot;:&quot;&quot;,&quot;label&quot;:&quot;&quot;,&quot;labelIndex&quot;:&quot;&quot;\}],&quot;type&quot;:&quot;sql_where&quot;\}\}\cf1\f1\fs16\par
 }
 </a:Description>
 </o:Column>

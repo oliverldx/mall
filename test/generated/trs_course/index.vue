@@ -46,23 +46,23 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <el-table-column label="ID" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.id}}</template>
-                </el-table-column>
-                        <el-table-column label="头图" width="180" align="center">
-                            <template slot-scope="scope"><img style="height: 80px" :src="scope.row.pic"></template>
+                        <el-table-column label="ID" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.id}}</template>
                         </el-table-column>
-                <el-table-column label="课程名称" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.name}}</template>
-                </el-table-column>
-                <el-table-column label="原价" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.price}}</template>
-                </el-table-column>
+                        <el-table-column label="头图" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.pic}}</template>
+                        </el-table-column>
+                        <el-table-column label="课程名称" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.name}}</template>
+                        </el-table-column>
+                        <el-table-column label="原价" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.price}}</template>
+                        </el-table-column>
                         <el-table-column label="培训机构" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.schoolName}}</template>
+                            <template slot-scope="scope">{{scope.row.trsSchoolId}}</template>
                         </el-table-column>
                         <el-table-column label="状态" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
+                            <template slot-scope="scope">{{scope.row.status}}</template>
                         </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
@@ -101,17 +101,6 @@
         pageSize: 10
     };
 
-     const defaultStatusOptions=[
-         {
-         label: '禁用',
-         value: 0
-         },
-         {
-         label: '启用',
-         value: 1
-         },
-     ];
-
     export default {
         name: 'course',
         props: {},
@@ -129,15 +118,6 @@
             this.getList();
         },
         mounted() {},
-        filters:{
-         formatStatus(status){
-            for(let i=0;i<defaultStatusOptions.length;i++){
-                 if(status===defaultStatusOptions[i].value){
-                    return defaultStatusOptions[i].label;
-                 }
-             }
-         },
-        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

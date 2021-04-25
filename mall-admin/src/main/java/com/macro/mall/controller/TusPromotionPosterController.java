@@ -1,9 +1,11 @@
 package com.macro.mall.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.dao.TusPromotionPosterDao;
 import com.macro.mall.mapper.TusPromotionPosterMapper;
 import com.macro.mall.model.TusPromotionPoster;
+import com.macro.mall.dao.TusPromotionPosterDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,8 @@ public class TusPromotionPosterController {
     @ResponseBody
     public CommonResult add(@RequestBody TusPromotionPoster tusPromotionPoster) {
         Date createDate = new Date();
-//        tusPromotionPoster.setCreateDate(createDate);
-//        tusPromotionPoster.setModifyDate(createDate);
+        tusPromotionPoster.setCreateDate(createDate);
+        tusPromotionPoster.setModifyDate(createDate);
         int count = tusPromotionPosterMapper.insert(tusPromotionPoster);
         if (count > 0) {
             return CommonResult.success(count);
@@ -47,7 +49,7 @@ public class TusPromotionPosterController {
     @ResponseBody
     public CommonResult update(@PathVariable Long id,@Validated @RequestBody TusPromotionPoster tusPromotionPoster,
             BindingResult result) {
-//        tusPromotionPoster.setModifyDate(new Date());
+        tusPromotionPoster.setModifyDate(new Date());
         int count = 0;
         count = tusPromotionPosterMapper.updateByPrimaryKeySelective(tusPromotionPoster);
         if (count > 0) {

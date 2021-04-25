@@ -7,8 +7,6 @@
                             <el-form-item label="ID" >
                                 <el-input v-model="schoolActivity.id"></el-input>
                             </el-form-item>
-
-
                       <el-form-item label="可选课程数量" >
                         <el-input v-model="schoolActivity.courseNum"></el-input>
                       </el-form-item>
@@ -73,7 +71,6 @@
                     return time.getTime() < Date.now();
                 }
             },
-                :[],
             isReallyEdit:this.isEdit
         }
         },
@@ -95,9 +92,7 @@
             } else {
                 this.schoolActivity = Object.assign({}, defaultSchoolActivity);
             }
-                this.()
         },
-
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -142,7 +137,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.schoolActivity = Object.assign({}, defaultSchoolActivity);
-            },
+            }
         }
     }
 </script>
