@@ -65,6 +65,7 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/school';
+
         import SingleUpload from '@/components/Upload/singleUpload';
         import MultiUpload from '@/components/Upload/multiUpload';
         import Tinymce from '@/components/Tinymce';
@@ -119,6 +120,10 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.school = response.data;
+                    if(this.school == null) {
+                        this.isReallyEdit = false;
+                        this.school = Object.assign({}, defaultSchool);
+                    }
                     if(this.school.pic===undefined||this.school.pic==null||this.school.pic===''){
                         this.school.pic=[]
                     }else {
@@ -130,15 +135,12 @@
                 if(this.school.modifyDate) {
                     this.school.modifyDate = new Date(this.school.modifyDate);
                 }
-                    if(this.school == null) {
-                        this.isReallyEdit = false;
-                        this.school = Object.assign({}, defaultSchool);
-                    }
                 });
             } else {
                 this.school = Object.assign({}, defaultSchool);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -189,7 +191,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.school = Object.assign({}, defaultSchool);
-            }
+            },
         }
     }
 </script>

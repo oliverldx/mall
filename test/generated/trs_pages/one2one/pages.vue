@@ -153,6 +153,10 @@
             if (this.isEdit) {
                 getByActivityId(this.activityId).then(response => {
                     this.pages = response.data;
+                    if(this.pages == null) {
+                        this.isReallyEdit = false;
+                        this.pages = Object.assign({}, defaultPages);
+                    }
                     if(this.pages.swipePic===undefined||this.pages.swipePic==null||this.pages.swipePic===''){
                         this.pages.swipePic=[]
                     }else {
@@ -164,10 +168,6 @@
                 if(this.pages.modifyDate) {
                     this.pages.modifyDate = new Date(this.pages.modifyDate);
                 }
-                    if(this.pages == null) {
-                        this.isReallyEdit = false;
-                        this.pages = Object.assign({}, defaultPages);
-                    }
                 });
             } else {
                 this.pages = Object.assign({}, defaultPages);

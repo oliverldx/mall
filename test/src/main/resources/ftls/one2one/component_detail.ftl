@@ -154,11 +154,11 @@
             if (this.isEdit) {
                 getBy${fkId?cap_first}(this.${fkId}).then(response => {
                     this.${subName} = response.data;
-                    <@initObject/>
                     if(this.${subName} == null) {
                         this.isReallyEdit = false;
                         this.${subName} = Object.assign({}, default${subName?cap_first});
                     }
+                    <@initObject/>
                 });
             } else {
                 this.${subName} = Object.assign({}, default${subName?cap_first});

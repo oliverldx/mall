@@ -5,7 +5,7 @@
     <select id="getList" resultMap="com.macro.mall.mapper.TrsGroupSaleMapper.BaseResultMap">
         SELECT trs_group_sale.id
 	 FROM trs_group_sale as trs_group_sale
-	 LEFT JOIN trs_activity as trs_activity ON trs_group_sale.id = trs_activity.id
+	 LEFT JOIN trs_activity as trs_activity ON trs_group_sale.trs_activity_id = trs_activity.id
 
     </select>
 </mapper>

@@ -60,6 +60,7 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/locale';
 
+
     const defaultLocale = {
     id:'',
     trsActivityId:'',
@@ -104,11 +105,18 @@
                         this.isReallyEdit = false;
                         this.locale = Object.assign({}, defaultLocale);
                     }
+                if(this.locale.createDate) {
+                    this.locale.createDate = new Date(this.locale.createDate);
+                }
+                if(this.locale.modifyDate) {
+                    this.locale.modifyDate = new Date(this.locale.modifyDate);
+                }
                 });
             } else {
                 this.locale = Object.assign({}, defaultLocale);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -153,7 +161,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.locale = Object.assign({}, defaultLocale);
-            }
+            },
         }
     }
 </script>

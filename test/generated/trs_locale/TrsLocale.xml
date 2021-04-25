@@ -5,7 +5,7 @@
     <select id="getList" resultMap="com.macro.mall.mapper.TrsLocaleMapper.BaseResultMap">
         SELECT trs_locale.id
 	 FROM trs_locale as trs_locale
-	 LEFT JOIN trs_activity as trs_activity ON trs_locale.id = trs_activity.id
+	 LEFT JOIN trs_activity as trs_activity ON trs_locale.trs_activity_id = trs_activity.id
 
     </select>
 </mapper>

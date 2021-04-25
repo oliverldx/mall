@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TosOrderGiftDao">
+
+    <resultMap id="TosOrderGiftDto" type="com.macro.mall.dto.TosOrderGiftDto" extends="com.macro.mall.mapper.TosOrderGiftMapper.BaseResultMap">
+                <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
+    </resultMap>
+
+    <select id="getList" resultMap="TosOrderGiftDto">
+        SELECT tos_order_gift.id,tos_order_gift.tos_order_id,trs_gift.name gift_name,tos_order_gift.status
+	 FROM tos_order_gift as tos_order_gift
+	 LEFT JOIN tos_order as tos_order ON tos_order_gift.tos_order_id = tos_order.id
+	 LEFT JOIN trs_gift as trs_gift ON tos_order_gift.trs_gift_id = trs_gift.id
+
+	where 
+		tos_order_gift.tos_order_id=#{queryParam.tosOrderId}
+    </select>
+
+    <resultMap id="TosOrderGiftSubListQueryParam" type="com.macro.mall.dto.TosOrderGiftSubListQueryParam">
+                    <result column="pic" jdbcType="LONGVARCHAR" property="pic" />
+    </resultMap>
+
+    <select id="getGiftList" resultMap="TosOrderGiftSubListQueryParam">
+        SELECT trs_gift.id,trs_gift.pic,trs_gift.name,trs_gift.sponsor_name
+	 FROM 
+	trs_gift as trs_gift
+	 LEFT JOIN tos_order_gift as tos_order_gift ON trs_gift.id = tos_order_gift.trs_gift_id
+
+	 WHERE 
+	tos_order_gift.id IS NULL
+	<if test="queryParam.id!=null">
+	 and trs_gift.id = #{queryParam.id}
+	</if>
+	<if test="queryParam.pic!=null">
+	 and trs_gift.pic = #{queryParam.pic}
+	</if>
+	<if test="queryParam.name!=null">
+	 and trs_gift.name = #{queryParam.name}
+	</if>
+	<if test="queryParam.sponsorName!=null">
+	 and trs_gift.sponsor_name = #{queryParam.sponsorName}
+	</if>
+    </select>
+</mapper>

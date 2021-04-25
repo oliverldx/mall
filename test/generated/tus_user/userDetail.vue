@@ -16,6 +16,12 @@
                         <el-form-item label="昵称" >
                           <el-input v-model="user.nickName"></el-input>
                         </el-form-item>
+                <el-form-item label="等级">
+                    <el-radio-group v-model="user.level">
+                            <el-radio :label="0">普通</el-radio>
+                            <el-radio :label="1">教师</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                     <el-form-item label="余额" >
                         <el-input v-model="user.balance"></el-input>
                     </el-form-item>
@@ -32,6 +38,12 @@
                         <el-form-item label="手机号" >
                           <el-input v-model="user.mobile"></el-input>
                         </el-form-item>
+                <el-form-item label="是否下单">
+                    <el-radio-group v-model="user.takeOrder">
+                            <el-radio :label="0">未下单</el-radio>
+                            <el-radio :label="1">已下单</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                       <el-form-item label="邀请人数" >
                         <el-input v-model="user.invitePeopleCount"></el-input>
                       </el-form-item>
@@ -70,17 +82,18 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/user';
 
+
     const defaultUser = {
     id:'',
     userId:'',
     pic:'',
 
     nickName:'',
-    level:'',
+    level:0,
     sex:0,
     name:'',
     mobile:'',
-    takeOrder:'',
+    takeOrder:0,
     invitePeopleCount:0,
     createDate:'',
     modifyDate:'',
@@ -120,11 +133,18 @@
                         this.isReallyEdit = false;
                         this.user = Object.assign({}, defaultUser);
                     }
+                if(this.user.createDate) {
+                    this.user.createDate = new Date(this.user.createDate);
+                }
+                if(this.user.modifyDate) {
+                    this.user.modifyDate = new Date(this.user.modifyDate);
+                }
                 });
             } else {
                 this.user = Object.assign({}, defaultUser);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -169,7 +189,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.user = Object.assign({}, defaultUser);
-            }
+            },
         }
     }
 </script>

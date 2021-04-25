@@ -46,9 +46,9 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -86,8 +86,9 @@
         pageSize: 10
     };
 
+
     export default {
-        name: 'Course',
+        name: 'groupSale',
         props: {},
         data() {
             return {
@@ -103,6 +104,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

@@ -7,6 +7,8 @@
                             <el-form-item label="ID" >
                                 <el-input v-model="schoolActivity.id"></el-input>
                             </el-form-item>
+
+
                       <el-form-item label="可选课程数量" >
                         <el-input v-model="schoolActivity.courseNum"></el-input>
                       </el-form-item>
@@ -41,6 +43,7 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/schoolActivity';
+
 
     const defaultSchoolActivity = {
     id:'',
@@ -78,21 +81,22 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.schoolActivity = response.data;
+                    if(this.schoolActivity == null) {
+                        this.isReallyEdit = false;
+                        this.schoolActivity = Object.assign({}, defaultSchoolActivity);
+                    }
                 if(this.schoolActivity.createDate) {
                     this.schoolActivity.createDate = new Date(this.schoolActivity.createDate);
                 }
                 if(this.schoolActivity.modifyDate) {
                     this.schoolActivity.modifyDate = new Date(this.schoolActivity.modifyDate);
                 }
-                    if(this.schoolActivity == null) {
-                        this.isReallyEdit = false;
-                        this.schoolActivity = Object.assign({}, defaultSchoolActivity);
-                    }
                 });
             } else {
                 this.schoolActivity = Object.assign({}, defaultSchoolActivity);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -137,7 +141,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.schoolActivity = Object.assign({}, defaultSchoolActivity);
-            }
+            },
         }
     }
 </script>

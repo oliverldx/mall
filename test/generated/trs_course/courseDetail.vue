@@ -4,6 +4,22 @@
                  :rules="rules"
                  ref="courseFrom"
                  label-width="150px">
+
+                            <el-form-item label="培训机构" >
+                                <el-select
+                                        v-model="course.trsSchoolId"
+                                        filterable
+                                        reserve-keyword
+                                        placeholder="请选择培训机构">
+                                    <el-option
+                                            v-for="item in listSchoolNameOptions"
+                                            :key="item.trsSchoolId"
+                                            :label="item.schoolName"
+                                            :value="item.trsSchoolId">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
                         <el-form-item label="名称" >
                           <el-input v-model="course.name"></el-input>
                         </el-form-item>
@@ -50,6 +66,8 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/course';
+    import {fetchList as fetchParentTableList} from '@/api/school';
+
         import SingleUpload from '@/components/Upload/singleUpload';
 
     const defaultCourse = {
@@ -84,6 +102,7 @@
                     return time.getTime() < Date.now();
                 }
             },
+                listSchoolNameOptions:[],
             isReallyEdit:this.isEdit
         }
         },
@@ -91,21 +110,23 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.course = response.data;
+                    if(this.course == null) {
+                        this.isReallyEdit = false;
+                        this.course = Object.assign({}, defaultCourse);
+                    }
                 if(this.course.createDate) {
                     this.course.createDate = new Date(this.course.createDate);
                 }
                 if(this.course.modifyDate) {
                     this.course.modifyDate = new Date(this.course.modifyDate);
                 }
-                    if(this.course == null) {
-                        this.isReallyEdit = false;
-                        this.course = Object.assign({}, defaultCourse);
-                    }
                 });
             } else {
                 this.course = Object.assign({}, defaultCourse);
             }
+                this.listSchoolNameMethod()
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -150,7 +171,17 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.course = Object.assign({}, defaultCourse);
-            }
+            },
+                listSchoolNameMethod(){
+                    fetchParentTableList({pageNum: 1,pageSize: 1000}).then(response=>{
+                        let list = response.data.list;
+                        this.listSchoolNameOptions = [];
+                        for(let i=0;i<list.length;i++){
+                            let item = list[i];
+                            this.listSchoolNameOptions.push({trsSchoolId:item.id,schoolName:item.name});
+                        }
+                    });
+                }
         }
     }
 </script>

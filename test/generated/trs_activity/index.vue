@@ -46,26 +46,26 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
-                        <el-table-column label="访问二维码" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.qrcode}}</template>
-                        </el-table-column>
-                        <el-table-column label="活动名称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="课程价格" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.price}}</template>
-                        </el-table-column>
-                        <el-table-column label="可选课程数量" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.courseNum}}</template>
-                        </el-table-column>
-                        <el-table-column label="销售数量" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.salesNum}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
+                <el-table-column label="访问二维码" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.qrcode}}</template>
+                </el-table-column>
+                <el-table-column label="活动名称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="课程价格" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.price}}</template>
+                </el-table-column>
+                <el-table-column label="可选课程数量" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.courseNum}}</template>
+                </el-table-column>
+                <el-table-column label="销售数量" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.salesNum}}</template>
+                </el-table-column>
                         <el-table-column label="状态" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.status}}</template>
+                            <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
                         </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
@@ -104,6 +104,17 @@
         pageSize: 10
     };
 
+     const defaultStatusOptions=[
+         {
+         label: '禁用',
+         value: 0
+         },
+         {
+         label: '启用',
+         value: 1
+         },
+     ];
+
     export default {
         name: 'activity',
         props: {},
@@ -121,6 +132,15 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+         formatStatus(status){
+            for(let i=0;i<defaultStatusOptions.length;i++){
+                 if(status===defaultStatusOptions[i].value){
+                    return defaultStatusOptions[i].label;
+                 }
+             }
+         },
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

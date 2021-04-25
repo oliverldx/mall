@@ -83,8 +83,9 @@
         pageSize: 10
     };
 
+
     export default {
-        name: 'Course',
+        name: 'pages',
         props: {},
         data() {
             return {
@@ -100,6 +101,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

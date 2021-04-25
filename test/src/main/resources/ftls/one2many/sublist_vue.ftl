@@ -145,6 +145,7 @@
                 list: null,
                 total: null,
                 operateType: null,
+                ${subName}:null,
                 multipleSelection: [],
                 selectDialogVisible:false,
                 dialogData:{
@@ -198,6 +199,7 @@
             confirmEdit(row) {
                 <@addOrignCol columns=columns/>
                 row.edit = false
+                this.${subName} = row
                 this.${subName}.${one2manyColName}=this.${fkId}
                 update(this.${fkId}, this.${subName}).then(response => {
                     this.$message({

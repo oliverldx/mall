@@ -208,6 +208,7 @@
                 list: null,
                 total: null,
                 operateType: null,
+                courseActivity:null,
                 multipleSelection: [],
                 selectDialogVisible:false,
                 dialogData:{
@@ -267,6 +268,7 @@
                 row.originalSort = row.sort
                 row.originalApplyNum = row.applyNum
                 row.edit = false
+                this.courseActivity = row
                 this.courseActivity.trsActivityId=this.activityId
                 update(this.activityId, this.courseActivity).then(response => {
                     this.$message({

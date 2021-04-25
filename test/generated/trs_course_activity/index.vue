@@ -46,21 +46,18 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
-                        <el-table-column label="课程" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.trsCourseId}}</template>
-                        </el-table-column>
-                        <el-table-column label="库存数" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.courseNum}}</template>
-                        </el-table-column>
-                        <el-table-column label="排序" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.sort}}</template>
-                        </el-table-column>
-                        <el-table-column label="报名数" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.applyNum}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
+                <el-table-column label="库存数" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.courseNum}}</template>
+                </el-table-column>
+                <el-table-column label="排序" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.sort}}</template>
+                </el-table-column>
+                <el-table-column label="报名数" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.applyNum}}</template>
+                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -98,8 +95,9 @@
         pageSize: 10
     };
 
+
     export default {
-        name: 'Course',
+        name: 'courseActivity',
         props: {},
         data() {
             return {
@@ -115,6 +113,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

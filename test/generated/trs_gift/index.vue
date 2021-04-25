@@ -46,30 +46,30 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
-                        <el-table-column label="图片" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.pic}}</template>
-                        </el-table-column>
-                        <el-table-column label="名称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="赞助商" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.sponsorName}}</template>
-                        </el-table-column>
-                        <el-table-column label="数量" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.num}}</template>
-                        </el-table-column>
-                        <el-table-column label="有效期" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.validateTime}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
+                <el-table-column label="图片" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.pic}}</template>
+                </el-table-column>
+                <el-table-column label="名称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="赞助商" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.sponsorName}}</template>
+                </el-table-column>
+                <el-table-column label="数量" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.num}}</template>
+                </el-table-column>
+                <el-table-column label="有效期" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.validateTime}}</template>
+                </el-table-column>
                         <el-table-column label="状态" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.status}}</template>
+                            <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
                         </el-table-column>
-                        <el-table-column label="排序" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.sort}}</template>
-                        </el-table-column>
+                <el-table-column label="排序" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.sort}}</template>
+                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -107,8 +107,19 @@
         pageSize: 10
     };
 
+     const defaultStatusOptions=[
+         {
+         label: '禁用',
+         value: 0
+         },
+         {
+         label: '启用',
+         value: 1
+         },
+     ];
+
     export default {
-        name: 'Course',
+        name: 'gift',
         props: {},
         data() {
             return {
@@ -124,6 +135,15 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+         formatStatus(status){
+            for(let i=0;i<defaultStatusOptions.length;i++){
+                 if(status===defaultStatusOptions[i].value){
+                    return defaultStatusOptions[i].label;
+                 }
+             }
+         },
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

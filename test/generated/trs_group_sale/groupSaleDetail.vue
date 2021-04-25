@@ -4,10 +4,10 @@
                  :rules="rules"
                  ref="groupSaleFrom"
                  label-width="150px">
-                      <el-form-item label="库存" >
+                      <el-form-item label="成团人数" >
                         <el-input v-model="groupSale.groupNum"></el-input>
                       </el-form-item>
-                      <el-form-item label="报名数" >
+                      <el-form-item label="成团时间" >
                         <el-input v-model="groupSale.groupHours"></el-input>
                       </el-form-item>
                 <el-form-item label="是否开启拼团">
@@ -61,6 +61,7 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/groupSale';
 
+
     const defaultGroupSale = {
     id:'',
     trsActivityId:'',
@@ -102,11 +103,18 @@
                         this.isReallyEdit = false;
                         this.groupSale = Object.assign({}, defaultGroupSale);
                     }
+                if(this.groupSale.createDate) {
+                    this.groupSale.createDate = new Date(this.groupSale.createDate);
+                }
+                if(this.groupSale.modifyDate) {
+                    this.groupSale.modifyDate = new Date(this.groupSale.modifyDate);
+                }
                 });
             } else {
                 this.groupSale = Object.assign({}, defaultGroupSale);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -151,7 +159,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.groupSale = Object.assign({}, defaultGroupSale);
-            }
+            },
         }
     }
 </script>

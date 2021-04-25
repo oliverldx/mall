@@ -3,9 +3,9 @@
 <mapper namespace="com.macro.mall.dao.TrsGiftDao">
 
     <select id="getList" resultMap="com.macro.mall.mapper.TrsGiftMapper.BaseResultMap">
-        SELECT trs_gift.id,trs_gift.pic,trs_gift.name,trs_gift.sponsor_name,trs_gift.num,trs_gift.validate_time,trs_gift.sort
+        SELECT trs_gift.id,trs_gift.pic,trs_gift.name,trs_gift.sponsor_name,trs_gift.num,trs_gift.validate_time,trs_gift.status,trs_gift.sort
 	 FROM trs_gift as trs_gift
-	 LEFT JOIN trs_activity as trs_activity ON trs_gift.id = trs_activity.id
+	 LEFT JOIN trs_activity as trs_activity ON trs_gift.trs_activity_id = trs_activity.id
 
     </select>
 </mapper>

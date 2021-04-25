@@ -101,16 +101,16 @@
             if (this.isEdit) {
                 getByActivityId(this.activityId).then(response => {
                     this.groupSale = response.data;
+                    if(this.groupSale == null) {
+                        this.isReallyEdit = false;
+                        this.groupSale = Object.assign({}, defaultGroupSale);
+                    }
                 if(this.groupSale.createDate) {
                     this.groupSale.createDate = new Date(this.groupSale.createDate);
                 }
                 if(this.groupSale.modifyDate) {
                     this.groupSale.modifyDate = new Date(this.groupSale.modifyDate);
                 }
-                    if(this.groupSale == null) {
-                        this.isReallyEdit = false;
-                        this.groupSale = Object.assign({}, defaultGroupSale);
-                    }
                 });
             } else {
                 this.groupSale = Object.assign({}, defaultGroupSale);

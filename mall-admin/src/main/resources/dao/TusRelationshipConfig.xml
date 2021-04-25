@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TusRelationshipConfigDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TusRelationshipConfigMapper.BaseResultMap">
+        SELECT 
+	 FROM tus_relationship_config as tus_relationship_config
+	 LEFT JOIN tus_user as tus_user ON tus_relationship_config.tus_user_id = tus_user.id
+
+    </select>
+</mapper>

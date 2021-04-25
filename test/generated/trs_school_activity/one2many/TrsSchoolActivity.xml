@@ -17,10 +17,6 @@
     </select>
 
     <resultMap id="TrsSchoolActivitySubListQueryParam" type="com.macro.mall.dto.TrsSchoolActivitySubListQueryParam">
-                <result column="id" jdbcType="BIGINT" property="id" />
-                <result column="logo" jdbcType="VARCHAR" property="logo" />
-                <result column="name" jdbcType="VARCHAR" property="name" />
-                <result column="contact_name" jdbcType="VARCHAR" property="contactName" />
     </resultMap>
 
     <select id="getSchoolList" resultMap="TrsSchoolActivitySubListQueryParam">

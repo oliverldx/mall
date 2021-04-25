@@ -9,7 +9,7 @@ public class TusCapitalRecord implements Serializable {
     private Long id;
 
     @ApiModelProperty(value = "ID")
-    private Long tusId;
+    private Long tusUserId;
 
     @ApiModelProperty(value = "金额")
     private Long money;
@@ -33,12 +33,12 @@ public class TusCapitalRecord implements Serializable {
         this.id = id;
     }
 
-    public Long getTusId() {
-        return tusId;
+    public Long getTusUserId() {
+        return tusUserId;
     }
 
-    public void setTusId(Long tusId) {
-        this.tusId = tusId;
+    public void setTusUserId(Long tusUserId) {
+        this.tusUserId = tusUserId;
     }
 
     public Long getMoney() {
@@ -80,7 +80,7 @@ public class TusCapitalRecord implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", tusId=").append(tusId);
+        sb.append(", tusUserId=").append(tusUserId);
         sb.append(", money=").append(money);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);

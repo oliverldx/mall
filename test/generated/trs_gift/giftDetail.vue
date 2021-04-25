@@ -72,6 +72,7 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/gift';
 
+
     const defaultGift = {
     id:'',
     trsActivityId:'',
@@ -121,11 +122,21 @@
                         this.isReallyEdit = false;
                         this.gift = Object.assign({}, defaultGift);
                     }
+                if(this.gift.validateTime) {
+                    this.gift.validateTime = new Date(this.gift.validateTime);
+                }
+                if(this.gift.createDate) {
+                    this.gift.createDate = new Date(this.gift.createDate);
+                }
+                if(this.gift.modifyDate) {
+                    this.gift.modifyDate = new Date(this.gift.modifyDate);
+                }
                 });
             } else {
                 this.gift = Object.assign({}, defaultGift);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -170,7 +181,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.gift = Object.assign({}, defaultGift);
-            }
+            },
         }
     }
 </script>

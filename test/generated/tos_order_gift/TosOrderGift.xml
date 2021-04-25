@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TosOrderGiftDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TosOrderGiftMapper.BaseResultMap">
+        SELECT 
+	 FROM tos_order_gift as tos_order_gift
+	 LEFT JOIN tos_order as tos_order ON tos_order_gift.tos_order_id = tos_order.id
+	 LEFT JOIN trs_gift as trs_gift ON tos_order_gift.trs_gift_id = trs_gift.id
+
+    </select>
+</mapper>

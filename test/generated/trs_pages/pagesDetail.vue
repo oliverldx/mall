@@ -89,6 +89,7 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/pages';
+
         import MultiUpload from '@/components/Upload/multiUpload';
         import Tinymce from '@/components/Tinymce';
 
@@ -124,8 +125,8 @@
     export default {
         name: "PagesDetail",
         components: {
-            MultiUpload,
-            Tinymce,
+        MultiUpload,
+        Tinymce,
         },
         props: {
             isEdit: {
@@ -154,11 +155,23 @@
                         this.isReallyEdit = false;
                         this.pages = Object.assign({}, defaultPages);
                     }
+                    if(this.pages.swipePic===undefined||this.pages.swipePic==null||this.pages.swipePic===''){
+                        this.pages.swipePic=[]
+                    }else {
+                        this.pages.swipePic = this.pages.swipePic.split(',');
+                    }
+                if(this.pages.createDate) {
+                    this.pages.createDate = new Date(this.pages.createDate);
+                }
+                if(this.pages.modifyDate) {
+                    this.pages.modifyDate = new Date(this.pages.modifyDate);
+                }
                 });
             } else {
                 this.pages = Object.assign({}, defaultPages);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -169,6 +182,9 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
+                    if(this.pages.swipePic && this.pages.swipePic.length > 0){
+                        this.pages.swipePic=this.pages.swipePic.toString()
+                    }
                                 update(this.$route.query.id, this.pages).then(response => {
                                     this.$message({
                                         message: '修改成功',
@@ -178,6 +194,9 @@
                                     this.$router.back();
                                 });
                             } else {
+                    if(this.pages.swipePic && this.pages.swipePic.length > 0){
+                        this.pages.swipePic=this.pages.swipePic.toString()
+                    }
                                 create(this.pages).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
@@ -203,7 +222,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.pages = Object.assign({}, defaultPages);
-            }
+            },
         }
     }
 </script>

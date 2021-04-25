@@ -64,6 +64,7 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/groupDistribution';
 
+
     const defaultGroupDistribution = {
     id:'',
     trsActivityId:'',
@@ -104,11 +105,18 @@
                         this.isReallyEdit = false;
                         this.groupDistribution = Object.assign({}, defaultGroupDistribution);
                     }
+                if(this.groupDistribution.createDate) {
+                    this.groupDistribution.createDate = new Date(this.groupDistribution.createDate);
+                }
+                if(this.groupDistribution.modifyDate) {
+                    this.groupDistribution.modifyDate = new Date(this.groupDistribution.modifyDate);
+                }
                 });
             } else {
                 this.groupDistribution = Object.assign({}, defaultGroupDistribution);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -153,7 +161,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.groupDistribution = Object.assign({}, defaultGroupDistribution);
-            }
+            },
         }
     }
 </script>

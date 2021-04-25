@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class TrsCourseActivityQueryParam {
 
-        @ApiModelProperty(value = "TODO")
+        @ApiModelProperty(value = "ID")
         private String id;
         @ApiModelProperty(value = "课程")
         private String trsCourseId;

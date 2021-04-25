@@ -20,6 +20,10 @@
         <#list subListColumns as column>
         <#--只渲染label不为空的字段-->
             <#if column.label?default("")?trim?length gt 1>
+                <#if column.type == 'text'>
+                    <result column="${column.code}" jdbcType="LONGVARCHAR" property="${column.name}" />
+                </#if>
+                <#else >
                 <result column="${column.code}" jdbcType="${column.type?upper_case}" property="${column.name}" />
             </#if>
         </#list>

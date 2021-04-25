@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TusCapitalRecordDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TusCapitalRecordMapper.BaseResultMap">
+        SELECT tus_capital_record.money,tus_capital_record.description,tus_capital_record.modify_date
+	 FROM tus_capital_record as tus_capital_record
+	 LEFT JOIN tus_user as tus_user ON tus_capital_record.tus_user_id = tus_user.id
+
+    </select>
+</mapper>

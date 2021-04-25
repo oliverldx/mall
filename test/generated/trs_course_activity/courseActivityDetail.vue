@@ -4,6 +4,11 @@
                  :rules="rules"
                  ref="courseActivityFrom"
                  label-width="150px">
+                            <el-form-item label="ID" >
+                                <el-input v-model="courseActivity.id"></el-input>
+                            </el-form-item>
+
+
                       <el-form-item label="库存" >
                         <el-input v-model="courseActivity.courseNum"></el-input>
                       </el-form-item>
@@ -41,6 +46,7 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/courseActivity';
+
 
     const defaultCourseActivity = {
     id:'',
@@ -83,11 +89,18 @@
                         this.isReallyEdit = false;
                         this.courseActivity = Object.assign({}, defaultCourseActivity);
                     }
+                if(this.courseActivity.createDate) {
+                    this.courseActivity.createDate = new Date(this.courseActivity.createDate);
+                }
+                if(this.courseActivity.modifyDate) {
+                    this.courseActivity.modifyDate = new Date(this.courseActivity.modifyDate);
+                }
                 });
             } else {
                 this.courseActivity = Object.assign({}, defaultCourseActivity);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -132,7 +145,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.courseActivity = Object.assign({}, defaultCourseActivity);
-            }
+            },
         }
     }
 </script>

@@ -94,16 +94,16 @@
             if (this.isEdit) {
                 getBySchoolId(this.schoolId).then(response => {
                     this.course = response.data;
+                    if(this.course == null) {
+                        this.isReallyEdit = false;
+                        this.course = Object.assign({}, defaultCourse);
+                    }
                 if(this.course.createDate) {
                     this.course.createDate = new Date(this.course.createDate);
                 }
                 if(this.course.modifyDate) {
                     this.course.modifyDate = new Date(this.course.modifyDate);
                 }
-                    if(this.course == null) {
-                        this.isReallyEdit = false;
-                        this.course = Object.assign({}, defaultCourse);
-                    }
                 });
             } else {
                 this.course = Object.assign({}, defaultCourse);

@@ -96,6 +96,7 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/activity';
 
+
     const defaultActivity = {
     id:'',
     name:'',
@@ -141,6 +142,10 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.activity = response.data;
+                    if(this.activity == null) {
+                        this.isReallyEdit = false;
+                        this.activity = Object.assign({}, defaultActivity);
+                    }
                 if(this.activity.endDate) {
                     this.activity.endDate = new Date(this.activity.endDate);
                 }
@@ -153,15 +158,12 @@
                 if(this.activity.modifyDate) {
                     this.activity.modifyDate = new Date(this.activity.modifyDate);
                 }
-                    if(this.activity == null) {
-                        this.isReallyEdit = false;
-                        this.activity = Object.assign({}, defaultActivity);
-                    }
                 });
             } else {
                 this.activity = Object.assign({}, defaultActivity);
             }
         },
+
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -206,7 +208,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.activity = Object.assign({}, defaultActivity);
-            }
+            },
         }
     }
 </script>

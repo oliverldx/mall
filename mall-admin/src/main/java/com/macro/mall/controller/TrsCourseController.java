@@ -3,9 +3,11 @@ package com.macro.mall.controller;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dao.TrsCourseDao;
+import com.macro.mall.dto.TrsCourseDto;
+import com.macro.mall.dto.TrsCourseQueryParam;
 import com.macro.mall.mapper.TrsCourseMapper;
 import com.macro.mall.model.TrsCourse;
-import com.macro.mall.dao.TrsCourseDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,18 @@ public class TrsCourseController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+    @ApiOperation("获取课程列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<TrsCourseDto>>
+    list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+         TrsCourseQueryParam trsCourseQueryParam,
+         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<TrsCourseDto> trsCourseList = trsCourseDao.getList(trsCourseQueryParam);
+        return  CommonResult.success(CommonPage.restPage(trsCourseList),"获取课程列表成功");
     }
 
     @ApiOperation("修改课程")

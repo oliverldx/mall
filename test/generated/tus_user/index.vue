@@ -46,39 +46,39 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="用户ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.userId}}</template>
-                        </el-table-column>
-                        <el-table-column label="头像" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.pic}}</template>
-                        </el-table-column>
-                        <el-table-column label="昵称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.nickName}}</template>
-                        </el-table-column>
+                <el-table-column label="用户ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.userId}}</template>
+                </el-table-column>
+                <el-table-column label="头像" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.pic}}</template>
+                </el-table-column>
+                <el-table-column label="昵称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.nickName}}</template>
+                </el-table-column>
                         <el-table-column label="等级" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.level}}</template>
+                            <template slot-scope="scope">{{scope.row.level | formatLevel}}</template>
                         </el-table-column>
-                        <el-table-column label="余额" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.balance}}</template>
-                        </el-table-column>
+                <el-table-column label="余额" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.balance}}</template>
+                </el-table-column>
                         <el-table-column label="性别" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.sex}}</template>
+                            <template slot-scope="scope">{{scope.row.sex | formatSex}}</template>
                         </el-table-column>
-                        <el-table-column label="姓名" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="手机号" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.mobile}}</template>
-                        </el-table-column>
+                <el-table-column label="姓名" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="手机号" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.mobile}}</template>
+                </el-table-column>
                         <el-table-column label="是否下单" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.takeOrder}}</template>
+                            <template slot-scope="scope">{{scope.row.takeOrder | formatTakeOrder}}</template>
                         </el-table-column>
-                        <el-table-column label="邀请人数" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.invitePeopleCount}}</template>
-                        </el-table-column>
-                        <el-table-column label="注册时间" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.createDate}}</template>
-                        </el-table-column>
+                <el-table-column label="邀请人数" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.invitePeopleCount}}</template>
+                </el-table-column>
+                <el-table-column label="注册时间" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.createDate}}</template>
+                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -116,6 +116,41 @@
         pageSize: 10
     };
 
+     const defaultLevelOptions=[
+         {
+         label: '普通',
+         value: 0
+         },
+         {
+         label: '教师',
+         value: 1
+         },
+     ];
+     const defaultSexOptions=[
+         {
+         label: '男',
+         value: 0
+         },
+         {
+         label: '女',
+         value: 1
+         },
+         {
+         label: '保密',
+         value: 2
+         },
+     ];
+     const defaultTakeOrderOptions=[
+         {
+         label: '未下单',
+         value: 0
+         },
+         {
+         label: '已下单',
+         value: 1
+         },
+     ];
+
     export default {
         name: 'user',
         props: {},
@@ -133,6 +168,29 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+         formatLevel(level){
+            for(let i=0;i<defaultLevelOptions.length;i++){
+                 if(status===defaultLevelOptions[i].value){
+                    return defaultLevelOptions[i].label;
+                 }
+             }
+         },
+         formatSex(sex){
+            for(let i=0;i<defaultSexOptions.length;i++){
+                 if(status===defaultSexOptions[i].value){
+                    return defaultSexOptions[i].label;
+                 }
+             }
+         },
+         formatTakeOrder(takeOrder){
+            for(let i=0;i<defaultTakeOrderOptions.length;i++){
+                 if(status===defaultTakeOrderOptions[i].value){
+                    return defaultTakeOrderOptions[i].label;
+                 }
+             }
+         },
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

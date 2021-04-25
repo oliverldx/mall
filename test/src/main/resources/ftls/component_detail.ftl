@@ -120,9 +120,10 @@
 
 <script>
     import {fetchList, create, update, getById} from '@/api/${subName}';
-    <#if parentTableSubName??>
-        import {fetchList as fetchParentTableList} from '@/api/${parentTableSubName}';
+    <#if listParentMethod?default("")?trim?length gt 1 && parentTableSubName??>
+    import {fetchList as fetchParentTableList} from '@/api/${parentTableSubName}';
     </#if>
+
     <@importJs/>
 
     const default${subName?cap_first} = {
@@ -186,7 +187,7 @@
                 }
             },
             </#if>
-            <#if listParentOption??>
+            <#if listParentOption?default("")?trim?length gt 1>
                 ${listParentOption}:[],
             </#if>
             isReallyEdit:this.isEdit
@@ -196,16 +197,16 @@
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
                     this.${subName} = response.data;
-                    <@initObject/>
                     if(this.${subName} == null) {
                         this.isReallyEdit = false;
                         this.${subName} = Object.assign({}, default${subName?cap_first});
                     }
+                    <@initObject/>
                 });
             } else {
                 this.${subName} = Object.assign({}, default${subName?cap_first});
             }
-            <#if listParentMethod??>
+            <#if listParentMethod?default("")?trim?length gt 1>
                 this.${listParentMethod}()
             </#if>
         },

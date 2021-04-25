@@ -17,10 +17,6 @@
     </select>
 
     <resultMap id="TrsCourseActivitySubListQueryParam" type="com.macro.mall.dto.TrsCourseActivitySubListQueryParam">
-                <result column="id" jdbcType="BIGINT" property="id" />
-                <result column="pic" jdbcType="VARCHAR" property="pic" />
-                <result column="name" jdbcType="VARCHAR" property="name" />
-                <result column="price" jdbcType="DECIMAL" property="price" />
     </resultMap>
 
     <select id="getCourseList" resultMap="TrsCourseActivitySubListQueryParam">
