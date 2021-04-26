@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TrsGiftOrderDao">
+  <resultMap id="BaseResultMap" type="com.macro.mall.dto.GiftOrderVo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
+    <result column="sponsor_name" jdbcType="VARCHAR" property="sponsorName" />
+    <result column="validate_time" jdbcType="TIMESTAMP" property="validateTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="order_time" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+
+  </sql>
+
+  <select id="getList" resultMap="BaseResultMap">
+    select
+    t1.id, t4.name, t4.mobile,t2.pic, t2.name gift_name, t2.sponsor_name, t2.validate_time, t1.status, t3.order_time
+    from tos_order_gift t1
+    left join trs_gift t2 on t1.trs_gift_id = t2.id
+    left join tos_order t3 on t1.tos_order_id = t3.id
+    left join tus_user t4 on t3.tus_user_id = t4.id
+  </select>
+
+</mapper>
