@@ -77,7 +77,7 @@
                     <template slot-scope="scope">{{scope.row.invitePeopleCount}}</template>
                 </el-table-column>
                 <el-table-column label="注册时间" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.createDate}}</template>
+                    <template slot-scope="scope">{{scope.row.createDate | formatTime}}</template>
                 </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
@@ -110,6 +110,7 @@
 
 <script>
     import {fetchList,del} from '@/api/user'
+    import {formatDate} from '@/utils/date'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -190,6 +191,13 @@
                  }
              }
          },
+        formatTime(time) {
+            if(time==null||time===''){
+                return 'N/A';
+            }
+            let date = new Date(time);
+            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+        },
         },
         methods: {
             handleResetSearch() {

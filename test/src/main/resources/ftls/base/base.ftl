@@ -134,6 +134,7 @@
                 </#switch>
                 </#if>
             <#elseif column.type == 'datetime' >
+                <#assign formatDateTime = true />
                 <el-table-column label="${column.label!'TODO'}" width="180" align="center">
                     <template slot-scope="scope">{{scope.row.${column.name} | formatTime}}</template>
                 </el-table-column>

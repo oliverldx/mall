@@ -1,4 +1,5 @@
 <#include "./base/base.ftl">
+<@assignVar/>
 <#if template>
 <template>
     <div class="app-container">

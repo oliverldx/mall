@@ -46,30 +46,6 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <el-table-column label="ID" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.id}}</template>
-                </el-table-column>
-                <el-table-column label="订单号" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.orderNo}}</template>
-                </el-table-column>
-                        <el-table-column label="类型" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.type | formatType}}</template>
-                        </el-table-column>
-                <el-table-column label="下单人" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.tusUserId}}</template>
-                </el-table-column>
-                <el-table-column label="总金额" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.totalMoney}}</template>
-                </el-table-column>
-                <el-table-column label="分销金额" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.distributionMoney}}</template>
-                </el-table-column>
-                        <el-table-column label="状态" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
-                        </el-table-column>
-                <el-table-column label="下单时间" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.orderTime | formatTime}}</template>
-                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -100,41 +76,16 @@
 </template>
 
 <script>
-    import {fetchList,del} from '@/api/order'
-    import {formatDate} from '@/utils/date'
+    import {fetchList,del} from '@/api/groupMember'
 
     const defaultListQuery = {
         pageNum: 1,
         pageSize: 10
     };
 
-     const defaultTypeOptions=[
-         {
-         label: '普通订单',
-         value: 0
-         },
-         {
-         label: '开团订单',
-         value: 1
-         },
-     ];
-     const defaultStatusOptions=[
-         {
-         label: '未支付',
-         value: 0
-         },
-         {
-         label: '已支付',
-         value: 1
-         },
-         {
-         label: '已取消',
-         value: 2
-         },
-     ];
 
     export default {
-        name: 'order',
+        name: 'groupMember',
         props: {},
         data() {
             return {
@@ -151,27 +102,6 @@
         },
         mounted() {},
         filters:{
-         formatType(type){
-            for(let i=0;i<defaultTypeOptions.length;i++){
-                 if(status===defaultTypeOptions[i].value){
-                    return defaultTypeOptions[i].label;
-                 }
-             }
-         },
-         formatStatus(status){
-            for(let i=0;i<defaultStatusOptions.length;i++){
-                 if(status===defaultStatusOptions[i].value){
-                    return defaultStatusOptions[i].label;
-                 }
-             }
-         },
-        formatTime(time) {
-            if(time==null||time===''){
-                return 'N/A';
-            }
-            let date = new Date(time);
-            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
-        },
         },
         methods: {
             handleResetSearch() {
@@ -194,10 +124,10 @@
                 this.getList();
             },
             handleAdd() {
-                this.$router.push({path:'/tos/addOrder'});
+                this.$router.push({path:'/tos/addGroupMember'});
             },
             handleUpdate(index, row){
-                this.$router.push({path:'/tos/updateOrder',query:{id:row.id}});
+                this.$router.push({path:'/tos/updateGroupMember',query:{id:row.id}});
             },
             handleDelete(index, row){
                 let ids=[];

@@ -53,7 +53,7 @@
                     <template slot-scope="scope">{{scope.row.description}}</template>
                 </el-table-column>
                 <el-table-column label="时间" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.modifyDate}}</template>
+                    <template slot-scope="scope">{{scope.row.modifyDate | formatTime}}</template>
                 </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
@@ -86,6 +86,7 @@
 
 <script>
     import {fetchList,del} from '@/api/capitalRecord'
+    import {formatDate} from '@/utils/date'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -111,6 +112,13 @@
         },
         mounted() {},
         filters:{
+        formatTime(time) {
+            if(time==null||time===''){
+                return 'N/A';
+            }
+            let date = new Date(time);
+            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+        },
         },
         methods: {
             handleResetSearch() {

@@ -62,7 +62,7 @@
                     <template slot-scope="scope">{{scope.row.num}}</template>
                 </el-table-column>
                 <el-table-column label="有效期" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.validateTime}}</template>
+                    <template slot-scope="scope">{{scope.row.validateTime | formatTime}}</template>
                 </el-table-column>
                         <el-table-column label="状态" width="180" align="center">
                             <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
@@ -101,6 +101,7 @@
 
 <script>
     import {fetchList,del} from '@/api/gift'
+    import {formatDate} from '@/utils/date'
 
     const defaultListQuery = {
         pageNum: 1,
@@ -143,6 +144,13 @@
                  }
              }
          },
+        formatTime(time) {
+            if(time==null||time===''){
+                return 'N/A';
+            }
+            let date = new Date(time);
+            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+        },
         },
         methods: {
             handleResetSearch() {
