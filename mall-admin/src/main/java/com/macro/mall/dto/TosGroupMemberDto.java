@@ -11,7 +11,13 @@ import com.macro.mall.model.TosGroupMember;
 @Data
 public class TosGroupMemberDto extends TosGroupMember {
 
+        @ApiModelProperty(value = "ID")
+        private String userId;
+        @ApiModelProperty(value = "昵称")
+        private String userNickName;
         @ApiModelProperty(value = "姓名")
         private String userName;
+        @ApiModelProperty(value = "手机号")
+        private String userMobile;
 
 }

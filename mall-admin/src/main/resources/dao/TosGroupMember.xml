@@ -3,11 +3,14 @@
 <mapper namespace="com.macro.mall.dao.TosGroupMemberDao">
 
     <resultMap id="TosGroupMemberDto" type="com.macro.mall.dto.TosGroupMemberDto" extends="com.macro.mall.mapper.TosGroupMemberMapper.BaseResultMap">
+                <result column="user_id" jdbcType="BIGINT" property="userId" />
+                <result column="user_nick_name" jdbcType="VARCHAR" property="userNickName" />
                 <result column="user_name" jdbcType="VARCHAR" property="userName" />
+                <result column="user_mobile" jdbcType="VARCHAR" property="userMobile" />
     </resultMap>
 
     <select id="getList" resultMap="TosGroupMemberDto">
-        SELECT tos_group_member.id,tos_group_member.tos_order_id,tus_user.name user_name
+        SELECT tos_group_member.id,tos_group_member.tos_order_id,tus_user.id user_id,tus_user.nick_name user_nick_name,tus_user.name user_name,tus_user.mobile user_mobile
 	 FROM tos_group_member as tos_group_member
 	 LEFT JOIN tos_order as tos_order ON tos_group_member.tos_order_id = tos_order.id
 	 LEFT JOIN tus_user as tus_user ON tos_group_member.tus_user_id = tus_user.id
@@ -18,10 +21,13 @@
 
     <resultMap id="TosGroupMemberSubListQueryParam" type="com.macro.mall.dto.TosGroupMemberSubListQueryParam">
                 <result column="id" jdbcType="BIGINT" property="id" />
+                <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+                <result column="name" jdbcType="VARCHAR" property="name" />
+                <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     </resultMap>
 
     <select id="getUserList" resultMap="TosGroupMemberSubListQueryParam">
-        SELECT tus_user.id,tus_user.nick_name,tus_user.name,tus_user.mobile,tus_user.name
+        SELECT tus_user.id,tus_user.nick_name,tus_user.name,tus_user.mobile
 	 FROM 
 	tus_user as tus_user
 	 LEFT JOIN tos_group_member as tos_group_member ON tus_user.id = tos_group_member.tus_user_id
@@ -39,9 +45,6 @@
 	</if>
 	<if test="queryParam.mobile!=null">
 	 and tus_user.mobile = #{queryParam.mobile}
-	</if>
-	<if test="queryParam.name!=null">
-	 and tus_user.name = #{queryParam.name}
 	</if>
     </select>
 </mapper>

@@ -3,11 +3,13 @@
 <mapper namespace="com.macro.mall.dao.TosOrderCourseDao">
 
     <resultMap id="TosOrderCourseDto" type="com.macro.mall.dto.TosOrderCourseDto" extends="com.macro.mall.mapper.TosOrderCourseMapper.BaseResultMap">
+                <result column="course_id" jdbcType="BIGINT" property="courseId" />
+                <result column="course_pic" jdbcType="VARCHAR" property="coursePic" />
                 <result column="course_name" jdbcType="VARCHAR" property="courseName" />
     </resultMap>
 
     <select id="getList" resultMap="TosOrderCourseDto">
-        SELECT tos_order_course.id,tos_order_course.tos_order_id,trs_course.name course_name
+        SELECT tos_order_course.id,tos_order_course.tos_order_id,trs_course.id course_id,trs_course.pic course_pic,trs_course.name course_name
 	 FROM tos_order_course as tos_order_course
 	 LEFT JOIN tos_order as tos_order ON tos_order_course.tos_order_id = tos_order.id
 	 LEFT JOIN trs_course as trs_course ON tos_order_course.trs_course_id = trs_course.id

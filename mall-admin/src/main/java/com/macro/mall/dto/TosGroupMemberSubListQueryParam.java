@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class TosGroupMemberSubListQueryParam {
 
+        @ApiModelProperty(value = "TODO")
+        private String id;
         @ApiModelProperty(value = "昵称")
         private String nickName;
         @ApiModelProperty(value = "姓名")
