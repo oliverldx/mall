@@ -90,3 +90,18 @@ create table tos_order_gift
 );
 
 alter table tos_order_gift comment '订单赠品信息';
+
+drop table if exists tos_group_member;
+
+/*==============================================================*/
+/* Table: tos_group_member                                      */
+/*==============================================================*/
+create table tos_group_member
+(
+   id                   bigint not null auto_increment comment 'ID',
+   tos_order_id         bigint comment 'ID',
+   tus_user_id          bigint comment 'ID',
+   primary key (id)
+);
+
+alter table tos_group_member comment '参团队员';

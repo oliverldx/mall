@@ -4,6 +4,7 @@
     <#assign showMultiUpload = false />
     <#assign showTinymce = false />
     <#assign showMapInput = false />
+    <#assign formatDateTime = false />
 </#macro>
 
 <#macro importJs>
@@ -132,6 +133,10 @@
                     </el-table-column>
                 </#switch>
                 </#if>
+            <#elseif column.type == 'datetime' >
+                <el-table-column label="${column.label!'TODO'}" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.${column.name} | formatTime}}</template>
+                </el-table-column>
             <#else >
                 <el-table-column label="${column.label!'TODO'}" width="180" align="center">
                     <template slot-scope="scope">{{scope.row.${column.name}}}</template>
@@ -208,9 +213,21 @@
                      </#switch>
                 </#if>
                 <#break>
+            <#case "datetime">
+                <#assign formatDateTime = true />
+                <#break>
             <#default>
         </#switch>
     </#list>
+    <#if formatDateTime>
+        formatTime(time) {
+            if(time==null||time===''){
+                return 'N/A';
+            }
+            let date = new Date(time);
+            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+        },
+    </#if>
 </#macro>
 
 <#macro renderFormItem column>

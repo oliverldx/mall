@@ -5,6 +5,8 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.TosOrderMapper;
 import com.macro.mall.model.TosOrder;
+import com.macro.mall.dto.TosOrderQueryParam;
+import com.macro.mall.dao.TosOrderDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class TosOrderController {
 
     @Autowired
     private TosOrderMapper tosOrderMapper;
+    @Autowired
+    private TosOrderDao tosOrderDao;
 
     @ApiOperation("添加订单")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -45,10 +49,10 @@ public class TosOrderController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<TosOrder>> list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+        TosOrderQueryParam tosOrderQueryParam,
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        TosOrderExample example = new TosOrderExample();
-        List<TosOrder> tosOrderList = tosOrderMapper.selectByExample(example);
+        List<TosOrder> tosOrderList = tosOrderDao.getList(tosOrderQueryParam);
         return  CommonResult.success(CommonPage.restPage(tosOrderList),"获取订单列表成功");
     }
 

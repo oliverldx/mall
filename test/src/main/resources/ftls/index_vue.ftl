@@ -82,6 +82,9 @@
 <#if script>
 <script>
     import {fetchList,del} from '@/api/${subName}'
+    <#if formatDateTime >
+    import {formatDate} from '@/utils/date'
+    </#if>
 
     const defaultListQuery = {
         pageNum: 1,
