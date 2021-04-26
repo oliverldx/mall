@@ -17,6 +17,40 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
+                        <el-table-column label="课程ID" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.courseId" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.courseId}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="课程" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.coursePic" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.coursePic}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="课程" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
@@ -181,6 +215,7 @@
                 this.getDialogList();
             },
             cancelEdit(row) {
+                row.coursePic = row.originalCoursePic
                 row.courseName = row.originalCourseName
                 row.edit = false
                 this.$message({
@@ -189,6 +224,7 @@
                 })
             },
             confirmEdit(row) {
+                row.originalCoursePic = row.coursePic
                 row.originalCourseName = row.courseName
                 row.edit = false
                 this.orderCourse = row
@@ -214,6 +250,7 @@
                     const dataList = response.data.list;
                     this.list = dataList.map(row => {
                         this.$set(row, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+                row.originalCoursePic = row.coursePic
                 row.originalCourseName = row.courseName
                         return row
                     })

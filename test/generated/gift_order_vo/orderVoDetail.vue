@@ -1,53 +1,77 @@
 <template>
     <el-card shadow="never">
-        <el-form :model="groupMember"
+        <el-form :model="orderVo"
                  :rules="rules"
-                 ref="groupMemberFrom"
+                 ref="orderVoFrom"
                  label-width="150px">
                             <el-form-item label="ID" >
-                                <el-input v-model="groupMember.id"></el-input>
+                                <el-input v-model="orderVo.id"></el-input>
                             </el-form-item>
-
-
-                        <el-form-item label="注册时间" >
+                        <el-form-item label="姓名" >
+                          <el-input v-model="orderVo.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号" >
+                          <el-input v-model="orderVo.mobile"></el-input>
+                        </el-form-item>
+                    <el-form-item label="商品图片">
+                        <el-input type="textarea" :autosize="true" v-model="orderVo.pic"></el-input>
+                    </el-form-item>
+                        <el-form-item label="名称" >
+                          <el-input v-model="orderVo.giftName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="赞助商名称" >
+                          <el-input v-model="orderVo.sponsorName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="有效期" >
                             <el-date-picker
-                                    v-model="groupMember.createDate"
+                                    v-model="orderVo.validateTime"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
-                                    placeholder="注册时间">
+                                    placeholder="有效期">
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="修改时间" >
+                <el-form-item label="状态">
+                    <el-radio-group v-model="orderVo.status">
+                            <el-radio :label="0">禁用</el-radio>
+                            <el-radio :label="1">启用</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                        <el-form-item label="下单时间" >
                             <el-date-picker
-                                    v-model="groupMember.modifyDate"
+                                    v-model="orderVo.orderTime"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
-                                    placeholder="修改时间">
+                                    placeholder="下单时间">
                             </el-date-picker>
                         </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('groupMemberFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('groupMemberFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('orderVoFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('orderVoFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/groupMember';
+    import {fetchList, create, update, getById} from '@/api/orderVo';
 
 
-    const defaultGroupMember = {
+    const defaultOrderVo = {
     id:'',
-    tosOrderId:'',
-    tusUserId:'',
-    createDate:'',
-    modifyDate:'',
+    name:'',
+    mobile:'',
+    pic:'',
+
+    giftName:'',
+    sponsorName:'',
+    validateTime:'',
+    status:0,
+    orderTime:'',
     };
     export default {
-        name: "GroupMemberDetail",
+        name: "OrderVoDetail",
         components: {
         },
         props: {
@@ -58,7 +82,7 @@
         },
         data() {
             return {
-            groupMember: Object.assign({}, defaultGroupMember),
+            orderVo: Object.assign({}, defaultOrderVo),
             rules: {
             },
             pickerOptions1: {
@@ -72,20 +96,20 @@
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.groupMember = response.data;
-                    if(this.groupMember == null) {
+                    this.orderVo = response.data;
+                    if(this.orderVo == null) {
                         this.isReallyEdit = false;
-                        this.groupMember = Object.assign({}, defaultGroupMember);
+                        this.orderVo = Object.assign({}, defaultOrderVo);
                     }
-                if(this.groupMember.createDate) {
-                    this.groupMember.createDate = new Date(this.groupMember.createDate);
+                if(this.orderVo.validateTime) {
+                    this.orderVo.validateTime = new Date(this.orderVo.validateTime);
                 }
-                if(this.groupMember.modifyDate) {
-                    this.groupMember.modifyDate = new Date(this.groupMember.modifyDate);
+                if(this.orderVo.orderTime) {
+                    this.orderVo.orderTime = new Date(this.orderVo.orderTime);
                 }
                 });
             } else {
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.orderVo = Object.assign({}, defaultOrderVo);
             }
         },
 
@@ -99,7 +123,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.groupMember).then(response => {
+                                update(this.$route.query.id, this.orderVo).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -108,7 +132,7 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.groupMember).then(response => {
+                                create(this.orderVo).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -132,7 +156,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.orderVo = Object.assign({}, defaultOrderVo);
             },
         }
     }

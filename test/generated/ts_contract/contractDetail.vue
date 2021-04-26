@@ -1,26 +1,24 @@
 <template>
     <el-card shadow="never">
-        <el-form :model="groupMember"
+        <el-form :model="contract"
                  :rules="rules"
-                 ref="groupMemberFrom"
+                 ref="contractFrom"
                  label-width="150px">
-                            <el-form-item label="ID" >
-                                <el-input v-model="groupMember.id"></el-input>
-                            </el-form-item>
-
-
-                        <el-form-item label="注册时间" >
+                <el-form-item label="用户购买协议">
+                    <tinymce :width="595" :height="300" v-model="contract.description"></tinymce>
+                </el-form-item>
+                        <el-form-item label="创建时间" >
                             <el-date-picker
-                                    v-model="groupMember.createDate"
+                                    v-model="contract.createDate"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
-                                    placeholder="注册时间">
+                                    placeholder="创建时间">
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="修改时间" >
                             <el-date-picker
-                                    v-model="groupMember.modifyDate"
+                                    v-model="contract.modifyDate"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
@@ -28,27 +26,29 @@
                             </el-date-picker>
                         </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('groupMemberFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('groupMemberFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('contractFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('contractFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/groupMember';
+    import {fetchList, create, update, getById} from '@/api/contract';
 
+        import Tinymce from '@/components/Tinymce';
 
-    const defaultGroupMember = {
+    const defaultContract = {
     id:'',
-    tosOrderId:'',
-    tusUserId:'',
+    description:'',
+
     createDate:'',
     modifyDate:'',
     };
     export default {
-        name: "GroupMemberDetail",
+        name: "ContractDetail",
         components: {
+        Tinymce,
         },
         props: {
             isEdit: {
@@ -58,7 +58,7 @@
         },
         data() {
             return {
-            groupMember: Object.assign({}, defaultGroupMember),
+            contract: Object.assign({}, defaultContract),
             rules: {
             },
             pickerOptions1: {
@@ -72,20 +72,20 @@
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.groupMember = response.data;
-                    if(this.groupMember == null) {
+                    this.contract = response.data;
+                    if(this.contract == null) {
                         this.isReallyEdit = false;
-                        this.groupMember = Object.assign({}, defaultGroupMember);
+                        this.contract = Object.assign({}, defaultContract);
                     }
-                if(this.groupMember.createDate) {
-                    this.groupMember.createDate = new Date(this.groupMember.createDate);
+                if(this.contract.createDate) {
+                    this.contract.createDate = new Date(this.contract.createDate);
                 }
-                if(this.groupMember.modifyDate) {
-                    this.groupMember.modifyDate = new Date(this.groupMember.modifyDate);
+                if(this.contract.modifyDate) {
+                    this.contract.modifyDate = new Date(this.contract.modifyDate);
                 }
                 });
             } else {
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.contract = Object.assign({}, defaultContract);
             }
         },
 
@@ -99,7 +99,7 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.groupMember).then(response => {
+                                update(this.$route.query.id, this.contract).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -108,7 +108,7 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.groupMember).then(response => {
+                                create(this.contract).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -132,7 +132,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.contract = Object.assign({}, defaultContract);
             },
         }
     }

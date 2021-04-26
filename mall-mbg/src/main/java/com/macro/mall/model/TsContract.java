@@ -4,14 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.Date;
 
-public class CustomerService implements Serializable {
+public class TsContract implements Serializable {
     private Long id;
-
-    @ApiModelProperty(value = "活动名称")
-    private String name;
-
-    @ApiModelProperty(value = "客服电话")
-    private String phone;
 
     @ApiModelProperty(value = "创建时间")
     private Date createDate;
@@ -19,10 +13,7 @@ public class CustomerService implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private Date modifyDate;
 
-    @ApiModelProperty(value = "客服二维码")
-    private String pic;
-
-    @ApiModelProperty(value = "帮助中心内容")
+    @ApiModelProperty(value = "用户购买协议")
     private String description;
 
     private static final long serialVersionUID = 1L;
@@ -33,22 +24,6 @@ public class CustomerService implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public Date getCreateDate() {
@@ -67,14 +42,6 @@ public class CustomerService implements Serializable {
         this.modifyDate = modifyDate;
     }
 
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -90,11 +57,8 @@ public class CustomerService implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", phone=").append(phone);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
-        sb.append(", pic=").append(pic);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

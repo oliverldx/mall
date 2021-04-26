@@ -17,6 +17,40 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
+                        <el-table-column label="赠品ID" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.giftId" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.giftId}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="图片" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.giftPic" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.giftPic}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="赠品" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
@@ -32,6 +66,23 @@
                                     </el-button>
                                 </template>
                                 <span v-else>{{scope.row.giftName}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="商家" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.giftSponsorName" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.giftSponsorName}}</span>
                             </template>
                         </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
@@ -184,7 +235,9 @@
                 this.getDialogList();
             },
             cancelEdit(row) {
+                row.giftPic = row.originalGiftPic
                 row.giftName = row.originalGiftName
+                row.giftSponsorName = row.originalGiftSponsorName
                 row.edit = false
                 this.$message({
                     message: '修改已取消',
@@ -192,7 +245,9 @@
                 })
             },
             confirmEdit(row) {
+                row.originalGiftPic = row.giftPic
                 row.originalGiftName = row.giftName
+                row.originalGiftSponsorName = row.giftSponsorName
                 row.edit = false
                 this.orderGift = row
                 this.orderGift.tosOrderId=this.orderId
@@ -217,7 +272,9 @@
                     const dataList = response.data.list;
                     this.list = dataList.map(row => {
                         this.$set(row, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+                row.originalGiftPic = row.giftPic
                 row.originalGiftName = row.giftName
+                row.originalGiftSponsorName = row.giftSponsorName
                         return row
                     })
                     this.total = response.data.total;

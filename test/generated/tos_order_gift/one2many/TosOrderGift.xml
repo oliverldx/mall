@@ -3,11 +3,14 @@
 <mapper namespace="com.macro.mall.dao.TosOrderGiftDao">
 
     <resultMap id="TosOrderGiftDto" type="com.macro.mall.dto.TosOrderGiftDto" extends="com.macro.mall.mapper.TosOrderGiftMapper.BaseResultMap">
+                <result column="gift_id" jdbcType="BIGINT" property="giftId" />
+                <result column="gift_pic" jdbcType="TEXT" property="giftPic" />
                 <result column="gift_name" jdbcType="VARCHAR" property="giftName" />
+                <result column="gift_sponsor_name" jdbcType="VARCHAR" property="giftSponsorName" />
     </resultMap>
 
     <select id="getList" resultMap="TosOrderGiftDto">
-        SELECT tos_order_gift.id,tos_order_gift.tos_order_id,trs_gift.name gift_name,tos_order_gift.status
+        SELECT tos_order_gift.id,tos_order_gift.tos_order_id,trs_gift.id gift_id,trs_gift.pic gift_pic,trs_gift.name gift_name,trs_gift.sponsor_name gift_sponsor_name,tos_order_gift.status
 	 FROM tos_order_gift as tos_order_gift
 	 LEFT JOIN tos_order as tos_order ON tos_order_gift.tos_order_id = tos_order.id
 	 LEFT JOIN trs_gift as trs_gift ON tos_order_gift.trs_gift_id = trs_gift.id

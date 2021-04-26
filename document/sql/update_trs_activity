@@ -107,12 +107,12 @@ create table tos_group_member
 alter table tos_group_member comment '参团队员';
 
 
-drop table if exists customer_service;
+drop table if exists ts_customer_service;
 
 /*==============================================================*/
-/* Table: customer_service                                      */
+/* Table: ts_customer_service                                   */
 /*==============================================================*/
-create table customer_service
+create table ts_customer_service
 (
    id                   bigint not null auto_increment,
    name                 varchar(100) comment '活动名称',
@@ -124,18 +124,21 @@ create table customer_service
    primary key (id)
 );
 
-alter table customer_service comment '客服中心';
+alter table ts_customer_service comment '客服中心';
 
-drop table if exists contract;
+drop table if exists ts_contract;
 
 /*==============================================================*/
-/* Table: contract                                              */
+/* Table: ts_contract                                           */
 /*==============================================================*/
-create table contract
+create table ts_contract
 (
    id                   bigint not null auto_increment,
    description          text comment '用户购买协议',
+   create_date          datetime comment '创建时间',
+   modify_date          datetime comment '修改时间',
    primary key (id)
 );
 
-alter table contract comment '购买协议';
+alter table ts_contract comment '购买协议';
+

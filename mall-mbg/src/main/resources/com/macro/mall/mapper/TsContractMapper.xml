@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.ContractMapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.Contract">
+<mapper namespace="com.macro.mall.mapper.TsContractMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.TsContract">
     <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.Contract">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TsContract">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,12 +68,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id
+    id, create_date, modify_date
   </sql>
   <sql id="Blob_Column_List">
     description
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.ContractExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.TsContractExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -79,7 +81,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from contract
+    from ts_contract
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,13 +89,13 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.macro.mall.model.ContractExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.TsContractExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from contract
+    from ts_contract
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -106,53 +108,73 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from contract
+    from ts_contract
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from contract
+    delete from ts_contract
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.ContractExample">
-    delete from contract
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.TsContractExample">
+    delete from ts_contract
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.Contract">
+  <insert id="insert" parameterType="com.macro.mall.model.TsContract">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into contract (description)
-    values (#{description,jdbcType=LONGVARCHAR})
+    insert into ts_contract (create_date, modify_date, description
+      )
+    values (#{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.Contract">
+  <insert id="insertSelective" parameterType="com.macro.mall.model.TsContract">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into contract
+    insert into ts_contract
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
       <if test="description != null">
         description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.ContractExample" resultType="java.lang.Long">
-    select count(*) from contract
+  <select id="countByExample" parameterType="com.macro.mall.model.TsContractExample" resultType="java.lang.Long">
+    select count(*) from ts_contract
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update contract
+    update ts_contract
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyDate != null">
+        modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
@@ -163,32 +185,50 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update contract
+    update ts_contract
     set id = #{record.id,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update contract
-    set id = #{record.id,jdbcType=BIGINT}
+    update ts_contract
+    set id = #{record.id,jdbcType=BIGINT},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      modify_date = #{record.modifyDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.Contract">
-    update contract
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.TsContract">
+    update ts_contract
     <set>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.Contract">
-    update contract
-    set description = #{description,jdbcType=LONGVARCHAR}
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.TsContract">
+    update ts_contract
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TsContract">
+    update ts_contract
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -17,6 +17,40 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
+                        <el-table-column label="用户ID" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.userId" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.userId}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="用户昵称" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.userNickName" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.userNickName}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column label="用户" width="180" align="center">
                             <template slot-scope="scope">
                                 <template v-if="scope.row.edit">
@@ -32,6 +66,23 @@
                                     </el-button>
                                 </template>
                                 <span v-else>{{scope.row.userName}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="手机" width="180" align="center">
+                            <template slot-scope="scope">
+                                <template v-if="scope.row.edit">
+                                    <el-input v-model="scope.row.userMobile" class="edit-input" size="small" />
+                                    <el-button
+                                            class="cancel-btn"
+                                            size="small"
+                                            icon="el-icon-refresh"
+                                            type="warning"
+                                            @click="cancelEdit(scope.row)"
+                                    >
+                                        取消
+                                    </el-button>
+                                </template>
+                                <span v-else>{{scope.row.userMobile}}</span>
                             </template>
                         </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
@@ -92,9 +143,6 @@
                         </el-table-column>
                         <el-table-column label="手机号" width="180" align="center">
                             <template slot-scope="scope">{{scope.row.mobile}}</template>
-                        </el-table-column>
-                        <el-table-column label="姓名" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
                         </el-table-column>
             </el-table>
             <div class="pagination-container">
@@ -184,7 +232,9 @@
                 this.getDialogList();
             },
             cancelEdit(row) {
+                row.userNickName = row.originalUserNickName
                 row.userName = row.originalUserName
+                row.userMobile = row.originalUserMobile
                 row.edit = false
                 this.$message({
                     message: '修改已取消',
@@ -192,7 +242,9 @@
                 })
             },
             confirmEdit(row) {
+                row.originalUserNickName = row.userNickName
                 row.originalUserName = row.userName
+                row.originalUserMobile = row.userMobile
                 row.edit = false
                 this.groupMember = row
                 this.groupMember.tusUserId=this.userId
@@ -217,7 +269,9 @@
                     const dataList = response.data.list;
                     this.list = dataList.map(row => {
                         this.$set(row, 'edit', false) // https://vuejs.org/v2/guide/reactivity.html
+                row.originalUserNickName = row.userNickName
                 row.originalUserName = row.userName
+                row.originalUserMobile = row.userMobile
                         return row
                     })
                     this.total = response.data.total;

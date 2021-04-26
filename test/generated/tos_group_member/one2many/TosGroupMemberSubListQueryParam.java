@@ -15,7 +15,5 @@ public class TosGroupMemberSubListQueryParam {
         private String name;
         @ApiModelProperty(value = "手机号")
         private String mobile;
-        @ApiModelProperty(value = "姓名")
-        private String name;
 
 }

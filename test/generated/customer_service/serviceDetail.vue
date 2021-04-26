@@ -1,26 +1,33 @@
 <template>
     <el-card shadow="never">
-        <el-form :model="groupMember"
+        <el-form :model="service"
                  :rules="rules"
-                 ref="groupMemberFrom"
+                 ref="serviceFrom"
                  label-width="150px">
-                            <el-form-item label="ID" >
-                                <el-input v-model="groupMember.id"></el-input>
-                            </el-form-item>
-
-
-                        <el-form-item label="注册时间" >
+                        <el-form-item label="活动名称" >
+                          <el-input v-model="service.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="客服电话" >
+                          <el-input v-model="service.phone"></el-input>
+                        </el-form-item>
+                <el-form-item label="客服二维码">
+                    <single-upload v-model="service.pic"></single-upload>
+                </el-form-item>
+                <el-form-item label="帮助中心内容">
+                    <tinymce :width="595" :height="300" v-model="service.description"></tinymce>
+                </el-form-item>
+                        <el-form-item label="创建时间" >
                             <el-date-picker
-                                    v-model="groupMember.createDate"
+                                    v-model="service.createDate"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
-                                    placeholder="注册时间">
+                                    placeholder="创建时间">
                             </el-date-picker>
                         </el-form-item>
                         <el-form-item label="修改时间" >
                             <el-date-picker
-                                    v-model="groupMember.modifyDate"
+                                    v-model="service.modifyDate"
                                     value-format="timestamp"
                                     type="datetime"
                                     :picker-options="pickerOptions1"
@@ -28,27 +35,35 @@
                             </el-date-picker>
                         </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit('groupMemberFrom')">提交</el-button>
-                <el-button v-if="!isEdit" @click="resetForm('groupMemberFrom')">重置</el-button>
+                <el-button type="primary" @click="onSubmit('serviceFrom')">提交</el-button>
+                <el-button v-if="!isEdit" @click="resetForm('serviceFrom')">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/groupMember';
+    import {fetchList, create, update, getById} from '@/api/service';
 
+        import SingleUpload from '@/components/Upload/singleUpload';
+        import Tinymce from '@/components/Tinymce';
 
-    const defaultGroupMember = {
+    const defaultService = {
     id:'',
-    tosOrderId:'',
-    tusUserId:'',
+    name:'',
+    phone:'',
+    pic:[],
+
+    description:'',
+
     createDate:'',
     modifyDate:'',
     };
     export default {
-        name: "GroupMemberDetail",
+        name: "ServiceDetail",
         components: {
+        SingleUpload,
+        Tinymce,
         },
         props: {
             isEdit: {
@@ -58,7 +73,7 @@
         },
         data() {
             return {
-            groupMember: Object.assign({}, defaultGroupMember),
+            service: Object.assign({}, defaultService),
             rules: {
             },
             pickerOptions1: {
@@ -72,20 +87,25 @@
         created() {
             if (this.isEdit) {
                 getById(this.$route.query.id).then(response => {
-                    this.groupMember = response.data;
-                    if(this.groupMember == null) {
+                    this.service = response.data;
+                    if(this.service == null) {
                         this.isReallyEdit = false;
-                        this.groupMember = Object.assign({}, defaultGroupMember);
+                        this.service = Object.assign({}, defaultService);
                     }
-                if(this.groupMember.createDate) {
-                    this.groupMember.createDate = new Date(this.groupMember.createDate);
+                    if(this.service.pic===undefined||this.service.pic==null||this.service.pic===''){
+                        this.service.pic=[]
+                    }else {
+                        this.service.pic = this.service.pic.split(',');
+                    }
+                if(this.service.createDate) {
+                    this.service.createDate = new Date(this.service.createDate);
                 }
-                if(this.groupMember.modifyDate) {
-                    this.groupMember.modifyDate = new Date(this.groupMember.modifyDate);
+                if(this.service.modifyDate) {
+                    this.service.modifyDate = new Date(this.service.modifyDate);
                 }
                 });
             } else {
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.service = Object.assign({}, defaultService);
             }
         },
 
@@ -99,7 +119,10 @@
                             type: 'warning'
                         }).then(() => {
                             if (this.isEdit) {
-                                update(this.$route.query.id, this.groupMember).then(response => {
+                    if(this.service.pic && this.service.pic.length > 0){
+                        this.service.pic=this.service.pic.toString()
+                    }
+                                update(this.$route.query.id, this.service).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -108,7 +131,10 @@
                                     this.$router.back();
                                 });
                             } else {
-                                create(this.groupMember).then(response => {
+                    if(this.service.pic && this.service.pic.length > 0){
+                        this.service.pic=this.service.pic.toString()
+                    }
+                                create(this.service).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
@@ -132,7 +158,7 @@
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
-                this.groupMember = Object.assign({}, defaultGroupMember);
+                this.service = Object.assign({}, defaultService);
             },
         }
     }
