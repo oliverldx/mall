@@ -3,11 +3,11 @@ package com.macro.mall.controller;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.mapper.TsCustomerServiceMapper;
-import com.macro.mall.model.TsCustomerService;
-import com.macro.mall.dto.TsCustomerServiceDto;
-import com.macro.mall.dto.TsCustomerServiceQueryParam;
-import com.macro.mall.dao.TsCustomerServiceDao;
+import com.macro.mall.mapper.TrsCourseMapper;
+import com.macro.mall.model.TrsCourse;
+import com.macro.mall.dto.TrsCourseDto;
+import com.macro.mall.dto.TrsCourseQueryParam;
+import com.macro.mall.dao.TrsCourseDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,59 +20,59 @@ import java.util.Date;
 import java.util.List;
 
 /**
-* 客服中心管理Controller
+* 课程管理Controller
 */
 @Controller
-@Api(tags = "TsCustomerServiceController", description = "客服中心管理")
-@RequestMapping("/customerService")
-public class TsCustomerServiceController {
+@Api(tags = "TrsCourseController", description = "课程管理")
+@RequestMapping("/course")
+public class TrsCourseController {
 
     @Autowired
-    private TsCustomerServiceMapper tsCustomerServiceMapper;
+    private TrsCourseMapper trsCourseMapper;
     @Autowired
-    private TsCustomerServiceDao tsCustomerServiceDao;
+    private TrsCourseDao trsCourseDao;
 
-    @ApiOperation("添加客服中心")
+    @ApiOperation("添加课程")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult add(@RequestBody TsCustomerService tsCustomerService) {
+    public CommonResult add(@RequestBody TrsCourse trsCourse) {
         Date createDate = new Date();
-        tsCustomerService.setCreateDate(createDate);
-        tsCustomerService.setModifyDate(createDate);
-        int count = tsCustomerServiceMapper.insert(tsCustomerService);
+        trsCourse.setCreateDate(createDate);
+        trsCourse.setModifyDate(createDate);
+        int count = trsCourseMapper.insert(trsCourse);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
     }
 
-    @ApiOperation("获取客服中心列表")
+    @ApiOperation("获取课程列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<CommonPage<TsCustomerServiceDto>>
+    public CommonResult<CommonPage<TrsCourseDto>>
         list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-        TsCustomerServiceQueryParam tsCustomerServiceQueryParam,
+        TrsCourseQueryParam trsCourseQueryParam,
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        List<TsCustomerServiceDto> tsCustomerServiceList = tsCustomerServiceDao.getList(tsCustomerServiceQueryParam);
-        return  CommonResult.success(CommonPage.restPage(tsCustomerServiceList),"获取客服中心列表成功");
+        List<TrsCourseDto> trsCourseList = trsCourseDao.getList(trsCourseQueryParam);
+        return  CommonResult.success(CommonPage.restPage(trsCourseList),"获取课程列表成功");
     }
 
-     @ApiOperation("修改客服中心")
+     @ApiOperation("修改课程")
      @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
      @ResponseBody
-     public CommonResult update(@PathVariable Long id,@Validated @RequestBody TsCustomerService tsCustomerService,
+     public CommonResult update(@PathVariable Long id,@Validated @RequestBody TrsCourse trsCourse,
         BindingResult result) {
-        tsCustomerService.setModifyDate(new Date());
+        trsCourse.setModifyDate(new Date());
         int count = 0;
-        count = tsCustomerServiceMapper.updateByPrimaryKeySelective(tsCustomerService);
+        count = trsCourseMapper.updateByPrimaryKeySelective(trsCourse);
         if (count > 0) {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
      }
 
-     @ApiOperation("删除客服中心")
+     @ApiOperation("删除课程")
      @RequestMapping(value = "/delete", method = RequestMethod.POST)
      @ResponseBody
      public CommonResult delete(@RequestParam("ids") List<Long> ids) {
@@ -81,7 +81,7 @@ public class TsCustomerServiceController {
             return CommonResult.failed();
         }
         for (Long id : ids) {
-            count = tsCustomerServiceMapper.deleteByPrimaryKey(id);
+            count = trsCourseMapper.deleteByPrimaryKey(id);
         }
         if (count > 0) {
             return CommonResult.success(count);
@@ -89,12 +89,12 @@ public class TsCustomerServiceController {
         return CommonResult.failed();
      }
 
-    @ApiOperation("根据id获取客服中心")
+    @ApiOperation("根据id获取课程")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<TsCustomerService> getById(@PathVariable Long id) {
-        TsCustomerService tsCustomerService = tsCustomerServiceMapper.selectByPrimaryKey(id);
-        return CommonResult.success(tsCustomerService);
+    public CommonResult<TrsCourse> getById(@PathVariable Long id) {
+        TrsCourse trsCourse = trsCourseMapper.selectByPrimaryKey(id);
+        return CommonResult.success(trsCourse);
     }
 
 

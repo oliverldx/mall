@@ -1,8 +1,10 @@
 package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class OmsOrderPayment implements Serializable {
     private Long id;
@@ -21,6 +23,8 @@ public class OmsOrderPayment implements Serializable {
 
     @ApiModelProperty(value = "支付金额")
     private BigDecimal paymentMoney;
+
+    private Date paySuccTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -70,6 +74,14 @@ public class OmsOrderPayment implements Serializable {
 
     public void setPaymentMoney(BigDecimal paymentMoney) {
         this.paymentMoney = paymentMoney;
+    }
+
+    public Date getPaySuccTime() {
+        return paySuccTime;
+    }
+
+    public void setPaySuccTime(Date paySuccTime) {
+        this.paySuccTime = paySuccTime;
     }
 
     @Override

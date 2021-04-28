@@ -2,13 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.dao.TrsCourseDao">
 
-    <select id="getBySchoolId" resultMap="com.macro.mall.mapper.TrsCourseMapper.BaseResultMap">
-        SELECT *
-	 FROM trs_course as trs_course where trs_course.trs_school_id = #{schoolId}
-    </select>
-
     <resultMap id="TrsCourseDto" type="com.macro.mall.dto.TrsCourseDto" extends="com.macro.mall.mapper.TrsCourseMapper.BaseResultMap">
-        <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
+                <result column="school_name" jdbcType="VARCHAR" property="schoolName" />
     </resultMap>
 
     <select id="getList" resultMap="TrsCourseDto">
