@@ -8,6 +8,7 @@
                                 <el-input v-model="order.id"></el-input>
                             </el-form-item>
 
+
                         <el-form-item label="订单号" >
                           <el-input v-model="order.orderNo"></el-input>
                         </el-form-item>
@@ -99,6 +100,7 @@
     const defaultOrder = {
     id:'',
     tusUserId:'',
+    trsActivityId:'',
     orderNo:'',
     status:0,
     orderTime:'',

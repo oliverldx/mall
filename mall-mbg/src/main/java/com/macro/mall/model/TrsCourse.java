@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TrsCourse implements Serializable {
@@ -14,7 +15,7 @@ public class TrsCourse implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "原价")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "图片")
     private String pic;
@@ -57,11 +58,11 @@ public class TrsCourse implements Serializable {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

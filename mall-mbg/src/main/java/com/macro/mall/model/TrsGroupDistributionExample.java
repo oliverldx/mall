@@ -1,5 +1,6 @@
 package com.macro.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -235,52 +236,52 @@ public class TrsGroupDistributionExample {
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusEqualTo(Long value) {
+        public Criteria andLevelOneBonusEqualTo(BigDecimal value) {
             addCriterion("level_one_bonus =", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusNotEqualTo(Long value) {
+        public Criteria andLevelOneBonusNotEqualTo(BigDecimal value) {
             addCriterion("level_one_bonus <>", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusGreaterThan(Long value) {
+        public Criteria andLevelOneBonusGreaterThan(BigDecimal value) {
             addCriterion("level_one_bonus >", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andLevelOneBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("level_one_bonus >=", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusLessThan(Long value) {
+        public Criteria andLevelOneBonusLessThan(BigDecimal value) {
             addCriterion("level_one_bonus <", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusLessThanOrEqualTo(Long value) {
+        public Criteria andLevelOneBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("level_one_bonus <=", value, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusIn(List<Long> values) {
+        public Criteria andLevelOneBonusIn(List<BigDecimal> values) {
             addCriterion("level_one_bonus in", values, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusNotIn(List<Long> values) {
+        public Criteria andLevelOneBonusNotIn(List<BigDecimal> values) {
             addCriterion("level_one_bonus not in", values, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusBetween(Long value1, Long value2) {
+        public Criteria andLevelOneBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("level_one_bonus between", value1, value2, "levelOneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelOneBonusNotBetween(Long value1, Long value2) {
+        public Criteria andLevelOneBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("level_one_bonus not between", value1, value2, "levelOneBonus");
             return (Criteria) this;
         }
@@ -295,52 +296,52 @@ public class TrsGroupDistributionExample {
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusEqualTo(Long value) {
+        public Criteria andLevelTwoBonusEqualTo(BigDecimal value) {
             addCriterion("level_two_bonus =", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusNotEqualTo(Long value) {
+        public Criteria andLevelTwoBonusNotEqualTo(BigDecimal value) {
             addCriterion("level_two_bonus <>", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusGreaterThan(Long value) {
+        public Criteria andLevelTwoBonusGreaterThan(BigDecimal value) {
             addCriterion("level_two_bonus >", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andLevelTwoBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("level_two_bonus >=", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusLessThan(Long value) {
+        public Criteria andLevelTwoBonusLessThan(BigDecimal value) {
             addCriterion("level_two_bonus <", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusLessThanOrEqualTo(Long value) {
+        public Criteria andLevelTwoBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("level_two_bonus <=", value, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusIn(List<Long> values) {
+        public Criteria andLevelTwoBonusIn(List<BigDecimal> values) {
             addCriterion("level_two_bonus in", values, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusNotIn(List<Long> values) {
+        public Criteria andLevelTwoBonusNotIn(List<BigDecimal> values) {
             addCriterion("level_two_bonus not in", values, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusBetween(Long value1, Long value2) {
+        public Criteria andLevelTwoBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("level_two_bonus between", value1, value2, "levelTwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andLevelTwoBonusNotBetween(Long value1, Long value2) {
+        public Criteria andLevelTwoBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("level_two_bonus not between", value1, value2, "levelTwoBonus");
             return (Criteria) this;
         }
@@ -415,52 +416,52 @@ public class TrsGroupDistributionExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusEqualTo(Long value) {
+        public Criteria andTeacherLoneBonusEqualTo(BigDecimal value) {
             addCriterion("teacher_lone_bonus =", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusNotEqualTo(Long value) {
+        public Criteria andTeacherLoneBonusNotEqualTo(BigDecimal value) {
             addCriterion("teacher_lone_bonus <>", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusGreaterThan(Long value) {
+        public Criteria andTeacherLoneBonusGreaterThan(BigDecimal value) {
             addCriterion("teacher_lone_bonus >", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andTeacherLoneBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_lone_bonus >=", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusLessThan(Long value) {
+        public Criteria andTeacherLoneBonusLessThan(BigDecimal value) {
             addCriterion("teacher_lone_bonus <", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusLessThanOrEqualTo(Long value) {
+        public Criteria andTeacherLoneBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_lone_bonus <=", value, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusIn(List<Long> values) {
+        public Criteria andTeacherLoneBonusIn(List<BigDecimal> values) {
             addCriterion("teacher_lone_bonus in", values, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusNotIn(List<Long> values) {
+        public Criteria andTeacherLoneBonusNotIn(List<BigDecimal> values) {
             addCriterion("teacher_lone_bonus not in", values, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusBetween(Long value1, Long value2) {
+        public Criteria andTeacherLoneBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_lone_bonus between", value1, value2, "teacherLoneBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLoneBonusNotBetween(Long value1, Long value2) {
+        public Criteria andTeacherLoneBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_lone_bonus not between", value1, value2, "teacherLoneBonus");
             return (Criteria) this;
         }
@@ -475,52 +476,52 @@ public class TrsGroupDistributionExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusEqualTo(Long value) {
+        public Criteria andTeacherLtwoBonusEqualTo(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus =", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusNotEqualTo(Long value) {
+        public Criteria andTeacherLtwoBonusNotEqualTo(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus <>", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusGreaterThan(Long value) {
+        public Criteria andTeacherLtwoBonusGreaterThan(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus >", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andTeacherLtwoBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus >=", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusLessThan(Long value) {
+        public Criteria andTeacherLtwoBonusLessThan(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus <", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusLessThanOrEqualTo(Long value) {
+        public Criteria andTeacherLtwoBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_ltwo_bonus <=", value, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusIn(List<Long> values) {
+        public Criteria andTeacherLtwoBonusIn(List<BigDecimal> values) {
             addCriterion("teacher_ltwo_bonus in", values, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusNotIn(List<Long> values) {
+        public Criteria andTeacherLtwoBonusNotIn(List<BigDecimal> values) {
             addCriterion("teacher_ltwo_bonus not in", values, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusBetween(Long value1, Long value2) {
+        public Criteria andTeacherLtwoBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_ltwo_bonus between", value1, value2, "teacherLtwoBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherLtwoBonusNotBetween(Long value1, Long value2) {
+        public Criteria andTeacherLtwoBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_ltwo_bonus not between", value1, value2, "teacherLtwoBonus");
             return (Criteria) this;
         }

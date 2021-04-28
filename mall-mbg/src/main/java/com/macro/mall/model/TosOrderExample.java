@@ -1,5 +1,6 @@
 package com.macro.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -485,52 +486,52 @@ public class TosOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyEqualTo(Long value) {
+        public Criteria andTotalMoneyEqualTo(BigDecimal value) {
             addCriterion("total_money =", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotEqualTo(Long value) {
+        public Criteria andTotalMoneyNotEqualTo(BigDecimal value) {
             addCriterion("total_money <>", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyGreaterThan(Long value) {
+        public Criteria andTotalMoneyGreaterThan(BigDecimal value) {
             addCriterion("total_money >", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyGreaterThanOrEqualTo(Long value) {
+        public Criteria andTotalMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("total_money >=", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyLessThan(Long value) {
+        public Criteria andTotalMoneyLessThan(BigDecimal value) {
             addCriterion("total_money <", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyLessThanOrEqualTo(Long value) {
+        public Criteria andTotalMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("total_money <=", value, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyIn(List<Long> values) {
+        public Criteria andTotalMoneyIn(List<BigDecimal> values) {
             addCriterion("total_money in", values, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotIn(List<Long> values) {
+        public Criteria andTotalMoneyNotIn(List<BigDecimal> values) {
             addCriterion("total_money not in", values, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyBetween(Long value1, Long value2) {
+        public Criteria andTotalMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("total_money between", value1, value2, "totalMoney");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotBetween(Long value1, Long value2) {
+        public Criteria andTotalMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("total_money not between", value1, value2, "totalMoney");
             return (Criteria) this;
         }
@@ -545,52 +546,52 @@ public class TosOrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyEqualTo(Long value) {
+        public Criteria andDistributionMoneyEqualTo(BigDecimal value) {
             addCriterion("distribution_money =", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyNotEqualTo(Long value) {
+        public Criteria andDistributionMoneyNotEqualTo(BigDecimal value) {
             addCriterion("distribution_money <>", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyGreaterThan(Long value) {
+        public Criteria andDistributionMoneyGreaterThan(BigDecimal value) {
             addCriterion("distribution_money >", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyGreaterThanOrEqualTo(Long value) {
+        public Criteria andDistributionMoneyGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("distribution_money >=", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyLessThan(Long value) {
+        public Criteria andDistributionMoneyLessThan(BigDecimal value) {
             addCriterion("distribution_money <", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyLessThanOrEqualTo(Long value) {
+        public Criteria andDistributionMoneyLessThanOrEqualTo(BigDecimal value) {
             addCriterion("distribution_money <=", value, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyIn(List<Long> values) {
+        public Criteria andDistributionMoneyIn(List<BigDecimal> values) {
             addCriterion("distribution_money in", values, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyNotIn(List<Long> values) {
+        public Criteria andDistributionMoneyNotIn(List<BigDecimal> values) {
             addCriterion("distribution_money not in", values, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyBetween(Long value1, Long value2) {
+        public Criteria andDistributionMoneyBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("distribution_money between", value1, value2, "distributionMoney");
             return (Criteria) this;
         }
 
-        public Criteria andDistributionMoneyNotBetween(Long value1, Long value2) {
+        public Criteria andDistributionMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("distribution_money not between", value1, value2, "distributionMoney");
             return (Criteria) this;
         }
@@ -952,6 +953,66 @@ public class TosOrderExample {
 
         public Criteria andModifyDateNotBetween(Date value1, Date value2) {
             addCriterion("modify_date not between", value1, value2, "modifyDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdIsNull() {
+            addCriterion("trs_activity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdIsNotNull() {
+            addCriterion("trs_activity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdEqualTo(Long value) {
+            addCriterion("trs_activity_id =", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotEqualTo(Long value) {
+            addCriterion("trs_activity_id <>", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdGreaterThan(Long value) {
+            addCriterion("trs_activity_id >", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("trs_activity_id >=", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdLessThan(Long value) {
+            addCriterion("trs_activity_id <", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdLessThanOrEqualTo(Long value) {
+            addCriterion("trs_activity_id <=", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdIn(List<Long> values) {
+            addCriterion("trs_activity_id in", values, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotIn(List<Long> values) {
+            addCriterion("trs_activity_id not in", values, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdBetween(Long value1, Long value2) {
+            addCriterion("trs_activity_id between", value1, value2, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotBetween(Long value1, Long value2) {
+            addCriterion("trs_activity_id not between", value1, value2, "trsActivityId");
             return (Criteria) this;
         }
     }

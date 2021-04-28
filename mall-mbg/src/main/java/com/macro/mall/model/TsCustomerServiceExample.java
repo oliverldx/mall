@@ -424,6 +424,66 @@ public class TsCustomerServiceExample {
             addCriterion("modify_date not between", value1, value2, "modifyDate");
             return (Criteria) this;
         }
+
+        public Criteria andTrsActivityIdIsNull() {
+            addCriterion("trs_activity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdIsNotNull() {
+            addCriterion("trs_activity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdEqualTo(Long value) {
+            addCriterion("trs_activity_id =", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotEqualTo(Long value) {
+            addCriterion("trs_activity_id <>", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdGreaterThan(Long value) {
+            addCriterion("trs_activity_id >", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("trs_activity_id >=", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdLessThan(Long value) {
+            addCriterion("trs_activity_id <", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdLessThanOrEqualTo(Long value) {
+            addCriterion("trs_activity_id <=", value, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdIn(List<Long> values) {
+            addCriterion("trs_activity_id in", values, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotIn(List<Long> values) {
+            addCriterion("trs_activity_id not in", values, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdBetween(Long value1, Long value2) {
+            addCriterion("trs_activity_id between", value1, value2, "trsActivityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTrsActivityIdNotBetween(Long value1, Long value2) {
+            addCriterion("trs_activity_id not between", value1, value2, "trsActivityId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

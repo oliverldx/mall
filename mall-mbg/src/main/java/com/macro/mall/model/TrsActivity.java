@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TrsActivity implements Serializable {
@@ -10,8 +11,11 @@ public class TrsActivity implements Serializable {
     @ApiModelProperty(value = "活动名称")
     private String name;
 
+    @ApiModelProperty(value = "活动logo")
+    private String logo;
+
     @ApiModelProperty(value = "活动价格")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "销售数量")
     private Integer salesNum;
@@ -52,6 +56,9 @@ public class TrsActivity implements Serializable {
     @ApiModelProperty(value = "图片")
     private String pic;
 
+    @ApiModelProperty(value = "市场价")
+    private BigDecimal marketPrice;
+
     @ApiModelProperty(value = "介绍")
     private String description;
 
@@ -73,11 +80,19 @@ public class TrsActivity implements Serializable {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -185,6 +200,14 @@ public class TrsActivity implements Serializable {
         this.pic = pic;
     }
 
+    public BigDecimal getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(BigDecimal marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -201,6 +224,7 @@ public class TrsActivity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
+        sb.append(", logo=").append(logo);
         sb.append(", price=").append(price);
         sb.append(", salesNum=").append(salesNum);
         sb.append(", courseNum=").append(courseNum);
@@ -215,6 +239,7 @@ public class TrsActivity implements Serializable {
         sb.append(", luckyDraw=").append(luckyDraw);
         sb.append(", schoolMark=").append(schoolMark);
         sb.append(", pic=").append(pic);
+        sb.append(", marketPrice=").append(marketPrice);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

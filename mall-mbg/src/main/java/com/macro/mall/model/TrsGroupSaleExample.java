@@ -1,5 +1,6 @@
 package com.macro.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -415,52 +416,52 @@ public class TrsGroupSaleExample {
             return (Criteria) this;
         }
 
-        public Criteria andPriceEqualTo(Long value) {
+        public Criteria andPriceEqualTo(BigDecimal value) {
             addCriterion("price =", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotEqualTo(Long value) {
+        public Criteria andPriceNotEqualTo(BigDecimal value) {
             addCriterion("price <>", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThan(Long value) {
+        public Criteria andPriceGreaterThan(BigDecimal value) {
             addCriterion("price >", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThanOrEqualTo(Long value) {
+        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("price >=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThan(Long value) {
+        public Criteria andPriceLessThan(BigDecimal value) {
             addCriterion("price <", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThanOrEqualTo(Long value) {
+        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("price <=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceIn(List<Long> values) {
+        public Criteria andPriceIn(List<BigDecimal> values) {
             addCriterion("price in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotIn(List<Long> values) {
+        public Criteria andPriceNotIn(List<BigDecimal> values) {
             addCriterion("price not in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceBetween(Long value1, Long value2) {
+        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price between", value1, value2, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotBetween(Long value1, Long value2) {
+        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
@@ -475,52 +476,52 @@ public class TrsGroupSaleExample {
             return (Criteria) this;
         }
 
-        public Criteria andBonusEqualTo(Long value) {
+        public Criteria andBonusEqualTo(BigDecimal value) {
             addCriterion("bonus =", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusNotEqualTo(Long value) {
+        public Criteria andBonusNotEqualTo(BigDecimal value) {
             addCriterion("bonus <>", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusGreaterThan(Long value) {
+        public Criteria andBonusGreaterThan(BigDecimal value) {
             addCriterion("bonus >", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("bonus >=", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusLessThan(Long value) {
+        public Criteria andBonusLessThan(BigDecimal value) {
             addCriterion("bonus <", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusLessThanOrEqualTo(Long value) {
+        public Criteria andBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("bonus <=", value, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusIn(List<Long> values) {
+        public Criteria andBonusIn(List<BigDecimal> values) {
             addCriterion("bonus in", values, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusNotIn(List<Long> values) {
+        public Criteria andBonusNotIn(List<BigDecimal> values) {
             addCriterion("bonus not in", values, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusBetween(Long value1, Long value2) {
+        public Criteria andBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("bonus between", value1, value2, "bonus");
             return (Criteria) this;
         }
 
-        public Criteria andBonusNotBetween(Long value1, Long value2) {
+        public Criteria andBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("bonus not between", value1, value2, "bonus");
             return (Criteria) this;
         }
@@ -535,52 +536,52 @@ public class TrsGroupSaleExample {
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusEqualTo(Long value) {
+        public Criteria andTeacherBonusEqualTo(BigDecimal value) {
             addCriterion("teacher_bonus =", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusNotEqualTo(Long value) {
+        public Criteria andTeacherBonusNotEqualTo(BigDecimal value) {
             addCriterion("teacher_bonus <>", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusGreaterThan(Long value) {
+        public Criteria andTeacherBonusGreaterThan(BigDecimal value) {
             addCriterion("teacher_bonus >", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusGreaterThanOrEqualTo(Long value) {
+        public Criteria andTeacherBonusGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_bonus >=", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusLessThan(Long value) {
+        public Criteria andTeacherBonusLessThan(BigDecimal value) {
             addCriterion("teacher_bonus <", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusLessThanOrEqualTo(Long value) {
+        public Criteria andTeacherBonusLessThanOrEqualTo(BigDecimal value) {
             addCriterion("teacher_bonus <=", value, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusIn(List<Long> values) {
+        public Criteria andTeacherBonusIn(List<BigDecimal> values) {
             addCriterion("teacher_bonus in", values, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusNotIn(List<Long> values) {
+        public Criteria andTeacherBonusNotIn(List<BigDecimal> values) {
             addCriterion("teacher_bonus not in", values, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusBetween(Long value1, Long value2) {
+        public Criteria andTeacherBonusBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_bonus between", value1, value2, "teacherBonus");
             return (Criteria) this;
         }
 
-        public Criteria andTeacherBonusNotBetween(Long value1, Long value2) {
+        public Criteria andTeacherBonusNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("teacher_bonus not between", value1, value2, "teacherBonus");
             return (Criteria) this;
         }

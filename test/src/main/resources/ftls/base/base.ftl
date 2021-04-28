@@ -90,7 +90,7 @@
     </#list>
 </#macro>
 
-<#macro listObject>
+<#macro listObject columns>
     <#list columns as column>
     <#--只渲染label不为空的字段-->
         <#if column.label?default("")?trim?length gt 1>
@@ -144,26 +144,6 @@
                 </el-table-column>
             </#if>
         </#if>
-    </#list>
-    <#list columns as column>
-        <#switch column.type>
-            <#case "text">
-                <#if column.description??>
-                    <#assign json=column.description?eval />
-                    <#switch json[column.name].type>
-                        <#case "singleUpload">
-                        <#case "multiUpload">
-                    if(this.${subName}.${column.name} && this.${subName}.${column.name}.length > 0){
-                        this.${subName}.${column.name}=this.${subName}.${column.name}.toString()
-                    }
-                            <#break >
-                        <#default >
-                    </#switch>
-                <#else >
-                </#if>
-                <#break>
-            <#default>
-        </#switch>
     </#list>
 </#macro>
 

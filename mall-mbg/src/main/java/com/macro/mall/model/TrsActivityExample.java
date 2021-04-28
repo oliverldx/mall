@@ -1,5 +1,6 @@
 package com.macro.mall.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -235,6 +236,76 @@ public class TrsActivityExample {
             return (Criteria) this;
         }
 
+        public Criteria andLogoIsNull() {
+            addCriterion("logo is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoIsNotNull() {
+            addCriterion("logo is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoEqualTo(String value) {
+            addCriterion("logo =", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoNotEqualTo(String value) {
+            addCriterion("logo <>", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoGreaterThan(String value) {
+            addCriterion("logo >", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoGreaterThanOrEqualTo(String value) {
+            addCriterion("logo >=", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoLessThan(String value) {
+            addCriterion("logo <", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoLessThanOrEqualTo(String value) {
+            addCriterion("logo <=", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoLike(String value) {
+            addCriterion("logo like", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoNotLike(String value) {
+            addCriterion("logo not like", value, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoIn(List<String> values) {
+            addCriterion("logo in", values, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoNotIn(List<String> values) {
+            addCriterion("logo not in", values, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoBetween(String value1, String value2) {
+            addCriterion("logo between", value1, value2, "logo");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogoNotBetween(String value1, String value2) {
+            addCriterion("logo not between", value1, value2, "logo");
+            return (Criteria) this;
+        }
+
         public Criteria andPriceIsNull() {
             addCriterion("price is null");
             return (Criteria) this;
@@ -245,52 +316,52 @@ public class TrsActivityExample {
             return (Criteria) this;
         }
 
-        public Criteria andPriceEqualTo(Long value) {
+        public Criteria andPriceEqualTo(BigDecimal value) {
             addCriterion("price =", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotEqualTo(Long value) {
+        public Criteria andPriceNotEqualTo(BigDecimal value) {
             addCriterion("price <>", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThan(Long value) {
+        public Criteria andPriceGreaterThan(BigDecimal value) {
             addCriterion("price >", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceGreaterThanOrEqualTo(Long value) {
+        public Criteria andPriceGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("price >=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThan(Long value) {
+        public Criteria andPriceLessThan(BigDecimal value) {
             addCriterion("price <", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceLessThanOrEqualTo(Long value) {
+        public Criteria andPriceLessThanOrEqualTo(BigDecimal value) {
             addCriterion("price <=", value, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceIn(List<Long> values) {
+        public Criteria andPriceIn(List<BigDecimal> values) {
             addCriterion("price in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotIn(List<Long> values) {
+        public Criteria andPriceNotIn(List<BigDecimal> values) {
             addCriterion("price not in", values, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceBetween(Long value1, Long value2) {
+        public Criteria andPriceBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price between", value1, value2, "price");
             return (Criteria) this;
         }
 
-        public Criteria andPriceNotBetween(Long value1, Long value2) {
+        public Criteria andPriceNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("price not between", value1, value2, "price");
             return (Criteria) this;
         }
@@ -1092,6 +1163,66 @@ public class TrsActivityExample {
 
         public Criteria andPicNotBetween(String value1, String value2) {
             addCriterion("pic not between", value1, value2, "pic");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceIsNull() {
+            addCriterion("market_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceIsNotNull() {
+            addCriterion("market_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceEqualTo(BigDecimal value) {
+            addCriterion("market_price =", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceNotEqualTo(BigDecimal value) {
+            addCriterion("market_price <>", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceGreaterThan(BigDecimal value) {
+            addCriterion("market_price >", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("market_price >=", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceLessThan(BigDecimal value) {
+            addCriterion("market_price <", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("market_price <=", value, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceIn(List<BigDecimal> values) {
+            addCriterion("market_price in", values, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceNotIn(List<BigDecimal> values) {
+            addCriterion("market_price not in", values, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("market_price between", value1, value2, "marketPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andMarketPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("market_price not between", value1, value2, "marketPrice");
             return (Criteria) this;
         }
     }

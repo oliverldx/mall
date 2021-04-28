@@ -10,6 +10,7 @@ public class Activities implements Serializable {
 
     private String id;
     private String pic;
+    private String name;
     private List<ActivitySchool> activitySchoolList;
     private List<ActivityCourse> activityCourseList;
 

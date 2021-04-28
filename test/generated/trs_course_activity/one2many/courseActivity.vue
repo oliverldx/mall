@@ -152,18 +152,18 @@
             <el-table :data="dialogData.list"
                       @selection-change="handleDialogSelectionChange" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
                         <el-table-column label="头图" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.pic}}</template>
+                            <template slot-scope="scope"><img style="height: 80px" :src="scope.row.pic"></template>
                         </el-table-column>
-                        <el-table-column label="课程名称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="原价" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.price}}</template>
-                        </el-table-column>
+                <el-table-column label="课程名称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="原价" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.price}}</template>
+                </el-table-column>
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -188,6 +188,7 @@
 
 <script>
     import {fetchList,create, update,del,fetchCourseList,createCourseList} from '@/api/activity/courseActivity'
+
 
     const defaultListQuery = {
         pageNum: 1,
@@ -227,6 +228,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

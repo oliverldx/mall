@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TusCapitalRecord implements Serializable {
@@ -12,7 +13,7 @@ public class TusCapitalRecord implements Serializable {
     private Long tusUserId;
 
     @ApiModelProperty(value = "金额")
-    private Long money;
+    private BigDecimal money;
 
     @ApiModelProperty(value = "注册时间")
     private Date createDate;
@@ -41,11 +42,11 @@ public class TusCapitalRecord implements Serializable {
         this.tusUserId = tusUserId;
     }
 
-    public Long getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(Long money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
     }
 

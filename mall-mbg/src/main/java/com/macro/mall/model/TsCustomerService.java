@@ -19,6 +19,9 @@ public class TsCustomerService implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private Date modifyDate;
 
+    @ApiModelProperty(value = "活动ID")
+    private Long trsActivityId;
+
     @ApiModelProperty(value = "客服二维码")
     private String pic;
 
@@ -67,6 +70,14 @@ public class TsCustomerService implements Serializable {
         this.modifyDate = modifyDate;
     }
 
+    public Long getTrsActivityId() {
+        return trsActivityId;
+    }
+
+    public void setTrsActivityId(Long trsActivityId) {
+        this.trsActivityId = trsActivityId;
+    }
+
     public String getPic() {
         return pic;
     }
@@ -94,6 +105,7 @@ public class TsCustomerService implements Serializable {
         sb.append(", phone=").append(phone);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", trsActivityId=").append(trsActivityId);
         sb.append(", pic=").append(pic);
         sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);

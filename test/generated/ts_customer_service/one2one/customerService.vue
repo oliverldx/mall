@@ -4,22 +4,6 @@
                  :rules="rules"
                  ref="customerServiceFrom"
                  label-width="150px">
-
-                            <el-form-item label="活动名称" >
-                                <el-select
-                                        v-model="customerService.trsActivityId"
-                                        filterable
-                                        reserve-keyword
-                                        placeholder="请选择活动名称">
-                                    <el-option
-                                            v-for="item in listActivityNameOptions"
-                                            :key="item.trsActivityId"
-                                            :label="item.activityName"
-                                            :value="item.trsActivityId">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-
                         <el-form-item label="客服名称" >
                           <el-input v-model="customerService.name"></el-input>
                         </el-form-item>
@@ -59,9 +43,7 @@
 </template>
 
 <script>
-    import {fetchList, create, update, getById} from '@/api/customerService';
-    import {fetchList as fetchParentTableList} from '@/api/activity';
-
+    import {fetchList, create, update, getById,getByActivityId} from '@/api/activity/customerService';
         import SingleUpload from '@/components/Upload/singleUpload';
         import Tinymce from '@/components/Tinymce';
 
@@ -86,6 +68,9 @@
             isEdit: {
                 type: Boolean,
                 default: false
+            },
+            activityId: {
+                type: [String, Number]
             }
         },
         data() {
@@ -98,13 +83,12 @@
                     return time.getTime() < Date.now();
                 }
             },
-                listActivityNameOptions:[],
             isReallyEdit:this.isEdit
         }
         },
         created() {
             if (this.isEdit) {
-                getById(this.$route.query.id).then(response => {
+                getByActivityId(this.activityId).then(response => {
                     this.customerService = response.data;
                     if(this.customerService == null) {
                         this.isReallyEdit = false;
@@ -120,9 +104,7 @@
             } else {
                 this.customerService = Object.assign({}, defaultCustomerService);
             }
-                this.listActivityNameMethod()
         },
-
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -132,8 +114,8 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            if (this.isEdit) {
-                                update(this.$route.query.id, this.customerService).then(response => {
+                            if (this.isEdit && this.isReallyEdit) {
+                                update(this.activityId, this.customerService).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -142,6 +124,7 @@
                                     this.$router.back();
                                 });
                             } else {
+                                this.customerService.trsActivityId=this.activityId
                                 create(this.customerService).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
@@ -167,17 +150,7 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
                 this.customerService = Object.assign({}, defaultCustomerService);
-            },
-                listActivityNameMethod(){
-                    fetchParentTableList({pageNum: 1,pageSize: 1000}).then(response=>{
-                        let list = response.data.list;
-                        this.listActivityNameOptions = [];
-                        for(let i=0;i<list.length;i++){
-                            let item = list[i];
-                            this.listActivityNameOptions.push({trsActivityId:item.id,activityName:item.name});
-                        }
-                    });
-                }
+            }
         }
     }
 </script>

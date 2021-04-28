@@ -49,9 +49,9 @@
                 <el-table-column label="ID" width="180" align="center">
                     <template slot-scope="scope">{{scope.row.id}}</template>
                 </el-table-column>
-                <el-table-column label="活动名称" width="180" align="center">
-                    <template slot-scope="scope">{{scope.row.name}}</template>
-                </el-table-column>
+                        <el-table-column label="活动名称" width="180" align="center">
+                            <template slot-scope="scope">{{scope.row.activityName}}</template>
+                        </el-table-column>
                 <el-table-column label="客服电话" width="180" align="center">
                     <template slot-scope="scope">{{scope.row.phone}}</template>
                 </el-table-column>
@@ -61,9 +61,6 @@
                 <el-table-column label="创建时间" width="180" align="center">
                     <template slot-scope="scope">{{scope.row.createDate | formatTime}}</template>
                 </el-table-column>
-                    if(this.customerService.pic && this.customerService.pic.length > 0){
-                        this.customerService.pic=this.customerService.pic.toString()
-                    }
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button

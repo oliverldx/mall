@@ -17,57 +17,15 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="金额" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.money" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                {{scope.row.money}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="备注" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.description" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                {{scope.row.description}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="时间" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.modifyDate" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                {{scope.row.modifyDate}}
-                            </template>
-                        </el-table-column>
+                <el-table-column label="金额" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.money}}</template>
+                </el-table-column>
+                <el-table-column label="备注" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.description}}</template>
+                </el-table-column>
+                <el-table-column label="时间" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.modifyDate | formatTime}}</template>
+                </el-table-column>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -141,6 +99,7 @@
 <script>
     import {fetchList,create, update,del} from '@/api/user/capitalRecord'
 
+
     const defaultCapitalRecord = {
         description:'',
 
@@ -183,6 +142,15 @@
             this.getList();
         },
         mounted() {},
+    filters:{
+        formatTime(time) {
+            if(time==null||time===''){
+                return 'N/A';
+            }
+            let date = new Date(time);
+            return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+        },
+    },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

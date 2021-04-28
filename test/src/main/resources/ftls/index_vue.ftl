@@ -49,7 +49,7 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <@listObject/>
+                <@listObject columns=columns/>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button

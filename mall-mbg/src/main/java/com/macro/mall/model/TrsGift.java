@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TrsGift implements Serializable {
@@ -19,7 +20,7 @@ public class TrsGift implements Serializable {
     private Integer num;
 
     @ApiModelProperty(value = "价值")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "有效期")
     private Date validateTime;
@@ -81,11 +82,11 @@ public class TrsGift implements Serializable {
         this.num = num;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

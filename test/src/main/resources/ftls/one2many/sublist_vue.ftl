@@ -1,4 +1,5 @@
 <#include "../base/base.ftl">
+<@assignVar/>
 <#if template>
 <template>
     <div class="app-container">
@@ -91,14 +92,15 @@
             <el-table :data="dialogData.list"
                       @selection-change="handleDialogSelectionChange" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <#list subListColumns as column>
-                <#--只渲染label不为空的字段-->
+                <@listObject columns=subListColumns/>
+               <#-- <#list subListColumns as column>
+                &lt;#&ndash;只渲染label不为空的字段&ndash;&gt;
                     <#if column.label?default("")?trim?length gt 1>
                         <el-table-column label="${column.label!'TODO'}" width="180" align="center">
                             <template slot-scope="scope">{{scope.row.${column.name}}}</template>
                         </el-table-column>
                     </#if>
-                </#list>
+                </#list>-->
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -125,6 +127,11 @@
 <#if script>
 <script>
     import {fetchList,create, update,del,fetch${subListName?cap_first}List,create${subListName?cap_first}List} from '@/api/${parentTableSubName}/${subName}'
+    <#if formatDateTime >
+    import {formatDate} from '@/utils/date'
+    </#if>
+
+    <@genDefaultOptions/>
 
     const defaultListQuery = {
         pageNum: 1,
@@ -164,6 +171,9 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+            <@genFormatMethods/>
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

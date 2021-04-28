@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TrsGroupSale implements Serializable {
@@ -19,13 +20,13 @@ public class TrsGroupSale implements Serializable {
     private Integer groupSale;
 
     @ApiModelProperty(value = "拼团价格")
-    private Long price;
+    private BigDecimal price;
 
     @ApiModelProperty(value = "拼团分销奖金")
-    private Long bonus;
+    private BigDecimal bonus;
 
     @ApiModelProperty(value = "教师拼团分销奖金")
-    private Long teacherBonus;
+    private BigDecimal teacherBonus;
 
     @ApiModelProperty(value = "成团及佣金")
     private Integer groupCommission;
@@ -78,27 +79,27 @@ public class TrsGroupSale implements Serializable {
         this.groupSale = groupSale;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public Long getBonus() {
+    public BigDecimal getBonus() {
         return bonus;
     }
 
-    public void setBonus(Long bonus) {
+    public void setBonus(BigDecimal bonus) {
         this.bonus = bonus;
     }
 
-    public Long getTeacherBonus() {
+    public BigDecimal getTeacherBonus() {
         return teacherBonus;
     }
 
-    public void setTeacherBonus(Long teacherBonus) {
+    public void setTeacherBonus(BigDecimal teacherBonus) {
         this.teacherBonus = teacherBonus;
     }
 

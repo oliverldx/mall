@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.macro.mall.model.TrsActivity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="logo" jdbcType="VARCHAR" property="logo" />
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="sales_num" jdbcType="INTEGER" property="salesNum" />
     <result column="course_num" jdbcType="INTEGER" property="courseNum" />
@@ -18,6 +19,7 @@
     <result column="lucky_draw" jdbcType="INTEGER" property="luckyDraw" />
     <result column="school_mark" jdbcType="INTEGER" property="schoolMark" />
     <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="market_price" jdbcType="DECIMAL" property="marketPrice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.TrsActivity">
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
@@ -81,8 +83,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, price, sales_num, course_num, qrcode, end_date, start_date, create_date, 
-    modify_date, status, choose_all_course, gift_num, lucky_draw, school_mark, pic
+    id, name, logo, price, sales_num, course_num, qrcode, end_date, start_date, create_date, 
+    modify_date, status, choose_all_course, gift_num, lucky_draw, school_mark, pic, market_price
   </sql>
   <sql id="Blob_Column_List">
     description
@@ -139,18 +141,20 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into trs_activity (name, price, sales_num, 
-      course_num, qrcode, end_date, 
-      start_date, create_date, modify_date, 
-      status, choose_all_course, gift_num, 
-      lucky_draw, school_mark, pic, 
-      description)
-    values (#{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, #{salesNum,jdbcType=INTEGER}, 
-      #{courseNum,jdbcType=INTEGER}, #{qrcode,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, 
-      #{startDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=INTEGER}, #{chooseAllCourse,jdbcType=INTEGER}, #{giftNum,jdbcType=INTEGER}, 
-      #{luckyDraw,jdbcType=INTEGER}, #{schoolMark,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR})
+    insert into trs_activity (name, logo, price, 
+      sales_num, course_num, qrcode, 
+      end_date, start_date, create_date, 
+      modify_date, status, choose_all_course, 
+      gift_num, lucky_draw, school_mark, 
+      pic, market_price, description
+      )
+    values (#{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{salesNum,jdbcType=INTEGER}, #{courseNum,jdbcType=INTEGER}, #{qrcode,jdbcType=VARCHAR}, 
+      #{endDate,jdbcType=TIMESTAMP}, #{startDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{chooseAllCourse,jdbcType=INTEGER}, 
+      #{giftNum,jdbcType=INTEGER}, #{luckyDraw,jdbcType=INTEGER}, #{schoolMark,jdbcType=INTEGER}, 
+      #{pic,jdbcType=VARCHAR}, #{marketPrice,jdbcType=DECIMAL}, #{description,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.TrsActivity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -160,6 +164,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
         name,
+      </if>
+      <if test="logo != null">
+        logo,
       </if>
       <if test="price != null">
         price,
@@ -203,6 +210,9 @@
       <if test="pic != null">
         pic,
       </if>
+      <if test="marketPrice != null">
+        market_price,
+      </if>
       <if test="description != null">
         description,
       </if>
@@ -210,6 +220,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        #{logo,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
@@ -253,6 +266,9 @@
       <if test="pic != null">
         #{pic,jdbcType=VARCHAR},
       </if>
+      <if test="marketPrice != null">
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
       <if test="description != null">
         #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -272,6 +288,9 @@
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null">
+        logo = #{record.logo,jdbcType=VARCHAR},
       </if>
       <if test="record.price != null">
         price = #{record.price,jdbcType=DECIMAL},
@@ -315,6 +334,9 @@
       <if test="record.pic != null">
         pic = #{record.pic,jdbcType=VARCHAR},
       </if>
+      <if test="record.marketPrice != null">
+        market_price = #{record.marketPrice,jdbcType=DECIMAL},
+      </if>
       <if test="record.description != null">
         description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
@@ -327,6 +349,7 @@
     update trs_activity
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       sales_num = #{record.salesNum,jdbcType=INTEGER},
       course_num = #{record.courseNum,jdbcType=INTEGER},
@@ -341,6 +364,7 @@
       lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
       school_mark = #{record.schoolMark,jdbcType=INTEGER},
       pic = #{record.pic,jdbcType=VARCHAR},
+      market_price = #{record.marketPrice,jdbcType=DECIMAL},
       description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -350,6 +374,7 @@
     update trs_activity
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       sales_num = #{record.salesNum,jdbcType=INTEGER},
       course_num = #{record.courseNum,jdbcType=INTEGER},
@@ -363,7 +388,8 @@
       gift_num = #{record.giftNum,jdbcType=INTEGER},
       lucky_draw = #{record.luckyDraw,jdbcType=INTEGER},
       school_mark = #{record.schoolMark,jdbcType=INTEGER},
-      pic = #{record.pic,jdbcType=VARCHAR}
+      pic = #{record.pic,jdbcType=VARCHAR},
+      market_price = #{record.marketPrice,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -373,6 +399,9 @@
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null">
+        logo = #{logo,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
@@ -416,6 +445,9 @@
       <if test="pic != null">
         pic = #{pic,jdbcType=VARCHAR},
       </if>
+      <if test="marketPrice != null">
+        market_price = #{marketPrice,jdbcType=DECIMAL},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=LONGVARCHAR},
       </if>
@@ -425,6 +457,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.TrsActivity">
     update trs_activity
     set name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       sales_num = #{salesNum,jdbcType=INTEGER},
       course_num = #{courseNum,jdbcType=INTEGER},
@@ -439,12 +472,14 @@
       lucky_draw = #{luckyDraw,jdbcType=INTEGER},
       school_mark = #{schoolMark,jdbcType=INTEGER},
       pic = #{pic,jdbcType=VARCHAR},
+      market_price = #{marketPrice,jdbcType=DECIMAL},
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.TrsActivity">
     update trs_activity
     set name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       sales_num = #{salesNum,jdbcType=INTEGER},
       course_num = #{courseNum,jdbcType=INTEGER},
@@ -458,7 +493,8 @@
       gift_num = #{giftNum,jdbcType=INTEGER},
       lucky_draw = #{luckyDraw,jdbcType=INTEGER},
       school_mark = #{schoolMark,jdbcType=INTEGER},
-      pic = #{pic,jdbcType=VARCHAR}
+      pic = #{pic,jdbcType=VARCHAR},
+      market_price = #{marketPrice,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

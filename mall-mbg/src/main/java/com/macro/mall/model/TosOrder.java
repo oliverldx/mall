@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TosOrder implements Serializable {
@@ -24,10 +25,10 @@ public class TosOrder implements Serializable {
     private Date payTime;
 
     @ApiModelProperty(value = "总金额")
-    private Long totalMoney;
+    private BigDecimal totalMoney;
 
     @ApiModelProperty(value = "分销金额")
-    private Long distributionMoney;
+    private BigDecimal distributionMoney;
 
     @ApiModelProperty(value = "成团时间")
     private Date groupTime;
@@ -46,6 +47,9 @@ public class TosOrder implements Serializable {
 
     @ApiModelProperty(value = "修改时间")
     private Date modifyDate;
+
+    @ApiModelProperty(value = "活动ID")
+    private Long trsActivityId;
 
     private static final long serialVersionUID = 1L;
 
@@ -97,19 +101,19 @@ public class TosOrder implements Serializable {
         this.payTime = payTime;
     }
 
-    public Long getTotalMoney() {
+    public BigDecimal getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(Long totalMoney) {
+    public void setTotalMoney(BigDecimal totalMoney) {
         this.totalMoney = totalMoney;
     }
 
-    public Long getDistributionMoney() {
+    public BigDecimal getDistributionMoney() {
         return distributionMoney;
     }
 
-    public void setDistributionMoney(Long distributionMoney) {
+    public void setDistributionMoney(BigDecimal distributionMoney) {
         this.distributionMoney = distributionMoney;
     }
 
@@ -161,6 +165,14 @@ public class TosOrder implements Serializable {
         this.modifyDate = modifyDate;
     }
 
+    public Long getTrsActivityId() {
+        return trsActivityId;
+    }
+
+    public void setTrsActivityId(Long trsActivityId) {
+        this.trsActivityId = trsActivityId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -181,6 +193,7 @@ public class TosOrder implements Serializable {
         sb.append(", groupType=").append(groupType);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", trsActivityId=").append(trsActivityId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -7,6 +7,12 @@
                         <el-form-item label="活动名称" >
                           <el-input v-model="activity.name"></el-input>
                         </el-form-item>
+                <el-form-item label="活动logo">
+                    <single-upload v-model="activity.logo"></single-upload>
+                </el-form-item>
+                    <el-form-item label="市场价格" >
+                        <el-input v-model="activity.marketPrice"></el-input>
+                    </el-form-item>
                     <el-form-item label="活动价格" >
                         <el-input v-model="activity.price"></el-input>
                     </el-form-item>
@@ -16,9 +22,9 @@
                       <el-form-item label="课程数量" >
                         <el-input v-model="activity.courseNum"></el-input>
                       </el-form-item>
-                    <el-form-item label="介绍">
-                        <el-input type="textarea" :autosize="true" v-model="activity.description"></el-input>
-                    </el-form-item>
+                <el-form-item label="介绍">
+                    <tinymce :width="595" :height="300" v-model="activity.description"></tinymce>
+                </el-form-item>
                         <el-form-item label="访问二维码" >
                           <el-input v-model="activity.qrcode"></el-input>
                         </el-form-item>
@@ -96,10 +102,13 @@
 <script>
     import {fetchList, create, update, getById} from '@/api/activity';
 
+        import SingleUpload from '@/components/Upload/singleUpload';
+        import Tinymce from '@/components/Tinymce';
 
     const defaultActivity = {
     id:'',
     name:'',
+    logo:'',
     salesNum:0,
     courseNum:0,
     description:'',
@@ -118,6 +127,8 @@
     export default {
         name: "ActivityDetail",
         components: {
+        SingleUpload,
+        Tinymce,
         },
         props: {
             isEdit: {

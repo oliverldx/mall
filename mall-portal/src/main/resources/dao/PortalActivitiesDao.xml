@@ -5,6 +5,7 @@
     <resultMap id="ActivitiesMap" type="com.macro.mall.portal.domain.Activities" autoMapping="true">
         <result column="id" jdbcType="VARCHAR" property="id" />
         <result column="pic" jdbcType="VARCHAR" property="pic" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
         <collection property="activitySchoolList" columnPrefix="sch_" resultMap="activitySchoolMap">
         </collection>
         <collection property="activityCourseList" columnPrefix="crs_" resultMap="activityCourseMap">
@@ -26,6 +27,7 @@
     <select id="getActivities" resultMap="ActivitiesMap">
         SELECT trs_activity.id,
                 trs_activity.pic,
+                trs_activity.name,
                 trs_school.id sch_id,
                 trs_school.`name` sch_name,
                 trs_school.logo sch_pic,

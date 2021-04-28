@@ -135,18 +135,18 @@
             <el-table :data="dialogData.list"
                       @selection-change="handleDialogSelectionChange" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="ID" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.id}}</template>
-                        </el-table-column>
-                        <el-table-column label="图片" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.pic}}</template>
-                        </el-table-column>
-                        <el-table-column label="名称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="赞助商" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.sponsorName}}</template>
-                        </el-table-column>
+                <el-table-column label="ID" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.id}}</template>
+                </el-table-column>
+                <el-table-column label="图片" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.pic}}</template>
+                </el-table-column>
+                <el-table-column label="名称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="赞助商" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.sponsorName}}</template>
+                </el-table-column>
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -171,6 +171,7 @@
 
 <script>
     import {fetchList,create, update,del,fetchGiftList,createGiftList} from '@/api/order/orderGift'
+
 
     const defaultListQuery = {
         pageNum: 1,
@@ -210,6 +211,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

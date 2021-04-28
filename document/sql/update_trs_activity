@@ -5,6 +5,38 @@ ADD COLUMN `create_date` DATETIME NULL DEFAULT NULL COMMENT '注册时间' AFTER
 ADD COLUMN `modify_date` DATETIME NULL DEFAULT NULL COMMENT '修改时间' AFTER `create_date`;
 ALTER TABLE `mall_trainschool`.`tus_capital_record`
 CHANGE COLUMN `tus_id` `tus_user_id` BIGINT(20) NULL DEFAULT NULL COMMENT 'ID' ;
+ALTER TABLE `mall_trainschool`.`trs_activity`
+ADD COLUMN `market_price` DECIMAL(10,2) NULL COMMENT '市场价' AFTER `pic`;
+ALTER TABLE `mall_trainschool`.`trs_activity`
+CHANGE COLUMN `price` `price` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '活动价格' ;
+ALTER TABLE `mall_trainschool`.`trs_activity`
+ADD COLUMN `logo` VARCHAR(255) NULL DEFAULT NULL COMMENT '活动logo' AFTER `name`;
+ALTER TABLE `mall_trainschool`.`tos_order`
+ADD COLUMN `trs_activity_id` BIGINT(20) NULL COMMENT '活动ID' AFTER `modify_date`;
+ALTER TABLE `mall_trainschool`.`trs_course`
+CHANGE COLUMN `price` `price` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '原价' ;
+ALTER TABLE `mall_trainschool`.`trs_group_sale`
+CHANGE COLUMN `price` `price` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '拼团价格' ,
+CHANGE COLUMN `bonus` `bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '拼团分销奖金' ,
+CHANGE COLUMN `teacher_bonus` `teacher_bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '教师拼团分销奖金' ;
+ALTER TABLE `mall_trainschool`.`trs_group_distribution`
+CHANGE COLUMN `level_one_bonus` `level_one_bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '一级返利' ,
+CHANGE COLUMN `level_two_bonus` `level_two_bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '二级返利' ,
+CHANGE COLUMN `teacher_lone_bonus` `teacher_lone_bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '教师一级返利' ,
+CHANGE COLUMN `teacher_ltwo_bonus` `teacher_ltwo_bonus` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '教师二级返利' ;
+ALTER TABLE `mall_trainschool`.`trs_gift`
+CHANGE COLUMN `price` `price` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '价值' ;
+ALTER TABLE `mall_trainschool`.`tus_capital_record`
+CHANGE COLUMN `money` `money` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '金额' ;
+ALTER TABLE `mall_trainschool`.`tos_order`
+CHANGE COLUMN `total_money` `total_money` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '总金额' ,
+CHANGE COLUMN `distribution_money` `distribution_money` DECIMAL(10,2) NULL DEFAULT NULL COMMENT '分销金额' ;
+ALTER TABLE `mall_trainschool`.`ts_customer_service`
+CHANGE COLUMN `id` `id` BIGINT(20) NOT NULL ,
+ADD COLUMN `trs_activity_id` BIGINT(20) NULL COMMENT '活动ID' AFTER `modify_date`;
+
+
+
 
 drop table if exists tus_relationship_config;
 

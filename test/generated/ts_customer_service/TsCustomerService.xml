@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.dao.TsCustomerServiceDao">
+
+    <select id="getList" resultMap="com.macro.mall.mapper.TsCustomerServiceMapper.BaseResultMap">
+        SELECT ts_customer_service.id,trs_activity.name activity_name,ts_customer_service.phone,ts_customer_service.pic,ts_customer_service.create_date
+	 FROM ts_customer_service as ts_customer_service
+	 LEFT JOIN trs_activity as trs_activity ON ts_customer_service.trs_activity_id = trs_activity.id
+
+    </select>
+</mapper>

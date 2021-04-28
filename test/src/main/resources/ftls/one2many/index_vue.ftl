@@ -19,28 +19,7 @@
                       @selection-change="handleSelectionChange"
                       v-loading="listLoading" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                <#list columns as column>
-                    <#--只渲染label不为空的字段-->
-                    <#if column.label?default("")?trim?length gt 1>
-                        <el-table-column label="${column.label!'TODO'}" width="180" align="center">
-                            <template slot-scope="scope">
-                                <template v-if="scope.row.edit">
-                                    <el-input v-model="scope.row.${column.name}" class="edit-input" size="small" />
-                                    <el-button
-                                            class="cancel-btn"
-                                            size="small"
-                                            icon="el-icon-refresh"
-                                            type="warning"
-                                            @click="cancelEdit(scope.row)"
-                                    >
-                                        取消
-                                    </el-button>
-                                </template>
-                                {{scope.row.${column.name}}}
-                            </template>
-                        </el-table-column>
-                    </#if>
-                </#list>
+                <@listObject columns=columns/>
                 <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                         <el-button
@@ -167,6 +146,11 @@
 <script>
     import {fetchList,create, update,del} from '@/api/${parentTableSubName}/${subName}'
     <@importJs/>
+    <#if formatDateTime >
+    import {formatDate} from '@/utils/date'
+    </#if>
+
+    <@genDefaultOptions/>
 
     const default${subName?cap_first} = {
         <#list columns as column>
@@ -243,6 +227,9 @@
             this.getList();
         },
         mounted() {},
+    filters:{
+        <@genFormatMethods/>
+    },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

@@ -6,6 +6,7 @@
         SELECT tos_order.id,tos_order.order_no,tos_order.type,tos_order.tus_user_id,tos_order.total_money,tos_order.distribution_money,tos_order.status,tos_order.order_time
 	 FROM tos_order as tos_order
 	 LEFT JOIN tus_user as tus_user ON tos_order.tus_user_id = tus_user.id
+	 LEFT JOIN trs_activity as trs_activity ON tos_order.trs_activity_id = trs_activity.id
 
     </select>
 </mapper>

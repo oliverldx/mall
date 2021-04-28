@@ -2,6 +2,7 @@ package com.macro.mall.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class TrsGroupDistribution implements Serializable {
@@ -10,19 +11,19 @@ public class TrsGroupDistribution implements Serializable {
     private Long trsActivityId;
 
     @ApiModelProperty(value = "一级返利")
-    private Long levelOneBonus;
+    private BigDecimal levelOneBonus;
 
     @ApiModelProperty(value = "二级返利")
-    private Long levelTwoBonus;
+    private BigDecimal levelTwoBonus;
 
     @ApiModelProperty(value = "分销")
     private Integer groupDistribution;
 
     @ApiModelProperty(value = "教师一级返利")
-    private Long teacherLoneBonus;
+    private BigDecimal teacherLoneBonus;
 
     @ApiModelProperty(value = "教师二级返利")
-    private Long teacherLtwoBonus;
+    private BigDecimal teacherLtwoBonus;
 
     @ApiModelProperty(value = "上下级绑定时间")
     private Integer bindLevelTime;
@@ -54,19 +55,19 @@ public class TrsGroupDistribution implements Serializable {
         this.trsActivityId = trsActivityId;
     }
 
-    public Long getLevelOneBonus() {
+    public BigDecimal getLevelOneBonus() {
         return levelOneBonus;
     }
 
-    public void setLevelOneBonus(Long levelOneBonus) {
+    public void setLevelOneBonus(BigDecimal levelOneBonus) {
         this.levelOneBonus = levelOneBonus;
     }
 
-    public Long getLevelTwoBonus() {
+    public BigDecimal getLevelTwoBonus() {
         return levelTwoBonus;
     }
 
-    public void setLevelTwoBonus(Long levelTwoBonus) {
+    public void setLevelTwoBonus(BigDecimal levelTwoBonus) {
         this.levelTwoBonus = levelTwoBonus;
     }
 
@@ -78,19 +79,19 @@ public class TrsGroupDistribution implements Serializable {
         this.groupDistribution = groupDistribution;
     }
 
-    public Long getTeacherLoneBonus() {
+    public BigDecimal getTeacherLoneBonus() {
         return teacherLoneBonus;
     }
 
-    public void setTeacherLoneBonus(Long teacherLoneBonus) {
+    public void setTeacherLoneBonus(BigDecimal teacherLoneBonus) {
         this.teacherLoneBonus = teacherLoneBonus;
     }
 
-    public Long getTeacherLtwoBonus() {
+    public BigDecimal getTeacherLtwoBonus() {
         return teacherLtwoBonus;
     }
 
-    public void setTeacherLtwoBonus(Long teacherLtwoBonus) {
+    public void setTeacherLtwoBonus(BigDecimal teacherLtwoBonus) {
         this.teacherLtwoBonus = teacherLtwoBonus;
     }
 

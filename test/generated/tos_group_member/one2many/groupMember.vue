@@ -135,15 +135,15 @@
             <el-table :data="dialogData.list"
                       @selection-change="handleDialogSelectionChange" border>
                 <el-table-column type="selection" width="60" align="center"></el-table-column>
-                        <el-table-column label="昵称" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.nickName}}</template>
-                        </el-table-column>
-                        <el-table-column label="姓名" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.name}}</template>
-                        </el-table-column>
-                        <el-table-column label="手机号" width="180" align="center">
-                            <template slot-scope="scope">{{scope.row.mobile}}</template>
-                        </el-table-column>
+                <el-table-column label="昵称" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.nickName}}</template>
+                </el-table-column>
+                <el-table-column label="姓名" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.name}}</template>
+                </el-table-column>
+                <el-table-column label="手机号" width="180" align="center">
+                    <template slot-scope="scope">{{scope.row.mobile}}</template>
+                </el-table-column>
             </el-table>
             <div class="pagination-container">
                 <el-pagination
@@ -168,6 +168,7 @@
 
 <script>
     import {fetchList,create, update,del,fetchUserList,createUserList} from '@/api/user/groupMember'
+
 
     const defaultListQuery = {
         pageNum: 1,
@@ -207,6 +208,8 @@
             this.getList();
         },
         mounted() {},
+        filters:{
+        },
         methods: {
             handleResetSearch() {
                 this.listQuery = Object.assign({}, defaultListQuery);

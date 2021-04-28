@@ -3,10 +3,9 @@ package com.macro.mall.controller;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.dao.TsCustomerServiceDao;
 import com.macro.mall.mapper.TsCustomerServiceMapper;
 import com.macro.mall.model.TsCustomerService;
-import com.macro.mall.model.TsCustomerServiceExample;
+import com.macro.mall.dao.TsCustomerServiceDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +42,6 @@ public class TsCustomerServiceController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
-    }
-
-    @ApiOperation("获取客服中心列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<CommonPage<TsCustomerService>> list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
-                                                            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        PageHelper.startPage(pageNum,pageSize);
-        TsCustomerServiceExample example = new TsCustomerServiceExample();
-        List<TsCustomerService> tsCustomerServiceList = tsCustomerServiceMapper.selectByExampleWithBLOBs(example);
-        return  CommonResult.success(CommonPage.restPage(tsCustomerServiceList),"获取客服中心列表成功");
     }
 
     @ApiOperation("修改客服中心")

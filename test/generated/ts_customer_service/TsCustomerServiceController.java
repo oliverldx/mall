@@ -5,6 +5,8 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.mapper.TsCustomerServiceMapper;
 import com.macro.mall.model.TsCustomerService;
+import com.macro.mall.dto.TsCustomerServiceQueryParam;
+import com.macro.mall.dao.TsCustomerServiceDao;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class TsCustomerServiceController {
 
     @Autowired
     private TsCustomerServiceMapper tsCustomerServiceMapper;
+    @Autowired
+    private TsCustomerServiceDao tsCustomerServiceDao;
 
     @ApiOperation("添加客服中心")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -45,10 +49,10 @@ public class TsCustomerServiceController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<TsCustomerService>> list(@RequestParam(value = "pageSize", defaultValue = "4") Integer pageSize,
+        TsCustomerServiceQueryParam tsCustomerServiceQueryParam,
         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         PageHelper.startPage(pageNum,pageSize);
-        TsCustomerServiceExample example = new TsCustomerServiceExample();
-        List<TsCustomerService> tsCustomerServiceList = tsCustomerServiceMapper.selectByExample(example);
+        List<TsCustomerService> tsCustomerServiceList = tsCustomerServiceDao.getList(tsCustomerServiceQueryParam);
         return  CommonResult.success(CommonPage.restPage(tsCustomerServiceList),"获取客服中心列表成功");
     }
 
