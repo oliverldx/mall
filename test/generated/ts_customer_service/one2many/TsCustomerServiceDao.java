@@ -1,8 +1,8 @@
 package com.macro.mall.dao;
 
 
-import com.macro.mall.dto.TsCustomerServiceQueryParam;
 import com.macro.mall.dto.TsCustomerServiceDto;
+import com.macro.mall.dto.TsCustomerServiceQueryParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

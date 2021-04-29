@@ -1,8 +1,8 @@
 package com.macro.mall.dao;
 
 
-import com.macro.mall.dto.TrsCourseQueryParam;
 import com.macro.mall.dto.TrsCourseDto;
+import com.macro.mall.dto.TrsCourseQueryParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

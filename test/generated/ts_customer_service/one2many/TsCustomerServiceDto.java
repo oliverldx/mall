@@ -1,8 +1,8 @@
 package com.macro.mall.dto;
 
+import com.macro.mall.model.TsCustomerService;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import com.macro.mall.model.TsCustomerService;
 
 
 /**

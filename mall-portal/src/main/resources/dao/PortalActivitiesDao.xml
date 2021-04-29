@@ -26,7 +26,7 @@
 
     <select id="getActivities" resultMap="ActivitiesMap">
         SELECT trs_activity.id,
-                trs_activity.pic,
+                trs_activity.logo pic ,
                 trs_activity.name,
                 trs_school.id sch_id,
                 trs_school.`name` sch_name,

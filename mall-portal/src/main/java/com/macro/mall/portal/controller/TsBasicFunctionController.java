@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @Api(tags = "TsCustomerServiceController", description = "客服中心管理")
-@RequestMapping("/tsCustomerService")
-public class TsCustomerServiceController {
+@RequestMapping("/ts")
+public class TsBasicFunctionController {
 
     @Autowired
     private TsCustomerServiceMapper tsCustomerServiceMapper;
 
     @ApiOperation("获取客服中心信息")
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customerService/get/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<TsCustomerService> get(@PathVariable Long id) {
         TsCustomerService tsCustomerService = tsCustomerServiceMapper.selectByPrimaryKey(id);
