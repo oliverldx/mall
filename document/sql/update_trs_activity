@@ -174,3 +174,7 @@ create table ts_contract
 
 alter table ts_contract comment '购买协议';
 
+ALTER TABLE `mall_trainschool`.`trs_course`
+ADD COLUMN `remark` TEXT NULL COMMENT '备注' AFTER `status`;
+
+

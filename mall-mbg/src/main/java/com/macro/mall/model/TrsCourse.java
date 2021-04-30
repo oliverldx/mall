@@ -32,6 +32,9 @@ public class TrsCourse implements Serializable {
     @ApiModelProperty(value = "介绍")
     private String description;
 
+    @ApiModelProperty(value = "备注")
+    private String remark;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -106,6 +109,14 @@ public class TrsCourse implements Serializable {
         this.description = description;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -121,6 +132,7 @@ public class TrsCourse implements Serializable {
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", status=").append(status);
         sb.append(", description=").append(description);
+        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

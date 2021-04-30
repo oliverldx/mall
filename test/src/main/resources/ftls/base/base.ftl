@@ -5,6 +5,7 @@
     <#assign showTinymce = false />
     <#assign showMapInput = false />
     <#assign formatDateTime = false />
+    <#assign getUpdateObject = false />
 </#macro>
 
 <#macro importJs>
@@ -76,7 +77,9 @@
                     <#switch json[column.name].type>
                         <#case "singleUpload">
                         <#case "multiUpload">
-                    if(this.${subName}.${column.name} && this.${subName}.${column.name}.length > 0){
+                        <#assign getUpdateObject=true/>
+                        let tmp${subName?cap_first} = Object.assign({}, this.${subName})
+                    if(this.${subName}.${column.name} && this.${subName}.${column.name}.length >= 0){
                         this.${subName}.${column.name}=this.${subName}.${column.name}.toString()
                     }
                             <#break >

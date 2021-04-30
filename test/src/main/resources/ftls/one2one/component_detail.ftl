@@ -109,7 +109,28 @@
 
     <#break>
     <#case "int">
+    <#if column.description??>
+    <#assign json=column.description?eval />
+    <#switch json[column.name].type>
+    <#case "radio">
+    <#assign vals=json[column.name].vals/>
+    <#assign findRadioDefault=false/>
+    <#list vals as v>
+    <#if v.default?default("")?trim?length gt 1>
+    <#assign findRadioDefault=true/>
+    ${column.name}:${v.val},
+    </#if>
+    </#list>
+    <#if findRadioDefault == false>
     ${column.name}:0,
+    </#if>
+    <#break >
+    <#default >
+    ${column.name}:0,
+    </#switch>
+    <#else >
+    ${column.name}:0,
+    </#if>
     <#break>
     <#case "char">
     ${column.name}:'',
@@ -175,7 +196,7 @@
                         }).then(() => {
                             if (this.isEdit && this.isReallyEdit) {
 				                <@updateObject/>
-                                update(this.${fkId}, this.${subName}).then(response => {
+                                update(this.${fkId}, tmp${subName?cap_first}).then(response => {
                                     this.$message({
                                         message: '修改成功',
                                         type: 'success',
@@ -185,8 +206,8 @@
                                 });
                             } else {
                                 <@updateObject/>
-                                this.${subName}.${one2oneColName}=this.${fkId}
-                                create(this.${subName}).then(response => {
+                                tmp${subName?cap_first}.${one2oneColName}=this.${fkId}
+                                create(tmp${subName?cap_first}).then(response => {
                                     this.$refs[formName].resetFields();
                                     this.resetForm(formName);
                                     this.$message({
