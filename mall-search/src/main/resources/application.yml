@@ -16,7 +16,7 @@ logging:
     com.macro.mall: debug
 arthas:
   agent-id: mall-search-${spring.profiles.active}
-  tunnel-server: ws://192.168.1.249:7777/ws
+  tunnel-server: ws://192.168.1.8:7777/ws
   http-port: 0
   telnet-port: 0
 
